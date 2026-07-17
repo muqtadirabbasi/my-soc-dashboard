@@ -16,27 +16,41 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Secure Proxy Route for Gemini Chat Queries
 app.post('/api/chat', async (req, res) => {
     try {
-        const { prompt, context } = req.body;
+        const { prompt, context, imageData, mimeType } = req.body;
 
         if (!prompt) {
             return res.status(400).json({ error: 'Prompt is required.' });
         }
 
-        // Combine prompt with metadata context if available
-        const structuredContents = context 
-            ? `Context: ${context}\n\nUser Query: ${prompt}` 
-            : prompt;
+        // Construct structural context prompt
+        const textPrompt = `Context/Selected Metric: ${context || 'None'}\n\nUser Question: ${prompt}`;
 
-        // Call the official Gemini 2.5 flash or pro model
+        // Initialize the multimodal contents array
+        const contentsArray = [];
+
+        // If an image payload is detected, pack it into Gemini's official inlineData structure
+        if (imageData && mimeType) {
+            contentsArray.push({
+                inlineData: {
+                    mimeType: mimeType, // e.g., 'image/png' or 'image/jpeg'
+                    data: imageData     // raw base64 data string
+                }
+            });
+        }
+
+        // Always push the text instruction parts last
+        contentsArray.push({ text: textPrompt });
+
+        // Call your Node 24 compatible Gemini model
         const response = await ai.models.generateContent({
             model: 'gemini-2.5-flash',
-            contents: structuredContents,
+            contents: contentsArray
         });
 
         res.json({ text: response.text });
     } catch (error) {
-        console.error('Gemini API Error:', error);
-        res.status(500).json({ error: 'Failed to generate response from Gemini LLM.' });
+        console.error('Gemini Multimodal Processing Error:', error);
+        res.status(500).json({ error: 'Failed to evaluate image/text combination.' });
     }
 });
 
