@@ -9,8 +9,10 @@ const PORT = process.env.PORT || 8080;
 // Azure App Service will inject this automatically once configured
 const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 
-// Middleware
-app.use(express.json());
+// Middleware - Increase limits to accept large base64 image strings
+app.use(express.json({ limit: '50mb' }));
+app.use(express.urlencoded({ limit: '50mb', extended: true }));
+
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Secure Proxy Route for Gemini Chat Queries
