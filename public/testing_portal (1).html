@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SOC Triage Operations - Evaluation Portal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght=400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #0f172a;
+      color: #cbd5e1;
+      line-height: 1.4;
+      padding: 20px;
+    }
+    .wrapper {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    header {
+      position: relative;
+      text-align: center;
+      margin-bottom: 24px;
+      border-bottom: 1px solid #1e293b;
+      padding-bottom: 15px;
+    }
+    .badge {
+      display: inline-block;
+      background: #1e293b;
+      border: 1px solid #334155;
+      color: #94a3b8;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+    h1 {
+      font-size: 1.8rem;
+      color: #ffffff;
+      font-weight: 800;
+      letter-spacing: -0.025em;
+      margin-bottom: 4px;
+    }
+    .subtitle {
+      color: #64748b;
+      font-size: 0.9rem;
+    }
+    
+    /* Navigation Link Back to Training Hub */
+    .nav-container {
+      margin-top: 12px;
+      display: flex;
+      justify-content: center;
+    }
+    .btn-nav-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(148, 163, 184, 0.05);
+      border: 1px solid #475569;
+      color: #94a3b8;
+      padding: 6px 14px;
+      border-radius: 4px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.15s ease-in-out;
+    }
+    .btn-nav-back:hover {
+      border-color: #cbd5e1;
+      color: #ffffff;
+      background: rgba(255, 255, 255, 0.05);
+    }
+    @media (min-width: 768px) {
+      .nav-container {
+        position: absolute;
+        left: 0;
+        top: 10px;
+        margin-top: 0;
+      }
+    }
+
+    h2 {
+      font-size: 1.2rem;
+      color: #ffffff;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+    .group-desc {
+      color: #64748b;
+      font-size: 0.82rem;
+      margin-bottom: 16px;
+    }
+    .evaluation-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+    @media (max-width: 768px) {
+      .evaluation-grid { grid-template-columns: 1fr; }
+    }
+    .section {
+      background: #1e293b;
+      border: 1px solid #334155;
+      border-radius: 8px;
+      padding: 20px;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    }
+    .section.group-a {
+      border-top: 4px solid #7c3aed;
+    }
+    .section.group-b {
+      border-top: 4px solid #0284c7;
+    }
+    
+    .button-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .user-btn {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: #f8fafc;
+      text-decoration: none;
+      padding: 12px 16px;
+      border-radius: 6px;
+      font-size: 0.88rem;
+      font-weight: 700;
+      background: #0f172a;
+      border: 1px solid #1e293b;
+      transition: all 0.15s ease-in-out;
+    }
+    .group-a .user-btn:hover {
+      border-color: #7c3aed;
+      background: rgba(124, 58, 237, 0.08);
+    }
+    .group-b .user-btn:hover {
+      border-color: #0284c7;
+      background: rgba(2, 132, 199, 0.08);
+    }
+
+    .user-btn span.badge-user {
+      font-size: 0.72rem;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 4px;
+      background: #1e293b;
+      color: #94a3b8;
+      border: 1px solid #334155;
+    }
+    
+    .instructions-box {
+      background: rgba(30, 41, 59, 0.5);
+      border: 1px dashed #334155;
+      border-radius: 6px;
+      padding: 12px 16px;
+      margin-bottom: 24px;
+      font-size: 0.85rem;
+    }
+    .instructions-box strong {
+      color: #ffffff;
+    }
+
+    /* Research Team Area */
+    .team-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-top: 12px;
+      font-size: 0.85rem;
+    }
+    @media (max-width: 640px) {
+      .team-grid { grid-template-columns: 1fr; gap: 16px; }
+    }
+    .email-link {
+      color: #94a3b8;
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+    .email-link:hover {
+      color: #ffffff;
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="wrapper">
+    <header>
+      <div class="badge">Experimental User Study</div>
+      <h1>SOC Triage Dashboard Evaluation Portal</h1>
+      <div class="subtitle">Cohort Routing Matrix & Target Verification Hub</div>
+      
+      <!-- NAV BACK TO TRAINING PORTAL -->
+      <div class="nav-container">
+        <a href="index.html" class="btn-nav-back">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+          Back to Training Hub
+        </a>
+      </div>
+    </header>
+
+    <div class="instructions-box">
+      <strong>Evaluation Protocol Notice:</strong> Please locate your assigned experimental arm below. Select the specified suspicious profile to initiate your timeline triage analysis and downstream survey responses.
+    </div>
+
+    <div class="evaluation-grid">
+      
+      <!-- COHORT GROUP A -->
+      <div class="section group-a">
+        <h2>Cohort Group A</h2>
+        <div class="group-desc">Select assigned user profile to review baseline anomalies:</div>
+        <div class="button-stack">
+          <a href="SOC_Dashboard_Design_With_Images093.html" class="user-btn">
+            Triage User 093 Dashboard Environment
+            <span class="badge-user">Profile 093</span>
+          </a>
+          <a href="SOC_Dashboard_Design_With_Images345.html" class="user-btn">
+            Triage User 345 Dashboard Environment
+            <span class="badge-user">Profile 345</span>
+          </a>
+          <a href="SOC_Dashboard_Design_With_Images401.html" class="user-btn">
+            Triage User 401 Dashboard Environment
+            <span class="badge-user">Profile 401</span>
+          </a>
+          <a href="SOC_Dashboard_Design_With_Images100.html" class="user-btn">
+            Triage User 100 Dashboard Environment
+            <span class="badge-user">Profile 100</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- COHORT GROUP B -->
+      <div class="section group-b">
+        <h2>Cohort Group B</h2>
+        <div class="group-desc">Select assigned user profile to review baseline anomalies:</div>
+        <div class="button-stack">
+          <a href="SOC_Dashboard_Design_With_Images094.html" class="user-btn">
+            Triage User 094 Dashboard Environment
+            <span class="badge-user">Profile 094</span>
+          </a>
+          <a href="SOC_Dashboard_Design_With_Images322.html" class="user-btn">
+            Triage User 322 Dashboard Environment
+            <span class="badge-user">Profile 322</span>
+          </a>
+          <a href="SOC_Dashboard_Design_With_Images427.html" class="user-btn">
+            Triage User 427 Dashboard Environment
+            <span class="badge-user">Profile 427</span>
+          </a>
+          <a href="SOC_Dashboard_Design_With_Images795.html" class="user-btn">
+            Triage User 795 Dashboard Environment
+            <span class="badge-user">Profile 795</span>
+          </a>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- SYSTEM FOOTER: RESEARCH TEAM & COMPLIANCE CONTACTS -->
+    <div class="section" style="margin-top: 32px; border-top: 1px solid #334155; background: rgba(30, 41, 59, 0.3); width: 100%;">
+      <h2 style="font-size: 0.9rem; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 12px;">
+        Research Investigation & Contact Desk
+      </h2>
+      <div class="team-grid">
+        <!-- Principal Investigator -->
+        <div>
+          <p style="color: #ffffff; font-weight: 700; margin-bottom: 2px;">Abdul Muqtadir Abbasi</p>
+          <p style="color: #a78bfa; font-weight: 500; margin-bottom: 4px;">Principal Investigator &bull; PhD Candidate</p>
+          <p style="color: #64748b; margin-bottom: 4px;">Systems Design Engineering, University of Waterloo</p>
+          <a href="mailto:amabbasi@uwaterloo.ca" class="email-link">amabbasi@uwaterloo.ca</a>
+        </div>
+        <!-- Research Assistant / Co-Investigator -->
+        <div>
+          <p style="color: #ffffff; font-weight: 700; margin-bottom: 2px;">Fariha Muqtadir</p>
+          <p style="color: #38bdf8; font-weight: 500; margin-bottom: 4px;">Co-Investigator &bull; PhD Candidate</p>
+          <p style="color: #64748b; margin-bottom: 4px;">Systems Design Engineering, University of Waterloo</p>
+          <a href="mailto:fmuqtadi@uwaterloo.ca" class="email-link">fmuqtadi@uwaterloo.ca</a>
+        </div>
+      </div>
+    </div>
+
+  </div> <!-- /wrapper -->
+</body>
+</html>
