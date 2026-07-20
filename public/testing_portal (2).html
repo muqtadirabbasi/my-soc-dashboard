@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SOC Triage Operations - Evaluation Portal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght=400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #0f172a;
+      color: #cbd5e1;
+      line-height: 1.4;
+      padding: 15px;
+    }
+    .wrapper {
+      max-width: 1600px;
+      margin: 0 auto;
+    }
+    header {
+      position: relative;
+      text-align: center;
+      margin-bottom: 20px;
+      border-bottom: 1px solid #1e293b;
+      padding-bottom: 12px;
+    }
+    .badge {
+      display: inline-block;
+      background: #1e293b;
+      border: 1px solid #334155;
+      color: #94a3b8;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+    h1 {
+      font-size: 1.6rem;
+      color: #ffffff;
+      font-weight: 800;
+      letter-spacing: -0.025em;
+      margin-bottom: 4px;
+    }
+    .subtitle {
+      color: #64748b;
+      font-size: 0.85rem;
+    }
+    
+    .nav-container {
+      margin-top: 8px;
+      display: flex;
+      justify-content: center;
+    }
+    .btn-nav-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(148, 163, 184, 0.05);
+      border: 1px solid #475569;
+      color: #94a3b8;
+      padding: 5px 12px;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.15s ease-in-out;
+    }
+    .btn-nav-back:hover {
+      border-color: #cbd5e1;
+      color: #ffffff;
+      background: rgba(255, 255, 255, 0.05);
+    }
+    @media (min-width: 768px) {
+      .nav-container {
+        position: absolute;
+        left: 0;
+        top: 6px;
+        margin-top: 0;
+      }
+    }
+
+    /* PROMINENT FIRST-ACTION COHORT SELECTOR */
+    .selector-container {
+      background: #1e293b;
+      border: 2px solid #7c3aed;
+      padding: 18px;
+      border-radius: 10px;
+      margin-bottom: 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      box-shadow: 0 0 20px rgba(124, 58, 237, 0.15);
+      text-align: center;
+    }
+    .step-badge {
+      background: #7c3aed;
+      color: #ffffff;
+      font-size: 0.75rem;
+      font-weight: 800;
+      padding: 3px 8px;
+      border-radius: 4px;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+    .selector-label {
+      font-size: 1rem;
+      font-weight: 700;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .cohort-select {
+      background: #0f172a;
+      border: 2px solid #475569;
+      color: #ffffff;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-family: inherit;
+      font-size: 1rem;
+      font-weight: 700;
+      outline: none;
+      cursor: pointer;
+      width: 100%;
+      max-width: 400px;
+      transition: all 0.20s ease-in-out;
+      text-align: center;
+    }
+    .cohort-select:focus, .cohort-select:hover {
+      border-color: #a78bfa;
+      box-shadow: 0 0 12px rgba(167, 139, 250, 0.3);
+    }
+
+    .instructions-box {
+      background: rgba(30, 41, 59, 0.5);
+      border: 1px dashed #334155;
+      border-radius: 6px;
+      padding: 10px 14px;
+      margin-bottom: 16px;
+      font-size: 0.8rem;
+    }
+
+    /* Group Container Blocks */
+    .cohort-group-block {
+      background: rgba(30, 41, 59, 0.2);
+      border: 1px solid #1e293b;
+      border-radius: 10px;
+      padding: 16px;
+      margin-bottom: 20px;
+      display: none; 
+    }
+    .cohort-group-block.visible {
+      display: block;
+    }
+    .group-header-title {
+      font-size: 1rem;
+      color: #f1f5f9;
+      font-weight: 700;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* 5-Column Grid */
+    .users-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 10px;
+    }
+    @media (max-width: 1200px) {
+      .users-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+    @media (max-width: 768px) {
+      .users-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 480px) {
+      .users-grid { grid-template-columns: 1fr; }
+    }
+
+    .user-card {
+      background: #1e293b;
+      border: 1px solid #334155;
+      border-radius: 8px;
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      border-top: 3px solid #64748b;
+    }
+    
+    .user-title {
+      font-size: 0.88rem;
+      color: #ffffff;
+      font-weight: 700;
+      margin-bottom: 2px;
+    }
+    .user-subtitle {
+      font-size: 0.72rem;
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+    .design-a { color: #38bdf8; }
+    .design-b { color: #f43f5e; }
+    
+    .dashboard-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: #ffffff;
+      background: #3b82f6;
+      border: 1px solid #2563eb;
+      text-decoration: none;
+      padding: 6px 10px;
+      border-radius: 5px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-align: center;
+      transition: all 0.15s ease-in-out;
+      margin-bottom: 10px;
+    }
+    .dashboard-btn:hover {
+      background: #2563eb;
+      border-color: #1d4ed8;
+    }
+
+    /* Accordion Dropdowns */
+    .matrix-dropdown {
+      background: #0f172a;
+      border: 1px solid #1e293b;
+      border-radius: 6px;
+      overflow: hidden;
+    }
+    .matrix-toggle-btn {
+      width: 100%;
+      background: none;
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px;
+      color: #94a3b8;
+      font-family: inherit;
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      cursor: pointer;
+    }
+    .matrix-toggle-btn:hover {
+      color: #a78bfa;
+    }
+    .matrix-toggle-btn .left-side {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .matrix-toggle-btn .chevron {
+      transition: transform 0.2s ease;
+    }
+    .matrix-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.2s ease-out;
+      padding: 0 8px;
+    }
+    .matrix-dropdown.active .matrix-content {
+      max-height: 180px;
+      padding-bottom: 8px;
+    }
+    .matrix-dropdown.active .chevron {
+      transform: rotate(180deg);
+    }
+    .matrix-dropdown.active .matrix-toggle-btn {
+      border-bottom: 1px solid #1e293b;
+      color: #a78bfa;
+    }
+
+    .matrix-links {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      margin-top: 6px;
+    }
+    .matrix-link {
+      display: flex;
+      align-items: center;
+      color: #64748b;
+      text-decoration: none;
+      font-size: 0.72rem;
+      padding: 4px 6px;
+      background: rgba(255, 255, 255, 0.01);
+      border-radius: 4px;
+      transition: all 0.1s;
+      cursor: pointer;
+    }
+    .matrix-link:hover {
+      color: #ffffff;
+      background: rgba(124, 58, 237, 0.1);
+    }
+
+    .survey-section {
+      border: 1px solid #10b981;
+      background: rgba(16, 185, 129, 0.03);
+      border-radius: 8px;
+      padding: 14px;
+      margin-bottom: 16px;
+      text-align: center;
+    }
+    .survey-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      background: #10b981;
+      border: 1px solid #059669;
+      color: #ffffff;
+      text-decoration: none;
+      padding: 10px 20px;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      transition: all 0.15s;
+    }
+
+    .footer-section {
+      border-top: 1px solid #334155;
+      background: rgba(30, 41, 59, 0.3);
+      padding: 14px;
+      border-radius: 8px;
+    }
+    .team-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      font-size: 0.8rem;
+    }
+    .email-link {
+      color: #94a3b8;
+      text-decoration: none;
+    }
+    .email-link:hover { color: #ffffff; text-decoration: underline; }
+
+    /* POPUP MODAL STYLES (UNIVERSAL COMPONENT FRAME) */
+    .image-modal {
+      display: none; 
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(15, 23, 42, 0.85);
+      backdrop-filter: blur(4px);
+      align-items: center;
+      justify-content: center;
+    }
+    .modal-content-wrapper {
+      position: relative;
+      background: #1e293b;
+      padding: 12px;
+      border-radius: 8px;
+      border: 1px solid #475569;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .modal-img {
+      max-width: 50vw;
+      max-height: 50vh;
+      object-fit: contain;
+      border-radius: 4px;
+    }
+    .modal-close {
+      align-self: flex-end;
+      color: #94a3b8;
+      font-size: 1.5rem;
+      font-weight: bold;
+      cursor: pointer;
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+    .modal-close:hover { color: #ffffff; }
+
+    /* SECURE PASSKEY MODAL POPUP DESIGN */
+    .passkey-modal-content {
+      background: #1e293b;
+      border: 2px solid #7c3aed;
+      border-radius: 12px;
+      padding: 24px;
+      width: 100%;
+      max-width: 380px;
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+      text-align: center;
+      position: relative;
+    }
+    .passkey-header {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 8px;
+    }
+    .passkey-desc {
+      font-size: 0.82rem;
+      color: #94a3b8;
+      margin-bottom: 16px;
+    }
+    .passkey-input {
+      background: #0f172a;
+      border: 1px solid #475569;
+      color: #ffffff;
+      font-size: 1.2rem;
+      letter-spacing: 0.3em;
+      padding: 10px;
+      border-radius: 6px;
+      width: 100%;
+      text-align: center;
+      outline: none;
+      margin-bottom: 16px;
+      font-family: monospace;
+    }
+    .passkey-input.error-shake {
+      border-color: #ef4444;
+      animation: shake 0.2s ease-in-out 2;
+    }
+    .passkey-btn-stack {
+      display: flex;
+      gap: 10px;
+    }
+    .passkey-btn {
+      flex: 1;
+      padding: 10px;
+      border: none;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: inherit;
+      transition: all 0.15s;
+    }
+    .passkey-submit {
+      background: #7c3aed;
+      color: #ffffff;
+    }
+    .passkey-submit:hover { background: #6d28d9; }
+    .passkey-cancel {
+      background: rgba(148, 163, 184, 0.1);
+      color: #94a3b8;
+      border: 1px solid #475569;
+    }
+    .passkey-cancel:hover { background: rgba(148, 163, 184, 0.15); color: #ffffff; }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-6px); }
+      75% { transform: translateX(6px); }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="wrapper">
+    <header>
+      <div class="badge">Experimental User Study</div>
+      <h1>SOC Triage Operations - Evaluation Portal</h1>
+      <div class="subtitle">Cohort Matrix Routing & Target Verification Hub</div>
+      
+      <div class="nav-container">
+        <a href="index.html" class="btn-nav-back">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+          Back to Training Hub
+        </a>
+      </div>
+    </header>
+
+    <!-- PROMINENT FIRST-ACTION COHORT SELECTOR -->
+    <div class="selector-container">
+      <label class="selector-label" for="cohortFilter">
+        <span class="step-badge">Step 1</span> Select Your Assigned Testing Cohort:
+      </label>
+      <select id="cohortFilter" class="cohort-select">
+        <option value="" disabled selected>-- Choose your cohort row to unlock --</option>
+        <option value="cohort-1">Testing Cohort Group 1</option>
+        <option value="cohort-2">Testing Cohort Group 2</option>
+        <option value="cohort-3">Testing Cohort Group 3</option>
+        <option value="cohort-4">Testing Cohort Group 4</option>
+      </select>
+    </div>
+
+    <div class="instructions-box">
+      <strong>Evaluation Protocol Notice:</strong> Complete the triaging workflow across your active matrix row systematically from left to right.
+    </div>
+
+    <!-- ================= TESTING COHORT GROUP 1 ================= -->
+    <div id="cohort-1" class="cohort-group-block">
+      <div class="group-header-title">Active Environment: Testing Cohort Group 1</div>
+      <div class="users-grid">
+        <div class="user-card">
+          <div><div class="user-title">User Profile 093</div><div class="user-subtitle design-a">System Evaluation - Design A</div></div>
+          <a href="https://my-soc-dashboard-ejesexfgdgdrh7fr.canadaeast-01.azurewebsites.net/SOC_Dashboard_Design_With_Images093_A.html" class="dashboard-btn">Open Triage Dashboard</a>
+          <div class="matrix-dropdown"><button class="matrix-toggle-btn" type="button"><span class="left-side">Model Matrix</span><svg class="chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></button><div class="matrix-content"><div class="matrix-links"><a data-src="AE-performance-matrix/user_093_anomaly_scores.png" class="matrix-link">Anomaly Scores</a><a data-src="AE-performance-matrix/user_093_confusion_matrix.png" class="matrix-link">Confusion Matrix</a><a data-src="AE-performance-matrix/user_093_cdf_curve.png" class="matrix-link">CDF Curve</a><a data-src="AE-performance-matrix/user_093_roc_curve.png" class="matrix-link">ROC Curve</a><a data-src="AE-performance-matrix/user_093_training_loss.png" class="matrix-link">Training Loss</a></div></div></div>
+        </div>
+        <div class="user-card">
+          <div><div class="user-title">User Profile 345</div><div class="user-subtitle design-a">System Evaluation - Design A</div></div>
+          <a href="https://my-soc-dashboard-ejesexfgdgdrh7fr.canadaeast-01.azurewebsites.net/SOC_Dashboard_Design_With_Images345_A.html" class="dashboard-btn">Open Triage Dashboard</a>
+          <div class="matrix-dropdown"><button class="matrix-toggle-btn" type="button"><span class="left-side">Model Matrix</span><svg class="chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></button><div class="matrix-content"><div class="matrix-links"><a data-src="AE-performance-matrix/user_345_anomaly_scores.png" class="matrix-link">Anomaly Scores</a><a data-src="AE-performance-matrix/user_345_confusion_matrix.png" class="matrix-link">Confusion Matrix</a><a data-src="AE-performance-matrix/user_345_cdf_curve.png" class="matrix-link">CDF Curve</a><a data-src="AE-performance-matrix/user_345_roc_curve.png" class="matrix-link">ROC Curve</a><a data-src="AE-performance-matrix/user_345_training_loss.png" class="matrix-link">Training Loss</a></div></div></div>
+        </div>
+        <div class="user-card">
+          <div><div class="user-title">User Profile 010</div><div class="user-subtitle design-a">System Evaluation - Design A</div></div>
+          <a href="https://my-soc-dashboard-ejesexfgdgdrh7fr.canadaeast-01.azurewebsites.net/SOC_Dashboard_Design_With_Images010_A.html" class="dashboard-btn">Open Triage Dashboard</a>
+          <div class="matrix-dropdown"><button class="matrix-toggle-btn" type="button"><span class="left-side">Model Matrix</span><svg class="chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></button><div class="matrix-content"><div class="matrix-links"><a data-src="AE-performance-matrix/user_010_anomaly_scores.png" class="matrix-link">Anomaly Scores</a><a data-src="AE-performance-matrix/user_010_confusion_matrix.png" class="matrix-link">Confusion Matrix</a><a data-src="AE-performance-matrix/user_010_cdf_curve.png" class="matrix-link">CDF Curve</a><a data-src="AE-performance-matrix/user_010_roc_curve.png" class="matrix-link">ROC Curve</a><a data-src="AE-performance-matrix/user_010_training_loss.png" class="matrix-link">Training Loss</a></div></div></div>
+        </div>
+        <div class="user-card">
+          <div><div class="user-title">User Profile 401</div><div class="user-subtitle design-b">System Evaluation - Design B</div></div>
+          <a href="https://my-soc-dashboard-ejesexfgdgdrh7fr.canadaeast-01.azurewebsites.net/SOC_Dashboard_Design_With_Images401_B.html" class="dashboard-btn">Open Triage Dashboard</a>
+          <div class="matrix-dropdown"><button class="matrix-toggle-btn" type="button"><span class="left-side">Model Matrix</span><svg class="chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></button><div class="matrix-content"><div class="matrix-links"><a data-src="AE-performance-matrix/user_401_anomaly_scores.png" class="matrix-link">Anomaly Scores</a><a data-src="AE-performance-matrix/user_401_confusion_matrix.png" class="matrix-link">Confusion Matrix</a><a data-src="AE-performance-matrix/user_401_cdf_curve.png" class="matrix-link">CDF Curve</a><a data-src="AE-performance-matrix/user_401_roc_curve.png" class="matrix-link">ROC Curve</a><a data-src="AE-performance-matrix/user_401_training_loss.png" class="matrix-link">Training Loss</a></div></div></div>
+        </div>
+        <div class="user-card">
+          <div><div class="user-title">User Profile 100</div><div class="user-subtitle design-b">System Evaluation - Design B</div></div>
+          <a href="https://my-soc-dashboard-ejesexfgdgdrh7fr.canadaeast-01.azurewebsites.net/SOC_Dashboard_Design_With_Images100_B.html" class="dashboard-btn">Open Triage Dashboard</a>
+          <div class="matrix-dropdown"><button class="matrix-toggle-btn" type="button"><span class="left-side">Model Matrix</span><svg class="chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></button><div class="matrix-content"><div class="matrix-links"><a data-src="AE-performance-matrix/user_100_anomaly_scores.png" class="matrix-link">Anomaly Scores</a><a data-src="AE-performance-matrix/user_100_confusion_matrix.png" class="matrix-link">Confusion Matrix</a><a data-src="AE-performance-matrix/user_100_cdf_curve.png" class="matrix-link">CDF Curve</a><a data-src="AE-performance-matrix/user_100_roc_curve.png" class="matrix-link">ROC Curve</a><a data-src="AE-performance-matrix/user_100_training_loss.png" class="matrix-link">Training Loss</a></div></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= TESTING COHORT GROUP 2 ================= -->
+    <div id="cohort-2" class="cohort-group-block">
+      <div class="group-header-title">Active Environment: Testing Cohort Group 2</div>
+      <div class="users-grid">
+        <div class="user-card">
+          <div><div class="user-title">User Profile 345</div><div class="user-subtitle design-b">System Evaluation - Design B</div></div>
+          <a href="https://my-soc-dashboard-ejesexfgdgdrh7fr.canadaeast-01.azurewebsites.net/SOC_Dashboard_Design_With_Images345_B.html" class="dashboard-btn">Open Triage Dashboard</a>
+          <div class="matrix-dropdown"><button class="matrix-toggle-btn" type="button"><span class="left-side">Model Matrix</span><svg class="chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></button><div class="matrix-content"><div class="matrix-links"><a data-src="AE-performance-matrix/user_345_anomaly_scores.png" class="matrix-link">Anomaly Scores</a><a data-src="AE-performance-matrix/user_345_confusion_matrix.png" class="matrix-link">Confusion Matrix</a><a data-src="AE-performance-matrix/user_345_cdf_curve.png" class="matrix-link">CDF Curve</a><a data-src="AE-performance-matrix/user_345_roc_curve.png" class="matrix-link">ROC Curve</a><a data-src="AE-performance-matrix/user_345_training_loss.png" class="matrix-link">Training Loss</a></div></div></div>
+        </div>
+        <div class="user-card">
+          <div><div class="user-title">User Profile 093</div><div class="user-subtitle design-b">System Evaluation - Design B</div></div>
+          <a href="https://my-soc-dashboard-ejesexfgdgdrh7fr.canadaeast-01.azurewebsites.net/SOC_Dashboard_Design_With_Images093_B.html" class="dashboard-btn">Open Triage Dashboard</a>
+          <div class="matrix-dropdown"><button class="matrix-toggle-btn" type="button"><span class="left-side">Model Matrix</span><svg class="chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></button><div class="matrix-content"><div class="matrix-links"><a data-src="AE-performance-matrix/user_093_anomaly_scores.png" class="matrix-link">Anomaly Scores</a><a data-src="AE-performance-matrix/user_093_confusion_matrix.png" class="matrix-link">Confusion Matrix</a><a data-src="AE-performance-matrix/user_093_cdf_curve.png" class="matrix-link">CDF Curve</a><a data-src="AE-performance-matrix/user_093_roc_curve.png" class="matrix-link">ROC Curve</a><a data-src="AE-performance-matrix/user_093_training_loss.png" class="matrix-link">Training Loss</a></div></div></div>
+        </div>
+        <div class="user-card">
+          <div><div class="user-title">User Profile 010</div><div class="user-subtitle design-a">System Evaluation - Design A</div></div>
+          <a href="https://my-soc-dashboard-ejesexfgdgdrh7fr.canadaeast-01.azurewebsites.net/SOC_Dashboard_Design_With_Images010_A.html" class="dashboard-btn">Open Triage Dashboard</a>
+          <div class="matrix-dropdown"><button class="matrix-toggle-btn" type="button"><span class="left-side">Model Matrix</span><svg class="chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></button><div class="matrix-content"><div class="matrix-links"><a data-src="AE-performance-matrix/user_010_anomaly_scores.png" class="matrix-link">Anomaly Scores</a><a data-src="AE-performance-matrix/user_010_confusion_matrix.png" class="matrix-link">Confusion Matrix</a><a data-src="AE-performance-matrix/user_010_cdf_curve.png" class="matrix-link">CDF Curve</a><a data-src="AE-performance-matrix/user_010_roc_curve.png" class="matrix-link">ROC Curve</a><a data-src="AE-performance-matrix/user_010_training_loss.png" class="matrix-link">Training Loss</a></div></div></div>
+        </div>
+        <div class="user-card">
+          <div><div class="user-title">User Profile 100</div><div class="user-subtitle design-a">System Evaluation - Design A</div></div>
+          <a href="https://my-soc-dashboard-ejesexfgdgdrh7fr.canadaeast-01.azurewebsites.net/SOC_Dashboard_Design_With_Images100_A.html" class="dashboard-btn">Open Triage Dashboard</a>
+          <div class="matrix-dropdown"><button class="matrix-toggle-btn" type="button"><span class="left-side">Model Matrix</span><svg class="chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></button><div class="matrix-content"><div class="matrix-links"><a data-src="AE-performance-matrix/user_100_anomaly_scores.png" class="matrix-link">Anomaly Scores</a><a data-src="AE-performance-matrix/user_100_confusion_matrix.png" class="matrix-link">Confusion Matrix</a><a data-src="AE-performance-matrix/user_100_cdf_curve.png" class="matrix-link">CDF Curve</a><a data-src="AE-performance-matrix/user_100_roc_curve.png" class="matrix-link">ROC Curve</a><a data-src="AE-performance-matrix/user_100_training_loss.png" class="matrix-link">Training Loss</a></div></div></div>
+        </div>
+        <div class="user-card">
+          <div><div class="user-title">User Profile 401</div><div class="user-subtitle design-a">System Evaluation - Design A</div></div>
+          <a href="https://my-soc-dashboard-ejesexfgdgdrh7fr.canadaeast-01.azurewebsites.net/SOC_Dashboard_Design_With_Images401_A.html" class="dashboard-btn">Open Triage Dashboard</a>
+          <div class="matrix-dropdown"><button class="matrix-toggle-btn" type="button"><span class="left-side">Model Matrix</span><svg class="chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></button><div class="matrix-content"><div class="matrix-links"><a data-src="AE-performance-matrix/user_401_anomaly_scores.png" class="matrix-link">Anomaly Scores</a><a data-src="AE-performance-matrix/user_401_confusion_matrix.png" class="matrix-link">Confusion Matrix</a><a data-src="AE-performance-matrix/user_401_cdf_curve.png" class="matrix-link">CDF Curve</a><a data-src="AE-performance-matrix/user_401_roc_curve.png" class="matrix-link">ROC Curve</a><a data-src="AE-performance-matrix/user_401_training_loss.png" class="matrix-link">Training Loss</a></div></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= TESTING COHORT GROUP 3 ================= -->
+    <div id="cohort-3" class="cohort-group-block">
+      <div class="group-header-title">Active Environment: Testing Cohort Group 3</div>
+      <div class="users-grid">
+        <div class="user-card">
+          <div><div class="user-title">User Profile 401</div><div class="user-subtitle design-a">System Evaluation - Design A</div></div>
+          <a href="https://my-soc-dashboard-ejesexfgdgdrh7fr.canadaeast-01.azurewebsites.net/SOC_Dashboard_Design_With_Images401_A.html" class="dashboard-btn">Open Triage Dashboard</a>
+          <div class="matrix-dropdown"><button class="matrix-toggle-btn" type="button"><span class="left-side">Model Matrix</span><svg class="chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></button><div class="matrix-content"><div class="matrix-links"><a data-src="AE-performance-matrix/user_401_anomaly_scores.png" class="matrix-link">Anomaly Scores</a><a data-src="AE-performance-matrix/user_401_confusion_matrix.png" class="matrix-link">Confusion Matrix</a><a data-src="AE-performance-matrix/user_401_cdf_curve.png" class="matrix-link">CDF Curve</a><a data-src="AE-performance-matrix/user_401_roc_curve.png" class="matrix-link">ROC Curve</a><a data-src="AE-performance-matrix/user_401_training_loss.png" class="matrix-link">Training Loss</a></div></div></div>
+        </div>
+        <div class="user-card">
+          <div><div class="user-title">User Profile 100</div><div class="user-subtitle design-a">System Evaluation - Design A</div></div>
+          <a href="https://my-soc-dashboard-ejesexfgdgdrh7fr.canadaeast-01.azurewebsites.net/SOC_Dashboard_Design_With_Images100_A.html" class="dashboard-btn">Open Triage Dashboard</a>
+          <div class="matrix-dropdown"><button class="matrix-toggle-btn" type="button"><span class="left-side">Model Matrix</span><svg class="chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></button><div class="matrix-content"><div class="matrix-links"><a data-src="AE-performance-matrix/user_100_anomaly_scores.png" class="matrix-link">Anomaly Scores</a><a data-src="AE-performance-matrix/user_100_confusion_matrix.png" class="matrix-link">Confusion Matrix</a><a data-src="AE-performance-matrix/user_100_cdf_curve.png" class="matrix-link">CDF Curve</a><a data-src="AE-performance-matrix/user_100_roc_curve.png" class="matrix-link">ROC Curve</a><a data-src="AE-performance-matrix/user_100_training_loss.png" class="matrix-link">Training Loss</a></div></div></div>
+        </div>
+        <div class="user-card">
+          <div><div class="user-title">User Profile 010</div><div class="user-subtitle design-b">System Evaluation - Design B</div></div>
+          <a href="https://my-soc-dashboard-ejesexfgdgdrh7fr.canadaeast-01.azurewebsites.net/SOC_Dashboard_Design_With_Images010_B.html" class="dashboard-btn">Open Triage Dashboard</a>
+          <div class="matrix-dropdown"><button class="matrix-toggle-btn" type="button"><span class="left-side">Model Matrix</span><svg class="chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></button><div class="matrix-content"><div class="matrix-links"><a data-src="AE-performance-matrix/user_010_anomaly_scores.png" class="matrix-link">Anomaly Scores</a><a data-src="AE-performance-matrix/user_010_confusion_matrix.png" class="matrix-link">Confusion Matrix</a><a data-src="AE-performance-matrix/user_010_cdf_curve.png" class="matrix-link">CDF Curve</a><a data-src="AE-performance-matrix/user_010_roc_curve.png" class="matrix-link">ROC Curve</a><a data-src="AE-performance-matrix/user_010_training_loss.png" class="matrix-link">Training Loss</a></div></div></div>
+        </div>
+        <div class="user-card">
+          <div><div class="user-title">User Profile 093</div><div class="user-subtitle design-b">System Evaluation - Design B</div></div>
+          <a href="https://my-soc-dashboard-ejesexfgdgdrh7fr.canadaeast-01.azurewebsites.net/SOC_Dashboard_Design_With_Images093_B.html" class="dashboard-btn">Open Triage Dashboard</a>
+          <div class="matrix-dropdown"><button class="matrix-toggle-btn" type="button"><span class="left-side">Model Matrix</span><svg class="chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></button><div class="matrix-content"><div class="matrix-links"><a data-src="AE-performance-matrix/user_093_anomaly_scores.png" class="matrix-link">Anomaly Scores</a><a data-src="AE-performance-matrix/user_093_confusion_matrix.png" class="matrix-link">Confusion Matrix</a><a data-src="AE-performance-matrix/user_093_cdf_curve.png" class="matrix-link">CDF Curve</a><a data-src="AE-performance-matrix/user_093_roc_curve.png" class="matrix-link">ROC Curve</a><a data-src="AE-performance-matrix/user_093_training_loss.png" class="matrix-link">Training Loss</a></div></div></div>
+        </div>
+        <div class="user-card">
+          <div><div class="user-title">User Profile 345</div><div class="user-subtitle design-b">System Evaluation - Design B</div></div>
+          <a href="https://my-soc-dashboard-ejesexfgdgdrh7fr.canadaeast-01.azurewebsites.net/SOC_Dashboard_Design_With_Images345_B.html" class="dashboard-btn">Open Triage Dashboard</a>
+          <div class="matrix-dropdown"><button class="matrix-toggle-btn" type="button"><span class="left-side">Model Matrix</span><svg class="chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></button><div class="matrix-content"><div class="matrix-links"><a data-src="AE-performance-matrix/user_345_anomaly_scores.png" class="matrix-link">Anomaly Scores</a><a data-src="AE-performance-matrix/user_345_confusion_matrix.png" class="matrix-link">Confusion Matrix</a><a data-src="AE-performance-matrix/user_345_cdf_curve.png" class="matrix-link">CDF Curve</a><a data-src="AE-performance-matrix/user_345_roc_curve.png" class="matrix-link">ROC Curve</a><a data-src="AE-performance-matrix/user_345_training_loss.png" class="matrix-link">Training Loss</a></div></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= TESTING COHORT GROUP 4 ================= -->
+    <div id="cohort-4" class="cohort-group-block">
+      <div class="group-header-title">Active Environment: Testing Cohort Group 4</div>
+      <div class="users-grid">
+        <div class="user-card">
+          <div><div class="user-title">User Profile 100</div><div class="user-subtitle design-b">System Evaluation - Design B</div></div>
+          <a href="https://my-soc-dashboard-ejesexfgdgdrh7fr.canadaeast-01.azurewebsites.net/SOC_Dashboard_Design_With_Images100_B.html" class="dashboard-btn">Open Triage Dashboard</a>
+          <div class="matrix-dropdown"><button class="matrix-toggle-btn" type="button"><span class="left-side">Model Matrix</span><svg class="chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></button><div class="matrix-content"><div class="matrix-links"><a data-src="AE-performance-matrix/user_100_anomaly_scores.png" class="matrix-link">Anomaly Scores</a><a data-src="AE-performance-matrix/user_100_confusion_matrix.png" class="matrix-link">Confusion Matrix</a><a data-src="AE-performance-matrix/user_100_cdf_curve.png" class="matrix-link">CDF Curve</a><a data-src="AE-performance-matrix/user_100_roc_curve.png" class="matrix-link">ROC Curve</a><a data-src="AE-performance-matrix/user_100_training_loss.png" class="matrix-link">Training Loss</a></div></div></div>
+        </div>
+        <div class="user-card">
+          <div><div class="user-title">User Profile 401</div><div class="user-subtitle design-b">System Evaluation - Design B</div></div>
+          <a href="https://my-soc-dashboard-ejesexfgdgdrh7fr.canadaeast-01.azurewebsites.net/SOC_Dashboard_Design_With_Images401_B.html" class="dashboard-btn">Open Triage Dashboard</a>
+          <div class="matrix-dropdown"><button class="matrix-toggle-btn" type="button"><span class="left-side">Model Matrix</span><svg class="chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></button><div class="matrix-content"><div class="matrix-links"><a data-src="AE-performance-matrix/user_401_anomaly_scores.png" class="matrix-link">Anomaly Scores</a><a data-src="AE-performance-matrix/user_401_confusion_matrix.png" class="matrix-link">Confusion Matrix</a><a data-src="AE-performance-matrix/user_401_cdf_curve.png" class="matrix-link">CDF Curve</a><a data-src="AE-performance-matrix/user_401_roc_curve.png" class="matrix-link">ROC Curve</a><a data-src="AE-performance-matrix/user_401_training_loss.png" class="matrix-link">Training Loss</a></div></div></div>
+        </div>
+        <div class="user-card">
+          <div><div class="user-title">User Profile 010</div><div class="user-subtitle design-b">System Evaluation - Design B</div></div>
+          <a href="https://my-soc-dashboard-ejesexfgdgdrh7fr.canadaeast-01.azurewebsites.net/SOC_Dashboard_Design_With_Images010_B.html" class="dashboard-btn">Open Triage Dashboard</a>
+          <div class="matrix-dropdown"><button class="matrix-toggle-btn" type="button"><span class="left-side">Model Matrix</span><svg class="chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></button><div class="matrix-content"><div class="matrix-links"><a data-src="AE-performance-matrix/user_010_anomaly_scores.png" class="matrix-link">Anomaly Scores</a><a data-src="AE-performance-matrix/user_010_confusion_matrix.png" class="matrix-link">Confusion Matrix</a><a data-src="AE-performance-matrix/user_010_cdf_curve.png" class="matrix-link">CDF Curve</a><a data-src="AE-performance-matrix/user_010_roc_curve.png" class="matrix-link">ROC Curve</a><a data-src="AE-performance-matrix/user_010_training_loss.png" class="matrix-link">Training Loss</a></div></div></div>
+        </div>
+        <div class="user-card">
+          <div><div class="user-title">User Profile 345</div><div class="user-subtitle design-a">System Evaluation - Design A</div></div>
+          <a href="https://my-soc-dashboard-ejesexfgdgdrh7fr.canadaeast-01.azurewebsites.net/SOC_Dashboard_Design_With_Images345_A.html" class="dashboard-btn">Open Triage Dashboard</a>
+          <div class="matrix-dropdown"><button class="matrix-toggle-btn" type="button"><span class="left-side">Model Matrix</span><svg class="chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></button><div class="matrix-content"><div class="matrix-links"><a data-src="AE-performance-matrix/user_345_anomaly_scores.png" class="matrix-link">Anomaly Scores</a><a data-src="AE-performance-matrix/user_345_confusion_matrix.png" class="matrix-link">Confusion Matrix</a><a data-src="AE-performance-matrix/user_345_cdf_curve.png" class="matrix-link">CDF Curve</a><a data-src="AE-performance-matrix/user_345_roc_curve.png" class="matrix-link">ROC Curve</a><a data-src="AE-performance-matrix/user_345_training_loss.png" class="matrix-link">Training Loss</a></div></div></div>
+        </div>
+        <div class="user-card">
+          <div><div class="user-title">User Profile 093</div><div class="user-subtitle design-a">System Evaluation - Design A</div></div>
+          <a href="https://my-soc-dashboard-ejesexfgdgdrh7fr.canadaeast-01.azurewebsites.net/SOC_Dashboard_Design_With_Images093_A.html" class="dashboard-btn">Open Triage Dashboard</a>
+          <div class="matrix-dropdown"><button class="matrix-toggle-btn" type="button"><span class="left-side">Model Matrix</span><svg class="chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></button><div class="matrix-content"><div class="matrix-links"><a data-src="AE-performance-matrix/user_093_anomaly_scores.png" class="matrix-link">Anomaly Scores</a><a data-src="AE-performance-matrix/user_093_confusion_matrix.png" class="matrix-link">Confusion Matrix</a><a data-src="AE-performance-matrix/user_093_cdf_curve.png" class="matrix-link">CDF Curve</a><a data-src="AE-performance-matrix/user_093_roc_curve.png" class="matrix-link">ROC Curve</a><a data-src="AE-performance-matrix/user_093_training_loss.png" class="matrix-link">Training Loss</a></div></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- EXIT SURVEY DEPLOYMENT BLOCK -->
+    <div class="survey-section">
+      <h2 style="color: #10b981; font-size: 1rem; margin-bottom: 8px;">Study Phase Completion</h2>
+      <a href="https://uwaterloo.yul1.qualtrics.com/jfe/preview/previewId/ad9c1b8a-3a8b-424d-9a74-ddb523fa8749/SV_b7Tc131RtduFkYm?Q_CHL=preview&Q_SurveyVersionID=current" class="survey-btn" target="_blank">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+        Open User Study Exit Survey
+      </a>
+    </div>
+
+    <!-- SYSTEM FOOTER -->
+    <div class="footer-section">
+      <h2 style="font-size: 0.8rem; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 10px;">
+        Research Investigation & Contact Desk
+      </h2>
+      <div class="team-grid">
+        <div>
+          <p style="color: #ffffff; font-weight: 700; margin-bottom: 2px;">Abdul Muqtadir Abbasi</p>
+          <p style="color: #a78bfa; font-weight: 500; margin-bottom: 2px;">Principal Investigator &bull; PhD Candidate</p>
+          <p style="color: #64748b; margin-bottom: 2px;">Systems Design Engineering, University of Waterloo</p>
+          <a href="mailto:amabbasi@uwaterloo.ca" class="email-link">amabbasi@uwaterloo.ca</a>
+        </div>
+        <div>
+          <p style="color: #ffffff; font-weight: 700; margin-bottom: 2px;">Fariha Muqtadir</p>
+          <p style="color: #38bdf8; font-weight: 500; margin-bottom: 2px;">Co-Investigator &bull; PhD Candidate</p>
+          <p style="color: #64748b; margin-bottom: 2px;">Systems Design Engineering, University of Waterloo</p>
+          <a href="mailto:fmuqtadi@uwaterloo.ca" class="email-link">fmuqtadi@uwaterloo.ca</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- INTERACTIVE POPUP MODAL COMPONENT (FOR IMAGES) -->
+  <div id="matrixModal" class="image-modal">
+    <div class="modal-content-wrapper">
+      <span class="modal-close" id="modalClose">&times;</span>
+      <img class="modal-img" id="modalTargetImg" src="" alt="Performance Metric View">
+    </div>
+  </div>
+
+  <!-- NEW SECURE PASSKEY MODAL COMPONENT -->
+  <div id="passkeyModal" class="image-modal">
+    <div class="passkey-modal-content">
+      <div class="passkey-header">Verification Required</div>
+      <div class="passkey-desc" id="passkeyModalDesc">Please enter the $5$-digit security token key assigned to this tracking environment row.</div>
+      <input type="password" id="passkeyField" class="passkey-input" maxlength="5" placeholder="•••••">
+      <div class="passkey-btn-stack">
+        <button type="button" id="passkeyCancelBtn" class="passkey-btn passkey-cancel">Cancel</button>
+        <button type="button" id="passkeySubmitBtn" class="passkey-btn passkey-submit">Unlock Row</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SYSTEM INTERACTION SCRIPTS -->
+  <script>
+    // Passkey security lookup table
+    const passkeyRegistry = {
+      'cohort-1': '12034',
+      'cohort-2': '21043',
+      'cohort-3': '34012',
+      'cohort-4': '43021'
+    };
+
+    let pendingCohortId = '';
+    let activeCohortId = '';
+
+    const selectFilter = document.getElementById('cohortFilter');
+    const groups = document.querySelectorAll('.cohort-group-block');
+    
+    // Passkey DOM Elements
+    const pModal = document.getElementById('passkeyModal');
+    const pField = document.getElementById('passkeyField');
+    const pCancel = document.getElementById('passkeyCancelBtn');
+    const pSubmit = document.getElementById('passkeySubmitBtn');
+    const pDesc = document.getElementById('passkeyModalDesc');
+
+    // Dropdown value changes interception logic
+    selectFilter.addEventListener('change', function(e) {
+      const selectedId = this.value;
+      
+      // If switching away to empty default choice
+      if(!selectedId) return;
+
+      // If already unlocked and visible, do nothing extra
+      if (selectedId === activeCohortId) return;
+
+      // Launch Passkey verification challenge sequence
+      pendingCohortId = selectedId;
+      pDesc.textContent = `Please enter the $5$-digit passkey assigned to Testing Cohort Group ${selectedId.split('-')[1]}.`;
+      pField.value = '';
+      pField.classList.remove('error-shake');
+      pModal.style.display = 'flex';
+      pField.focus();
+      
+      // Revert select display temporarily to old unlocked selection until authenticated
+      selectFilter.value = activeCohortId ? activeCohortId : "";
+    });
+
+    // Passkey Submission Engine
+    function verifyPasskey() {
+      const inputKey = pField.value.trim();
+      const correctKey = passkeyRegistry[pendingCohortId];
+
+      if (inputKey === correctKey) {
+        // Unlocked successfully!
+        activeCohortId = pendingCohortId;
+        selectFilter.value = activeCohortId; // Sync dropdown view state
+        pModal.style.display = 'none';
+
+        // Render target elements visible
+        groups.forEach(group => {
+          if (group.id === activeCohortId) {
+            group.classList.add('visible');
+          } else {
+            group.classList.remove('visible');
+            group.querySelectorAll('.matrix-dropdown').forEach(d => d.classList.remove('active'));
+          }
+        });
+      } else {
+        // Denied - trigger visual error shake indicator
+        pField.classList.remove('error-shake');
+        void pField.offsetWidth; // Force CSS reflow mechanics engine
+        pField.classList.add('error-shake');
+        pField.value = '';
+        pField.focus();
+      }
+    }
+
+    pSubmit.addEventListener('click', verifyPasskey);
+    pField.addEventListener('keypress', (e) => { if (e.key === 'Enter') verifyPasskey(); });
+
+    // Cancel passkey view logic
+    pCancel.addEventListener('click', () => {
+      pModal.style.display = 'none';
+      pendingCohortId = '';
+      selectFilter.value = activeCohortId ? activeCohortId : "";
+    });
+
+    // Card Accordion Toggle Logic
+    document.querySelectorAll('.matrix-toggle-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        const parentDropdown = this.parentElement;
+        parentDropdown.classList.toggle('active');
+      });
+    });
+
+    // Image Modal Lightbox Logic
+    const modal = document.getElementById('matrixModal');
+    const modalImg = document.getElementById('modalTargetImg');
+    const closeBtn = document.getElementById('modalClose');
+
+    document.querySelectorAll('.matrix-link').forEach(link => {
+      link.addEventListener('click', function(e) {
+        e.preventDefault();
+        const imgSrc = this.getAttribute('data-src');
+        if (imgSrc) {
+          modalImg.src = imgSrc;
+          modal.style.display = 'flex';
+        }
+      });
+    });
+
+    closeBtn.addEventListener('click', () => {
+      modal.style.display = 'none';
+      modalImg.src = '';
+    });
+
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        modal.style.display = 'none';
+        modalImg.src = '';
+      }
+    });
+  </script>
+</body>
+</html>
