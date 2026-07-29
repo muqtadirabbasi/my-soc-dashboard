@@ -121,6 +121,14 @@
     th{text-align:left;padding:10px 12px;font-size:0.75rem;font-weight:600;color:#6b7280;border-bottom:1px solid #dbe3ec;}
     td{padding:10px 12px;border-bottom:1px solid #dbe3ec;vertical-align:middle;}
     tr:hover td{background:#f5f8fd;}
+    
+    /* Feature Table In-Line Indicator Badges for Design A */
+    .indicator-badge-inline { display: inline-flex; align-items: center; gap: 4px; padding: 2px 7px; border-radius: 4px; font-size: 0.65rem; font-weight: 700; text-transform: uppercase; margin-left: 6px; vertical-align: middle; }
+    .indicator-badge-inline.primary { background: #fee2e2; color: #991b1b; border: 1px solid #fca5a5; }
+    .indicator-badge-inline.secondary { background: #e0f2fe; color: #0369a1; border: 1px solid #7dd3fc; }
+    tr.tr-threat-highlight { background-color: #fff5f5 !important; }
+    tr.tr-threat-highlight:hover td { background-color: #fee2e2 !important; }
+
     .inspector-controls,.actions-filter{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:12px 18px;background:#f9fafb;border-bottom:1px solid #dbe3ec;}
     .inspector-controls select,.actions-filter select{padding:6px 10px;font-size:0.8rem;border:1px solid #dbe3ec;border-radius:6px;background:#fff;cursor:pointer;}
     .actions-filter input{padding:6px 10px;font-size:0.8rem;border:1px solid #dbe3ec;border-radius:6px;min-width:250px;}
@@ -135,14 +143,6 @@
     .ab-logon{background:#e3f2fd;color:#1565c0;} .ab-http{background:#e8f5e9;color:#2e7d32;}
     .ab-email{background:#fff3e0;color:#e65100;} .ab-file{background:#f3e5f5;color:#6a1b9a;}
     .ab-device{background:#fce4ec;color:#c62828;}
-    
-    /* Indicator Sub-Box Formatting */
-    .indicator-box { border-radius: 8px; padding: 12px 14px; margin-bottom: 14px; background: #ffffff; }
-    .indicator-box.primary { border: 2px solid #fee2e2; background: #fff5f5; }
-    .indicator-box.secondary { border: 1px solid #e2e8f0; background: #f8fafc; }
-    .indicator-box-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; font-size: 0.78rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; }
-    .indicator-box.primary .indicator-box-header { color: #991b1b; }
-    .indicator-box.secondary .indicator-box-header { color: #334155; }
     
     /* Eye-Catching Triage Decision Buttons */
     .decision-btn{padding:5px 14px;border-radius:6px;border:1px dashed #7c3aed;background:#fff;font-size:0.75rem;font-weight:600;color:#5b21b6;cursor:pointer;transition:all 0.15s ease-in-out;}
@@ -233,11 +233,26 @@
     .beeswarm-grid{display:grid;grid-template-columns:1fr;justify-items:center;padding:16px;}
     .shap-combined-card{max-width:375px;width:100%;position:relative;}
     
-    .lightbox{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.75);z-index:99999;display:none;justify-content:center;align-items:center;padding:20px;backdrop-filter:blur(4px);}
+    .lightbox{position:fixed;inset:0;width:100%;height:100%;background:rgba(15,23,42,0.88);z-index:99999;display:none;justify-content:center;align-items:center;padding:12px;backdrop-filter:blur(8px);}
     .lightbox.open{display:flex;}
-    .lightbox-content{width:95vw;height:95vh;max-width:1800px;max-height:1200px;background:#fff;border-radius:12px;overflow:hidden;position:relative;box-shadow:0 12px 48px rgba(0,0,0,0.4);display:flex;flex-direction:column;}    .lightbox-close{position:absolute;top:12px;right:16px;background:#1f2937;color:#fff;border:none;border-radius:50%;width:36px;height:36px;font-size:1.2rem;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:10;transition:background 0.15s;}
-    .lightbox-close:hover{background:#E53935;}
-    .lightbox-label{position:absolute;bottom:0;left:0;right:0;background:rgba(0,0,0,0.7);color:#fff;padding:8px 16px;font-size:0.85rem;font-weight:600;text-align:center;}
+    .lightbox-content{width:min(99vw,2400px);height:min(98vh,1500px);background:#f8fafc;border-radius:18px;overflow:hidden;position:relative;box-shadow:0 20px 80px rgba(0,0,0,0.45);display:flex;flex-direction:column;border:1px solid rgba(255,255,255,0.18);}
+    .lightbox-close{position:absolute;top:14px;right:14px;background:#0f172a;color:#fff;border:none;border-radius:999px;width:42px;height:42px;font-size:1.35rem;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:30;transition:background 0.15s ease,transform 0.15s ease,box-shadow 0.15s ease;box-shadow:0 6px 16px rgba(15,23,42,0.25);}
+    .lightbox-close:hover{background:#E53935;transform:scale(1.06);}
+    .lightbox-label{position:absolute;bottom:0;left:0;right:0;background:rgba(15,23,42,0.9);color:#fff;padding:10px 16px;font-size:0.92rem;font-weight:800;text-align:center;letter-spacing:0.01em;}
+    .lightbox-main-shell{flex:1;display:flex;min-height:0;background:linear-gradient(180deg,#ffffff 0%,#f8fafc 100%);}
+    .lightbox-controls{display:flex;flex-direction:column;gap:12px;min-width:300px;max-width:320px;background:#f8fafc;padding:18px;border-right:1px solid #dbe3ec;align-self:stretch;justify-content:flex-start;height:100%;overflow:auto;}
+    .lightbox-plot-panel{flex:1;display:flex;flex-direction:column;min-width:0;min-height:0;padding:18px 18px 14px;background:#ffffff;border-right:1px solid #e2e8f0;}
+    .lightbox-toolbar{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:0 0 12px 0;border-bottom:1px solid #e2e8f0;margin-bottom:12px;}
+    .lightbox-toolbar-left{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+    .lightbox-zoom-controls{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+    .lightbox-zoom-btn{background:#ffffff;border:1px solid #cbd5e1;color:#0f172a;padding:8px 12px;border-radius:10px;font-size:0.82rem;font-weight:700;cursor:pointer;transition:all 0.15s ease;box-shadow:0 2px 6px rgba(15,23,42,0.06);}
+    .lightbox-zoom-btn:hover{background:#eef2ff;border-color:#7c3aed;color:#5b21b6;}
+    .lightbox-zoom-readout{font-size:0.8rem;font-weight:700;color:#475569;min-width:64px;text-align:center;}
+    .lightbox-viewport{flex:1;min-height:0;overflow:auto;display:flex;align-items:flex-start;justify-content:center;background:radial-gradient(circle at top,#ffffff 0%,#f8fafc 72%);border:1px solid #e2e8f0;border-radius:14px;padding:18px;}
+    #lightboxImg{display:block;max-width:none;width:auto;height:auto;object-fit:contain;object-position:center;transform-origin:top center;transition:transform 0.16s ease,filter 0.16s ease;image-rendering:-webkit-optimize-contrast;image-rendering:crisp-edges;filter:brightness(1.04) contrast(1.08) saturate(1.02);box-shadow:0 8px 26px rgba(15,23,42,0.14);border-radius:10px;background:#ffffff;}
+    .lightbox-sidebar{flex:0 0 360px;min-width:320px;padding:24px 20px;background:#1e293b;color:#f8fafc;overflow-y:auto;border-left:1px solid #334155;font-size:0.85rem;line-height:1.5;}
+    @media (max-width: 1400px){.lightbox-main-shell{flex-direction:column;}.lightbox-controls{max-width:none;min-width:0;border-right:none;border-bottom:1px solid #dbe3ec;height:auto;}.lightbox-plot-panel{border-right:none;border-bottom:1px solid #e2e8f0;min-height:56vh;}.lightbox-sidebar{flex:0 0 auto;min-width:0;max-height:30vh;}}
+    @media (max-width: 900px){.lightbox{padding:6px;}.lightbox-content{width:100vw;height:100vh;border-radius:0;}.lightbox-toolbar{align-items:flex-start;}.lightbox-controls{padding:14px;}.lightbox-plot-panel{padding:12px;}.lightbox-viewport{padding:10px;}.lightbox-sidebar{padding:16px;}}
     .section-header{display:flex;align-items:center;gap:12px;padding:14px 18px;background:#f9fafb;border-bottom:1px solid #dbe3ec;}
     .section-header .bullet{width:10px;height:10px;border-radius:50%;display:inline-block;flex-shrink:0;}
     .section-header h2{font-size:0.95rem;font-weight:700;margin:0;}
@@ -268,37 +283,6 @@
     /* Layout Frame Structural Rules */
     #designBWrapper { display: flex; flex-direction: column; gap: 18px; width: 100%; }
     #legacyWrapperBody { display: none; flex-direction: column; gap: 18px; width: 100%; }
-    
-    /* Proportional Side-by-Side Flex Layout Framework */
-    .legacy-dual-row { 
-      display: flex; 
-      gap: 18px; 
-      width: 100%; 
-      flex-wrap: wrap; 
-      align-items: stretch;
-    }
-
-    /* Threat Indicator Panel Card - Balanced Proportional Allocation */
-    .legacy-dual-row .card:first-child {
-      flex: 35; 
-      min-width: 380px;
-      display: flex;
-      flex-direction: column;
-    }
-
-    /* Autoencoder Input Features Card - Expanded Proportional Workspace */
-    .legacy-dual-row .card:last-child {
-      flex: 65; 
-      min-width: 550px;
-      display: flex;
-      flex-direction: column;
-    }
-
-    @media (max-width: 1150px) {
-      .legacy-dual-row { flex-direction: column; }
-      .legacy-dual-row .card:first-child,
-      .legacy-dual-row .card:last-child { min-width: 100%; flex: 1; }
-    }
   </style>
 
   <style>
@@ -312,7 +296,7 @@
     <div class="import-box">
         <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2" style="margin-bottom: 12px;"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
         <h2>Dynamic Update4 Ingestion Engine — Multi-Navigation Suite</h2>
-        <p>Upload your data log asset. The text stream matcher parses metrics safely without execution risks, dynamically populating both the XAI suite and legacy environments[cite: 1].</p>
+        <p>Upload your data log asset. The text stream matcher parses metrics safely without execution risks, dynamically populating both the XAI suite and legacy environments[cite: 1, 2].</p>
         <div class="file-input-wrapper">
             Load Operational Log Asset
             <input type="file" id="localDataImporter" accept=".html,.txt,.json">
@@ -326,7 +310,7 @@
     <div class="topbar-left">
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
       <div>
-        <h1>SOC Anomaly Dashboard &mdash; User 094 (ALW0764)
+        <h1>SOC Anomaly Dashboard &mdash; User 093 (ALT1465)
           <span class="phase-badge baseline">Baseline (90 days)</span>
           <span class="phase-badge monitor" id="headerMonitorDays">Monitoring</span>
         </h1>
@@ -473,7 +457,7 @@
 
               <div id="strategyQuestionContainer">
                 <div id="strategyA" style="display:none;">
-                  <label style="font-size:0.78rem; font-weight:600; color:#334155; display:block; margin-bottom:6px;">🔍 Strategy Feedback: To what extent did the calculated Z-scores in the Feature Table cross-validate or replace your manual searching of the Raw Action Logs?</label>
+                  <label style="font-size:0.78rem; font-weight:600; color:#334155; display:block; margin-bottom:6px;">🔍 Strategy Feedback: To what extent did the highlighted threat badges and Z-scores in the Feature Table cross-validate or replace your manual searching of the Raw Action Logs?</label>
                   <textarea id="feedbackTextA" rows="2" style="width:100%; border:1px solid #cbd5e1; border-radius:6px; padding:8px; font-size:0.8rem; font-family:inherit; resize: vertical;" placeholder="Describe your data correlation strategy... (If you do not wish to answer, you may enter 'Pass' or 'N/A' to bypass this prompt and proceed.)"></textarea>
                 </div>
 
@@ -637,6 +621,7 @@
       </button>
     </div>
 
+    <!-- REFACTORED & STREAMLINED DESIGN A WRAPPER -->
     <div id="legacyWrapperBody" class="themed-panel-group panel-legacy">
 
         <!-- PERSISTENT SCENARIO CHECKLIST FOR DESIGN A -->
@@ -699,7 +684,7 @@
               <span style="font-size: 1.2rem;">💡</span>
               <div>
                 <strong style="display: block; margin-bottom: 2px;">Easy Triage Trick (Design A):</strong>
-                Check top 10 features top-down. <strong>Rule:</strong> Require <strong>≥1 primary + prefer 2 secondary flags</strong> (secondary flags appear higher & contribute more). Cross-check Autoencoder panel (<span style="color:#10b981; font-weight:bold;">Green</span> = discard; <span style="color:#f97316; font-weight:bold;">Orange/Red</span> = investigate) and validate via <em>Raw User Actions</em>. (*After-hours* = evening, night time, and weekends).
+                Check the top features in the Autoencoder table for <span class="indicator-badge-inline primary">🚨 PRIMARY</span> and <span class="indicator-badge-inline secondary">📊 SECONDARY</span> threat badges. If you find at least one Primary badge paired with one or two Secondary badges highlighted in orange or red, you can confirm a threat (or inspect the Raw User Actions log if extra confirmation is needed). If you want to view only the highlighted threat features, turn on the <strong>Filter Variations Only</strong> toggle button, or use the <strong>Show Statistical Math</strong> toggle button to view statistical Z-scores and standard deviations. (*After-hours* = evening, night time, and weekends).
               </div>
             </div>
 
@@ -710,67 +695,50 @@
         Legacy Z-Score Logs & Raw Action Streams
       </div>
       
-      <div class="legacy-dual-row">
-        <div class="card">
-          <div class="card-header" style="flex-direction: column; align-items: flex-start; gap: 4px;">
-            <div style="display: flex; align-items: center; gap: 8px; width: 100%;">
-              <span class="dot" style="background:#E53935"></span> 
-              <strong style="font-size: 0.9rem;">Staged Threat Indicators & Derived Autoencoder Features</strong>
-              <span id="summaryDateIndicator" class="selected-date-badge" style="margin-left: auto;"></span>
-            </div>
-            <div style="font-size: 0.73rem; color: #475569; font-weight: 400; line-height: 1.35; background: #f1f5f9; padding: 6px 10px; border-radius: 6px; border-left: 3px solid #7c3aed; margin-top: 4px; width: 100%;">
-              💡 <strong>Analyst Mapping Note:</strong> Indicators shown below directly aggregate or derive from the <em>Autoencoder Input Features</em> table (e.g., <code>Device Connections</code> = <code>Connect</code> + <code>Disconnect</code> transitions; <code>After-Hours</code> = <code>Total Actions</code> − <code>Working Hours</code>).
-            </div>
-          </div>
-          <div class="inspector-controls"><label>Audited Target Date:</label><select id="summaryDateSelect"></select></div>
-          <div class="summary-table-wrap sticky-header" style="flex: 1; min-height: 450px; max-height: 750px; overflow-y: auto; padding: 12px;">
-            <div id="summaryTableContainer"></div>
-          </div>
-        </div>
+      <!-- EXPANDED FULL-WIDTH AUTOENCODER FEATURE PANEL (DUP THREAT PANEL REMOVED) -->
+      <div class="card" style="width: 100%;">
+        <button class="collapse-toggle" onclick="togglePanel('featurePanelBody','featureChevron')">
+          <div class="card-header" style="display: flex; align-items: center; width: 100%;">
+            <span class="dot" style="background:#1976d2"></span> 
+            <strong>Autoencoder Input Features & Highlighted Threat Indicators</strong> 
+            <span style="font-size:.72rem;font-weight:400;color:#6b7280;margin-left:6px;"> &mdash; raw values fed to LSTM model with primary/secondary threat tags</span>
+            <span id="scoreBadge" class="selected-date-badge" style="margin-left:12px;"></span>
+            
+            <div class="controls-wrapper" onclick="event.stopPropagation();">
+              <div class="toggle-container">
+                <span style="color: #7c3aed; font-weight: 600;">Show Statistical Math (Mean/SD/Z)</span>
+                <label class="switch">
+                  <input type="checkbox" id="mathMetricsToggle">
+                  <span class="slider" style="background-color: #cbd5e1; border: 1px solid #7c3aed;"></span>
+                </label>
+              </div>
 
-        <div class="card">
-          <button class="collapse-toggle" onclick="togglePanel('featurePanelBody','featureChevron')">
-            <div class="card-header" style="display: flex; align-items: center; width: 100%;">
-              <span class="dot" style="background:#1976d2"></span> 
-              Autoencoder Input Features <span style="font-size:.72rem;font-weight:400;color:#6b7280"> &mdash; raw values fed to the LSTM model</span>
-              <span id="scoreBadge" class="selected-date-badge" style="margin-left:12px;"></span>
-              
-              <div class="controls-wrapper" onclick="event.stopPropagation();">
-                <div class="toggle-container">
-                  <span style="color: #7c3aed; font-weight: 600;">Show Statistical Math (Mean/SD/Z)</span>
-                  <label class="switch">
-                    <input type="checkbox" id="mathMetricsToggle">
-                    <span class="slider" style="background-color: #cbd5e1; border: 1px solid #7c3aed;"></span>
-                  </label>
-                </div>
-
-                <div class="toggle-container">
-                  <span>Filter Variations Only</span>
-                  <label class="switch">
-                    <input type="checkbox" id="anomalyToggle">
-                    <span class="slider"></span>
-                  </label>
-                </div>
+              <div class="toggle-container">
+                <span>Filter Variations Only</span>
+                <label class="switch">
+                  <input type="checkbox" id="anomalyToggle">
+                  <span class="slider"></span>
+                </label>
               </div>
             </div>
-            <span class="collapse-chevron" id="featureChevron">▼</span>
-          </button>
-          <div class="collapsible-body open" id="featurePanelBody" style="display: flex; flex-direction: column; flex: 1;">
-            <div class="inspector-controls"><label>Target Context Frame:</label><select id="dateSelect"></select></div>
-            
-            <div class="outside-guide-bar">
-              <span>💡 Statistical Interpretation Guide (Empirical Rule Normal Distribution)</span>
-              <div class="info-circle-trigger" id="stats-rule-trigger">?</div>
-            </div>
-            
-            <div class="inspector-table-wrap sticky-header" style="flex: 1; min-height: 450px; max-height: 750px; overflow-y: auto;">
-              <table id="featureTable"></table>
-            </div>
+          </div>
+          <span class="collapse-chevron" id="featureChevron">▼</span>
+        </button>
+        <div class="collapsible-body open" id="featurePanelBody" style="display: flex; flex-direction: column; width: 100%;">
+          <div class="inspector-controls"><label>Target Context Frame:</label><select id="dateSelect"></select></div>
+          
+          <div class="outside-guide-bar">
+            <span>💡 Statistical Interpretation Guide (Empirical Rule Normal Distribution)</span>
+            <div class="info-circle-trigger" id="stats-rule-trigger">?</div>
+          </div>
+          
+          <div class="inspector-table-wrap sticky-header" style="flex: 1; min-height: 450px; max-height: 750px; overflow-y: auto;">
+            <table id="featureTable"></table>
           </div>
         </div>
       </div> 
       
-      <div class="card">
+      <div class="card" style="margin-top: 18px;">
         <button class="collapse-toggle" onclick="togglePanel('actionsPanelBody','actionsChevron')">
           <div class="card-header"><span class="dot" style="background:#01696f"></span> Actual Raw User Actions in Chronological Order <span id="actionDateIndicator" class="selected-date-badge"></span></div>
           <span class="collapse-chevron" id="actionsChevron">▼</span>
@@ -876,40 +844,33 @@
 
 <!-- Lightbox Modal with Left-Side Controls & Maximized Gemini Answer Box -->
 <div class="lightbox" id="globalLightbox">
-  <div class="lightbox-content" style="flex-direction: row;">
+  <div class="lightbox-content">
     <button class="lightbox-close" onclick="closeLightbox()">×</button>
-    
-    <!-- Main Left Area: Side Control Panel + Image View -->
-    <div style="flex: 3; padding: 20px; display: flex; flex-direction: row; gap: 20px; align-items: center; position: relative; background: #ffffff;">
-      
-      <!-- Left Side Waterfall Controls Panel -->
-      <div id="lightboxLeftControls" style="display: flex; flex-direction: column; gap: 12px; min-width: 270px; max-width: 290px; background: #f8fafc; padding: 14px; border-radius: 8px; border: 1px solid #cbd5e1; align-self: stretch; justify-content: flex-start; height: 100%;">
-        <div style="font-weight: 700; color: #4c1d95; font-size: 0.82rem; border-bottom: 1px solid #cbd5e1; padding-bottom: 4px;">Waterfall Triage & Navigation</div>
-        
-        <!-- Navigation -->
-        <div id="lightboxNavControls" style="display: flex; flex-direction: column; gap: 4px;">
-          <span id="lightboxWfCounter" style="font-size: 0.75rem; font-weight: 700; color: #475569; text-align: center;"></span>
-          <div style="display: flex; gap: 6px;">
+    <div class="lightbox-main-shell">
+      <div class="lightbox-controls" id="lightboxLeftControls">
+        <div style="font-weight: 800; color: #4c1d95; font-size: 0.88rem; border-bottom: 1px solid #cbd5e1; padding-bottom: 6px;">Waterfall Triage & Navigation</div>
+
+        <div id="lightboxNavControls" style="display:flex; flex-direction:column; gap:6px;">
+          <span id="lightboxWfCounter" style="font-size:0.78rem; font-weight:700; color:#475569; text-align:center;"></span>
+          <div style="display:flex; gap:8px;">
             <button class="decision-btn" style="flex:1;" onclick="navigateLightboxWaterfall(-1)">◀ Prev</button>
             <button class="decision-btn" style="flex:1;" onclick="navigateLightboxWaterfall(1)">Next ▶</button>
           </div>
         </div>
 
-        <!-- Quick Disposition & Day Scenario Tag Side-by-Side / Column Alignment -->
-        <div id="lightboxDecisionPanel" style="display: flex; flex-direction: column; gap: 6px;">
-          <span style="font-size: 0.75rem; font-weight: 700; color: #4c1d95;">Quick Disposition:</span>
-          <div style="display: flex; gap: 4px; flex-wrap: wrap;">
-            <button class="decision-btn lb-verdict-btn" style="flex: 1;" data-val="true" onclick="setLightboxVerdict(true)">⚠️ Threat</button>
-            <button class="decision-btn lb-verdict-btn" style="flex: 1;" data-val="false" onclick="setLightboxVerdict(false)">Dismiss</button>
+        <div id="lightboxDecisionPanel" style="display:flex; flex-direction:column; gap:6px;">
+          <span style="font-size:0.78rem; font-weight:800; color:#4c1d95;">Quick Disposition:</span>
+          <div style="display:flex; gap:6px; flex-wrap:wrap;">
+            <button class="decision-btn lb-verdict-btn" style="flex:1;" data-val="true" onclick="setLightboxVerdict(true)">⚠️ Threat</button>
+            <button class="decision-btn lb-verdict-btn" style="flex:1;" data-val="false" onclick="setLightboxVerdict(false)">Dismiss</button>
           </div>
           <button class="decision-btn lb-verdict-btn" data-val="null" onclick="setLightboxVerdict(null)">Prefer not to answer</button>
-          <span id="lightboxVerdictStatus" style="font-size: 0.72rem; font-weight: bold; text-align: center;">---</span>
+          <span id="lightboxVerdictStatus" style="font-size:0.74rem; font-weight:800; text-align:center;">---</span>
         </div>
 
-        <!-- Day Scenario Tag Dropdown -->
-        <div style="display: flex; flex-direction: column; gap: 4px;">
-          <span style="font-size: 0.75rem; font-weight: 700; color: #4c1d95;">Day Scenario Tag:</span>
-          <select id="lightboxScenarioSelect" onchange="setLightboxScenario(this.value)" style="padding: 5px 8px; font-size: 0.75rem; border: 1px solid #c084fc; border-radius: 6px; background: #fff; cursor: pointer; width: 100%;">
+        <div style="display:flex; flex-direction:column; gap:4px;">
+          <span style="font-size:0.78rem; font-weight:800; color:#4c1d95;">Day Scenario Tag:</span>
+          <select id="lightboxScenarioSelect" onchange="setLightboxScenario(this.value)" style="padding:7px 10px; font-size:0.76rem; border:1px solid #c084fc; border-radius:8px; background:#fff; cursor:pointer; width:100%;">
             <option value="">Select scenario...</option>
             <option value="S1">S1 - IP Theft via Media</option>
             <option value="S2">S2 - Fraud via Job/USB</option>
@@ -921,31 +882,43 @@
           </select>
         </div>
 
-        <!-- Gemini Mini Chat Box (Expanded to fill remaining vertical space) -->
-        <div style="border-top: 1px dashed #cbd5e1; padding-top: 8px; margin-top: 4px; flex: 1; display: flex; flex-direction: column; min-height: 0;">
-          <span style="font-size: 0.75rem; font-weight: 700; color: #7c3aed; display: flex; align-items: center; gap: 4px; margin-bottom: 4px;">
+        <div style="border-top: 1px dashed #cbd5e1; padding-top: 10px; margin-top: 4px; flex:1; display:flex; flex-direction:column; min-height:0;">
+          <span style="font-size:0.76rem; font-weight:800; color:#7c3aed; display:flex; align-items:center; gap:4px; margin-bottom:6px;">
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a10 10 0 1 0 10 10H12V2z"/></svg>
             Ask Gemini (AI Master):
           </span>
-          <div style="display: flex; gap: 4px; margin-bottom: 6px;">
-            <input type="text" id="lightboxChatInput" placeholder="Query plot features..." style="flex:1; padding:5px 8px; font-size:0.72rem; border:1px solid #cbd5e1; border-radius:4px;" />
-            <button onclick="submitLightboxChatQuery()" style="background:#7c3aed; color:white; border:none; padding:5px 10px; border-radius:4px; font-size:0.72rem; font-weight:600; cursor:pointer;">Ask</button>
+          <div style="display:flex; gap:6px; margin-bottom:8px;">
+            <input type="text" id="lightboxChatInput" placeholder="Query plot features..." style="flex:1; padding:7px 10px; font-size:0.74rem; border:1px solid #cbd5e1; border-radius:8px;" />
+            <button onclick="submitLightboxChatQuery()" style="background:#7c3aed; color:white; border:none; padding:7px 12px; border-radius:8px; font-size:0.74rem; font-weight:700; cursor:pointer;">Ask</button>
           </div>
-          <div id="lightboxChatResponse" style="font-size:0.72rem; background:#ffffff; border:1px solid #e2e8f0; padding:8px; border-radius:4px; flex: 1; overflow-y: auto; color:#334155; display:none; line-height: 1.4;"></div>
+          <div id="lightboxChatResponse" style="font-size:0.74rem; background:#ffffff; border:1px solid #e2e8f0; padding:10px; border-radius:8px; flex:1; overflow-y:auto; color:#334155; display:none; line-height:1.45;"></div>
         </div>
-
       </div>
 
-      <!-- Right Image Display Area -->
-      <div style="flex: 1; display: flex; flex-direction: column; height: 100%; justify-content: center; align-items: center; position: relative;">
-        <img id="lightboxImg" src="" style="width: 100%; height: calc(100% - 40px); object-fit: contain; display: block;" alt="Expanded Plot View" />
-        <div class="lightbox-label" id="lightboxTitle" style="position: static; margin-top: 10px; border-radius: 6px; width: 100%; text-align: center;"></div>
+      <div class="lightbox-plot-panel">
+        <div class="lightbox-toolbar">
+          <div class="lightbox-toolbar-left">
+            <div style="font-size:0.78rem; font-weight:800; color:#334155; background:#eef2ff; border:1px solid #c7d2fe; padding:8px 10px; border-radius:10px;">High-clarity plot viewer</div>
+            <div style="font-size:0.76rem; color:#64748b; font-weight:600;">Use zoom to inspect y-axis feature names and small labels.</div>
+          </div>
+          <div class="lightbox-zoom-controls">
+            <button class="lightbox-zoom-btn" onclick="adjustLightboxZoom(-0.1)">−</button>
+            <button class="lightbox-zoom-btn" onclick="setLightboxZoom(0.1)">10%</button>
+            <button class="lightbox-zoom-btn" onclick="setLightboxZoom(0.25)">25%</button>
+            <button class="lightbox-zoom-btn" onclick="setLightboxZoom(0.5)">50%</button>
+            <button class="lightbox-zoom-btn" onclick="adjustLightboxZoom(0.1)">+</button>
+            <button class="lightbox-zoom-btn" onclick="resetLightboxZoom()">Reset</button>
+            <span class="lightbox-zoom-readout" id="lightboxZoomLevel">100%</span>
+          </div>
+        </div>
+        <div class="lightbox-viewport" id="lightboxViewport">
+          <img id="lightboxImg" src="" alt="Expanded Plot View" />
+        </div>
+        <div class="lightbox-label" id="lightboxTitle" style="position:static; margin-top:12px; border-radius:10px; width:100%; text-align:center;"></div>
       </div>
-    </div>
 
-    <!-- Right Sidebar: Scenario Checklist -->
-    <div style="flex: 1; min-width: 320px; padding: 24px 20px; background: #1e293b; color: #f8fafc; overflow-y: auto; border-left: 1px solid #334155; font-size: 0.85rem; line-height: 1.5;">
-      <div style="font-weight:700; color:#fff; border-bottom:1px solid #334155; padding-bottom:10px; margin-bottom:16px; font-size: 1.05rem;">📋 Scenario Checklist</div>
+      <div class="lightbox-sidebar">
+        <div style="font-weight:700; color:#fff; border-bottom:1px solid #334155; padding-bottom:10px; margin-bottom:16px; font-size: 1.05rem;">📋 Scenario Checklist</div>
       
       <div style="margin-bottom:16px;">
         <strong style="color:#f87171; font-size: 0.95rem;">S1 — IP Theft via Media</strong><br>
@@ -1019,6 +992,7 @@ const MIN_STD = 0.25;
 
 let currentLightboxType = 'wf';
 let currentLightboxIndex = 0;
+let currentLightboxZoom = 0.25;
 
 const WEEKDAYS_MAP = {};
 const ZSCORE_DATA = {};
@@ -1030,13 +1004,36 @@ let dayScenarios = {};
 let currentSelectedDate = "";
 let showTimelineZScoreValues = false; 
 
-// Definition of Primary Threat Indicators vs Secondary Metrics
-const PRIMARY_INDICATORS = [
-  "Wikileaks Access",
-  "Job-Site Access",
-  "Keylogger Download",
-  "Unauthorized Login"
+// Primary and Secondary Threat Feature Mapping for Design A
+const PRIMARY_INDICATOR_KEYS = [
+  "Wikileaks Access Count", "Wikileaks Access",
+  "Job Site Access Count", "Job Site Access",
+  "Keylogger Download Count", "Keylogger Download",
+  "Unauthorized Login Count", "Unauthorized Login"
 ];
+
+const SECONDARY_INDICATOR_KEYS = [
+  "Competitor Email Count", "Competitor Email",
+  "Thumb Drive Usage Count", "Thumb Drive Events",
+  "Suspicious Login Count", "Suspicious Login",
+  "Mass Email Count", "Mass Email",
+  "Decoy File Access Count", "Decoy File Access",
+  "File Search Count", "File Search",
+  "Activities During Off-Hours Count", "After-Hours Activity",
+  "Home Email Count", "Home Email Access",
+  "Activity Count: Connect", "Activity Count: Disconnect"
+];
+
+// Helper to identify primary/secondary indicators in the Autoencoder table
+function getThreatIndicatorTag(featureName) {
+  if (PRIMARY_INDICATOR_KEYS.some(k => featureName.toLowerCase().includes(k.toLowerCase()))) {
+    return `<span class="indicator-badge-inline primary">🚨 PRIMARY THREAT INDICATOR</span>`;
+  }
+  if (SECONDARY_INDICATOR_KEYS.some(k => featureName.toLowerCase().includes(k.toLowerCase()))) {
+    return `<span class="indicator-badge-inline secondary">📊 SECONDARY INDICATOR</span>`;
+  }
+  return "";
+}
 
 // =====================================================================
 // TIMER STATE MANAGEMENT
@@ -1091,23 +1088,6 @@ const THREAT_SCENARIOS_CONTEXT = {
   "S4": { description: "Unauthorized Target Workspace Hijacking", flags: "Logins to unverified peer workstations, intensive wildcard share queries, routing to personal domains." },
   "S5": { description: "Multi-Vector Overlapping Profile", flags: "Concurrent variations and baseline shifting across multiple indicators simultaneously." },
   "PASS": { description: "User Withheld Substantive Assessment Data", flags: "N/A - Participant configuration opted out of diagnostic evaluation steps." }
-};
-
-const THREAT_DESCRIPTIONS = {
-  "Wikileaks Access": "<strong>Autoencoder Source:</strong> Direct match to <code>Wikileaks Access Count</code><br>Visits to whistleblowing platforms or data visibility nodes.",
-  "Job-Site Access": "<strong>Autoencoder Source:</strong> Direct match to <code>Job Site Access Count</code><br>Hits to employment directories, submission networks, or external job profiles.",
-  "Competitor Email": "<strong>Autoencoder Source:</strong> Direct match to <code>Competitor Email Count</code><br>Communications targeting external competitor domain strings.",
-  "Thumb Drive Events": "<strong>Autoencoder Source:</strong> Direct match to <code>Thumb Drive Usage Count</code><br>Removable electronic media assets mounted onto the host endpoint system.",
-  "Keylogger Download": "<strong>Autoencoder Source:</strong> Direct match to <code>Keylogger Download Count</code><br>Hits matching known weaponized keystroke recorders or tracking scripts.",
-  "Suspicious Login": "<strong>Autoencoder Source:</strong> Direct match to <code>Suspicious Login Count</code><br>Failed authentication sequences or out-of-schedule login attempts.",
-  "Mass Email": "<strong>Autoencoder Source:</strong> Direct match to <code>Mass Email Count</code><br>Mailing actions targeting an unusually high volume of destination addresses.",
-  "Decoy File Access": "<strong>Autoencoder Source:</strong> Direct match to <code>Decoy File Access Count</code><br>Interaction cycles hitting system honey-shares or canary honeypots.",
-  "Unauthorized Login": "<strong>Autoencoder Source:</strong> Direct match to <code>Unauthorized Login Count</code><br>Successful logins executed outside historical peer computer groups.",
-  "File Search": "<strong>Autoencoder Source:</strong> Direct match to <code>File Search Count</code><br>Intensive data scans running wildcard file extraction directives.",
-  "After-Hours Activity": "<strong>Autoencoder Source:</strong> Derived from <code>Total Actions</code> minus <code>Working Hours Activity Count</code><br>Volume of commands executed outside the standard schedule window.",
-  "Device Connections": "<strong>Autoencoder Source:</strong> Sum of <code>Activity Count: Connect</code> + <code>Activity Count: Disconnect</code><br>Frequency of peripheral state changes on the workstation.",
-  "Home Email Access": "<strong>Autoencoder Source:</strong> Direct match to <code>Home Email Count</code><br>Exfiltration routing or HTTP requests directed to home email providers.",
-  "Total Audited Actions": "Total structural frames found inside transaction logs."
 };
 
 const STUDENT_EXPLANATIONS = {
@@ -1267,7 +1247,7 @@ function bootDashboard() {
     document.getElementById('kpiAuditedWindow').innerText = `${TEST_DATES.length} Days`;
     document.getElementById('headerMonitorDays').innerText = `Monitoring (${TEST_DATES.length} days)`;
 
-    document.getElementById('headerRecall').innerText = window.CHART_DATA.recall || "67%";
+    document.getElementById('headerRecall').innerText = window.CHART_DATA.recall || "100%";
     document.getElementById('headerPrecision').innerText = window.CHART_DATA.precision || "40%";
 
     TIMELINE_STATS = calculateTimelineAnomalyZScores(window.CHART_DATA);
@@ -1331,23 +1311,6 @@ function bootDashboard() {
             z: errorZ,
             label: errorZ > 4.5 ? "Severe Outlier Event" : errorZ > 2.0 ? "Significant Anomaly Drift" : "Stable Baseline Profile"
         };
-
-        THREAT_SUMMARY[r.date] = {
-            "Wikileaks Access": r.features["Wikileaks Access Count"] || r.features["Wikileaks Access"] || 0,
-            "Job-Site Access": r.features["Job Site Access Count"] || r.features["Job Site Access"] || 0,
-            "Competitor Email": r.features["Competitor Email Count"] || r.features["Competitor Email"] || 0,
-            "Thumb Drive Events": r.features["Thumb Drive Usage Count"] || r.features["Thumb Drive Events"] || 0,
-            "Keylogger Download": r.features["Keylogger Download Count"] || r.features["Keylogger Download"] || 0,
-            "Suspicious Login": r.features["Suspicious Login Count"] || r.features["Suspicious Login"] || 0,
-            "Mass Email": r.features["Mass Email Count"] || r.features["Mass Email"] || 0,
-            "Decoy File Access": r.features["Decoy File Access Count"] || r.features["Decoy File Access"] || 0,
-            "Unauthorized Login": r.features["Unauthorized Login Count"] || r.features["Unauthorized Login"] || 0,
-            "File Search": r.features["File Search Count"] || r.features["File Search"] || 0,
-            "After-Hours Activity": Math.max(0, ACTIONS_DATA[r.date].length - (r.features["Working Hours Activity Count"] || 0)),            
-            "Device Connections": (r.features["Activity Count: Connect"] + r.features["Activity Count: Disconnect"]) || 0,
-            "Home Email Access": r.features["Home Email Count"] || 0,
-            "Total Audited Actions": ACTIONS_DATA[r.date].length
-        };
     });
 
     buildWaterfallGrid();
@@ -1388,77 +1351,7 @@ function buildWaterfallGrid() {
     }).join('');
 }
 
-function renderSummary(date) {
-  const summary = THREAT_SUMMARY[date];
-  if(!summary) return;
-  
-  const summaryEntries = Object.entries(summary).filter(([key, val]) => key !== "Total Audited Actions" && typeof val === 'number');
-  const maxVal = Math.max(...summaryEntries.map(([_, val]) => val), 1);
-  const container = document.getElementById('summaryTableContainer');
-  if(!container) return;
-
-  const primaryRows = [];
-  const secondaryRows = [];
-
-  summaryEntries.forEach(([k, v]) => {
-    const pct = Math.round((v / maxVal) * 100);
-    const isActive = v > 0;
-    const tooltipText = THREAT_DESCRIPTIONS[k] || "Operational behavior tracking metric index.";
-    
-    const rowHtml = `<tr class="${isActive ? 'threat-row-active' : 'threat-zero'}">
-      <td><div class="has-tooltip" data-tip="${tooltipText}"><strong>${k}</strong></div></td>
-      <td>
-        <div class="threat-bar-wrap">
-          <div class="threat-bar" style="width:${Math.min(pct, 100)}px; background:${PRIMARY_INDICATORS.includes(k) ? '#b91c1c' : '#0284c7'};"></div>
-          <span>${isActive ? 'Active Deviance Shift' : 'Baseline State'}</span>
-        </div>
-      </td>
-    </tr>`;
-
-    if (PRIMARY_INDICATORS.includes(k)) {
-      primaryRows.push(rowHtml);
-    } else {
-      secondaryRows.push(rowHtml);
-    }
-  });
-
-  let fullMarkup = '';
-
-  fullMarkup += `
-    <div class="indicator-box primary">
-      <div class="indicator-box-header">
-        <span>🚨 Primary Threat Indicators (High Criticality Flags)</span>
-        <span style="font-size:0.68rem; font-weight:bold; background:#fee2e2; color:#991b1b; padding:2px 6px; border-radius:4px;">PRIORITY TIER 1</span>
-      </div>
-      <table>
-        <thead>
-          <tr><th>Indicator Category</th><th>Relative Density Allocation (%)</th></tr>
-        </thead>
-        <tbody>
-          ${primaryRows.length > 0 ? primaryRows.join('') : '<tr><td colspan="2" style="color:#64748b; font-style:italic;">No primary indicators detected.</td></tr>'}
-        </tbody>
-      </table>
-    </div>`;
-
-  fullMarkup += `
-    <div class="indicator-box secondary">
-      <div class="indicator-box-header">
-        <span>📊 Secondary Threat Indicators (Behavioral Spikes & Activity Context)</span>
-        <span style="font-size:0.68rem; font-weight:bold; background:#e2e8f0; color:#475569; padding:2px 6px; border-radius:4px;">SUPPORTING TIER 2</span>
-      </div>
-      <table>
-        <thead>
-          <tr><th>Indicator Category</th><th>Relative Density Allocation (%)</th></tr>
-        </thead>
-        <tbody>
-          ${secondaryRows.length > 0 ? secondaryRows.join('') : '<tr><td colspan="2" style="color:#64748b; font-style:italic;">No secondary indicators detected.</td></tr>'}
-        </tbody>
-      </table>
-    </div>`;
-
-  container.innerHTML = fullMarkup;
-}
-
+/* ENHANCED DESIGN A AUTOENCODER FEATURE TABLE WITH INLINE THREAT HIGHLIGHTS */
 function renderFeatures(date) {
   const features = FULL_FEATURES[date];
   if(!features) return;
@@ -1485,11 +1378,12 @@ function renderFeatures(date) {
     return;
   }
 
-  const activityFeatures = rows.filter(r => r.name.startsWith('Activity Count:'));
-  const temporalFeatures = rows.filter(r => r.name.includes('Activities') || r.name === 'Working Hours Activity Count' || r.name === 'Is Weekend');
-  const transitionFeatures = rows.filter(r => r.name.startsWith('Transition:'));
-  const timingFeatures = rows.filter(r => r.name.includes('Time Between'));
-  const threatFeatures = rows.filter(r => !r.name.startsWith('Activity') && !r.name.includes('Activities') && !r.name.startsWith('Transition') && !r.name.includes('Time Between') && r.name !== 'Working Hours Activity Count' && r.name !== 'Is Weekend');
+  const threatFeatures = rows.filter(r => PRIMARY_INDICATOR_KEYS.some(k => r.name.toLowerCase().includes(k.toLowerCase())) || SECONDARY_INDICATOR_KEYS.some(k => r.name.toLowerCase().includes(k.toLowerCase())));
+  const activityFeatures = rows.filter(r => !threatFeatures.includes(r) && r.name.startsWith('Activity Count:'));
+  const temporalFeatures = rows.filter(r => !threatFeatures.includes(r) && (r.name.includes('Activities') || r.name === 'Working Hours Activity Count' || r.name === 'Is Weekend'));
+  const transitionFeatures = rows.filter(r => !threatFeatures.includes(r) && r.name.startsWith('Transition:'));
+  const timingFeatures = rows.filter(r => !threatFeatures.includes(r) && r.name.includes('Time Between'));
+  const otherFeatures = rows.filter(r => !threatFeatures.includes(r) && !activityFeatures.includes(r) && !temporalFeatures.includes(r) && !transitionFeatures.includes(r) && !timingFeatures.includes(r));
 
   function compileRowsHtml(subSet) {
     return subSet.map(r => {
@@ -1498,13 +1392,20 @@ function renderFeatures(date) {
       let textStatus = "Matches Normal Context";
       let widthPct = Math.min((r.zscore / 6) * 100, 100);
 
+      const threatTag = getThreatIndicatorTag(r.name);
+      const isElevatedThreat = threatTag !== "" && r.zscore >= 1.91;
+
       if (r.zscore >= 5.0) { badgeClass = "sb-critical"; fillClass = "df-critical"; textStatus = "Extreme Outlier Event"; }
       else if (r.zscore >= 3.0) { badgeClass = "sb-high"; fillClass = "df-high"; textStatus = "Significant Variation Spike"; }
       else if (r.zscore >= 1.91) { badgeClass = "sb-elevated"; fillClass = "df-elevated"; textStatus = "Behavioral Drift"; }
 
-      return `<tr>
-        <td><div class="has-tooltip" data-tip="${r.conf.desc}">${r.name}</div></td>
-        <td style="font-weight:600; color:#111827;">${r.displayObserved}</td>
+      return `<tr class="${isElevatedThreat ? 'tr-threat-highlight' : ''}">
+        <td>
+          <div class="has-tooltip" data-tip="${r.conf.desc}">
+            <strong>${r.name}</strong> ${threatTag}
+          </div>
+        </td>
+        <td style="font-weight:700; color:${r.zscore >= 1.91 ? '#dc2626' : '#111827'};">${r.displayObserved}</td>
         <td style="color:#4b5563;">${r.displayTypical}</td>
         
         <td class="math-metric-col">${r.value.toFixed(2)}</td>
@@ -1523,24 +1424,25 @@ function renderFeatures(date) {
 
   let fullHtml = `<thead>
     <tr>
-      <th style="width: 25%;">Behavior Vector</th>
+      <th style="width: 32%;">Behavior Vector & Highlighted Threat Indicators</th>
       <th style="width: 12%;">Observed Value</th>
       <th style="width: 15%;">Baseline Range</th>
       <th class="math-metric-col" style="width: 8%;">Raw Value</th>
       <th class="math-metric-col" style="width: 8%;">&mu; (Mean)</th>
       <th class="math-metric-col" style="width: 8%;">&sigma; (Std Dev)</th>
       <th class="math-metric-col" style="width: 8%;">Z-Score</th>
-      <th style="width: 11%;">Deviation Distance</th>
-      <th style="width: 13%;">Signal Status</th>
+      <th style="width: 13%;">Deviation Distance</th>
+      <th style="width: 15%;">Signal Status</th>
     </tr>
   </thead><tbody>`;
 
-  if(threatFeatures.length)     fullHtml += `<tr class="feat-section-label"><td colspan="9">System Threat Vector Identifiers (${threatFeatures.length})</td></tr>` + compileRowsHtml(threatFeatures);
+  if(threatFeatures.length)     fullHtml += `<tr class="feat-section-label"><td colspan="9">🚨 Primary & Secondary Threat Indicator Vectors (${threatFeatures.length})</td></tr>` + compileRowsHtml(threatFeatures);
   if(activityFeatures.length)  fullHtml += `<tr class="feat-section-label"><td colspan="9">System Operational Activity Counters (${activityFeatures.length})</td></tr>` + compileRowsHtml(activityFeatures);
   if(temporalFeatures.length)  fullHtml += `<tr class="feat-section-label"><td colspan="9">Temporal Working Window Vectors (${temporalFeatures.length})</td></tr>` + compileRowsHtml(temporalFeatures);
   if(transitionFeatures.length) fullHtml += `<tr class="feat-section-label"><td colspan="9">Behavioral Sequence Transitions (${transitionFeatures.length})</td></tr>` + compileRowsHtml(transitionFeatures);
   if(timingFeatures.length)     fullHtml += `<tr class="feat-section-label"><td colspan="9">Granular Idle Latency Metrics (${timingFeatures.length})</td></tr>` + compileRowsHtml(timingFeatures);
-  
+  if(otherFeatures.length)      fullHtml += `<tr class="feat-section-label"><td colspan="9">Additional Autoencoder Model Variables (${otherFeatures.length})</td></tr>` + compileRowsHtml(otherFeatures);
+
   fullHtml += `</tbody>`;
   tableEl.innerHTML = fullHtml;
 }
@@ -1723,49 +1625,83 @@ function setLightboxScenario(scenario) {
 // =====================================================================
 // LIGHTBOX NAVIGATION & VERDICT SYNC
 // =====================================================================
+function applyLightboxZoom() {
+  const img = document.getElementById('lightboxImg');
+  const zoomLabel = document.getElementById('lightboxZoomLevel');
+  if (img) img.style.transform = `scale(${currentLightboxZoom})`;
+  if (zoomLabel) zoomLabel.innerText = `${Math.round(currentLightboxZoom * 100)}%`;
+}
+
+function setLightboxZoom(value) {
+  currentLightboxZoom = Math.min(3, Math.max(0.1, +value));
+  applyLightboxZoom();
+}
+
+function resetLightboxZoom() {
+  currentLightboxZoom = 0.25;
+  applyLightboxZoom();
+  const viewport = document.getElementById('lightboxViewport');
+  if (viewport) {
+    viewport.scrollTop = 0;
+    viewport.scrollLeft = 0;
+  }
+}
+
+function adjustLightboxZoom(delta) {
+  currentLightboxZoom = Math.min(3, Math.max(0.1, +(currentLightboxZoom + delta).toFixed(2)));
+  applyLightboxZoom();
+}
+
 function openLightboxForCurrentState() {
   const lightboxLeftControls = document.getElementById('lightboxLeftControls');
   const lightboxNav = document.getElementById('lightboxNavControls');
   const decisionPanel = document.getElementById('lightboxDecisionPanel');
-  
+  const lightboxImg = document.getElementById('lightboxImg');
+
   if (currentLightboxType === 'wf') {
     if (lightboxLeftControls) lightboxLeftControls.style.display = 'flex';
     if (lightboxNav) lightboxNav.style.display = 'flex';
     if (decisionPanel) decisionPanel.style.display = 'flex';
-    
+
     const date = ANOMALOUS_DATES[currentLightboxIndex];
     const dayName = WEEKDAYS_MAP[date] || "";
     document.getElementById('lightboxWfCounter').innerText = `Waterfall ${currentLightboxIndex + 1} of ${ANOMALOUS_DATES.length} (${date})`;
-    document.getElementById('lightboxTitle').innerText = `Waterfall Interpretation Matrix: ${date} ${dayName ? '('+dayName+')' : ''}`;
-    
+    document.getElementById('lightboxTitle').innerText = `Waterfall Interpretation Matrix: ${date} ${dayName ? '(' + dayName + ')' : ''}`;
+
     const cardEl = document.getElementById(`wfCard-${currentLightboxIndex}`);
-    if (cardEl) {
+    if (cardEl && lightboxImg) {
       const imgEl = cardEl.querySelector('img');
-      const placeholderEl = document.getElementById('lightboxImg');
       if (imgEl) {
-        placeholderEl.src = imgEl.src;
-        placeholderEl.style.display = 'block';
+        lightboxImg.src = imgEl.src;
+        lightboxImg.style.display = 'block';
       } else {
-        placeholderEl.src = "";
+        lightboxImg.src = "";
       }
     }
+
     updateLightboxVerdictUI(date);
-    
+
     const lbScenarioSel = document.getElementById('lightboxScenarioSelect');
-    if (lbScenarioSel) {
-      lbScenarioSel.value = dayScenarios[date] || '';
-    }
-    
+    if (lbScenarioSel) lbScenarioSel.value = dayScenarios[date] || '';
+
     const chatResp = document.getElementById('lightboxChatResponse');
-    if (chatResp) { chatResp.style.display = 'none'; chatResp.innerText = ''; }
+    if (chatResp) {
+      chatResp.style.display = 'none';
+      chatResp.innerText = '';
+    }
   } else {
+    if (lightboxLeftControls) lightboxLeftControls.style.display = 'none';
     if (lightboxNav) lightboxNav.style.display = 'none';
     if (decisionPanel) decisionPanel.style.display = 'none';
     document.getElementById('lightboxTitle').innerText = `Global Summary Population Beeswarm Map`;
-    document.getElementById('lightboxImg').src = "";
+    if (lightboxImg) {
+      const beeswarmImg = document.querySelector('#bsCard-0 img');
+      lightboxImg.src = beeswarmImg ? beeswarmImg.src : "";
+    }
   }
 
   document.getElementById('globalLightbox').classList.add('open');
+  resetLightboxZoom();
 }
 
 function navigateLightboxWaterfall(direction) {
@@ -2037,7 +1973,7 @@ function toggleLegacyFramework() {
 // UTILITY BADGES & CONTROL HANDLERS
 // =====================================================================
 function populateDropdowns() {
-  ['dateSelect', 'actionsDateSelect', 'summaryDateSelect'].forEach(id => {
+  ['dateSelect', 'actionsDateSelect'].forEach(id => {
     const sel = document.getElementById(id);
     if (sel) {
       sel.innerHTML = '';
@@ -2282,19 +2218,18 @@ function attachTooltipListeners() {
 function syncAllPanels(date) {
   if(!date) return;
   currentSelectedDate = date;
-  document.getElementById('actionsDateSelect').value = date;
-  document.getElementById('dateSelect').value = date;
-  document.getElementById('summaryDateSelect').value = date;
+  if (document.getElementById('actionsDateSelect')) document.getElementById('actionsDateSelect').value = date;
+  if (document.getElementById('dateSelect')) document.getElementById('dateSelect').value = date;
   
   const isAnom = ANOMALOUS_DATES.includes(date);
   const dayName = WEEKDAYS_MAP[date] || "";
   const dayString = dayName ? ` - ${dayName}` : "";
   
   const indClass = `selected-date-badge ${isAnom ? 'alert' : ''}`;
-  document.getElementById('actionDateIndicator').innerHTML = `${date}${dayString} [${isAnom ? 'OUTLIER TRACK' : 'SAFE TRACK'}]`;
-  document.getElementById('actionDateIndicator').className = indClass;
-  document.getElementById('summaryDateIndicator').innerHTML = `${date}${dayString} [${isAnom ? 'SPIKE LAYER' : 'STABLE LAYER'}]`;
-  document.getElementById('summaryDateIndicator').className = indClass;
+  if (document.getElementById('actionDateIndicator')) {
+    document.getElementById('actionDateIndicator').innerHTML = `${date}${dayString} [${isAnom ? 'OUTLIER TRACK' : 'SAFE TRACK'}]`;
+    document.getElementById('actionDateIndicator').className = indClass;
+  }
   
   const dateIdx = ANOMALOUS_DATES.indexOf(date);
   if(dateIdx !== -1) {
@@ -2302,7 +2237,6 @@ function syncAllPanels(date) {
   }
 
   renderActions(date);
-  renderSummary(date);
   renderFeatures(date);
   attachTooltipListeners(); 
 }
@@ -2317,7 +2251,8 @@ window.closeLightbox = function() { document.getElementById('globalLightbox').cl
 document.addEventListener('DOMContentLoaded', () => {
   window.closeLightbox = function() {
     document.getElementById('globalLightbox').classList.remove('open');
-    document.getElementById('lightboxImg').src = ""; 
+    document.getElementById('lightboxImg').src = "";
+    resetLightboxZoom();
   };
 
   document.getElementById('globalLightbox').addEventListener('click', function(e) {
