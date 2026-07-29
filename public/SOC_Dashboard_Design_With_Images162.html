@@ -233,12 +233,26 @@
     .beeswarm-grid{display:grid;grid-template-columns:1fr;justify-items:center;padding:16px;}
     .shap-combined-card{max-width:375px;width:100%;position:relative;}
     
-    .lightbox{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.75);z-index:99999;display:none;justify-content:center;align-items:center;padding:20px;backdrop-filter:blur(4px);}
+    .lightbox{position:fixed;inset:0;width:100%;height:100%;background:rgba(15,23,42,0.88);z-index:99999;display:none;justify-content:center;align-items:center;padding:12px;backdrop-filter:blur(8px);}
     .lightbox.open{display:flex;}
-    .lightbox-content{width:95vw;height:95vh;max-width:1800px;max-height:1200px;background:#fff;border-radius:12px;overflow:hidden;position:relative;box-shadow:0 12px 48px rgba(0,0,0,0.4);display:flex;flex-direction:column;}
-    .lightbox-close{position:absolute;top:12px;right:16px;background:#1f2937;color:#fff;border:none;border-radius:50%;width:36px;height:36px;font-size:1.2rem;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:10;transition:background 0.15s;}
-    .lightbox-close:hover{background:#E53935;}
-    .lightbox-label{position:absolute;bottom:0;left:0;right:0;background:rgba(0,0,0,0.7);color:#fff;padding:8px 16px;font-size:0.85rem;font-weight:600;text-align:center;}
+    .lightbox-content{width:min(99vw,2400px);height:min(98vh,1500px);background:#f8fafc;border-radius:18px;overflow:hidden;position:relative;box-shadow:0 20px 80px rgba(0,0,0,0.45);display:flex;flex-direction:column;border:1px solid rgba(255,255,255,0.18);}
+    .lightbox-close{position:absolute;top:14px;right:14px;background:#0f172a;color:#fff;border:none;border-radius:999px;width:42px;height:42px;font-size:1.35rem;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:30;transition:background 0.15s ease,transform 0.15s ease,box-shadow 0.15s ease;box-shadow:0 6px 16px rgba(15,23,42,0.25);}
+    .lightbox-close:hover{background:#E53935;transform:scale(1.06);}
+    .lightbox-label{position:absolute;bottom:0;left:0;right:0;background:rgba(15,23,42,0.9);color:#fff;padding:10px 16px;font-size:0.92rem;font-weight:800;text-align:center;letter-spacing:0.01em;}
+    .lightbox-main-shell{flex:1;display:flex;min-height:0;background:linear-gradient(180deg,#ffffff 0%,#f8fafc 100%);}
+    .lightbox-controls{display:flex;flex-direction:column;gap:12px;min-width:300px;max-width:320px;background:#f8fafc;padding:18px;border-right:1px solid #dbe3ec;align-self:stretch;justify-content:flex-start;height:100%;overflow:auto;}
+    .lightbox-plot-panel{flex:1;display:flex;flex-direction:column;min-width:0;min-height:0;padding:18px 18px 14px;background:#ffffff;border-right:1px solid #e2e8f0;}
+    .lightbox-toolbar{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:0 0 12px 0;border-bottom:1px solid #e2e8f0;margin-bottom:12px;}
+    .lightbox-toolbar-left{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+    .lightbox-zoom-controls{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+    .lightbox-zoom-btn{background:#ffffff;border:1px solid #cbd5e1;color:#0f172a;padding:8px 12px;border-radius:10px;font-size:0.82rem;font-weight:700;cursor:pointer;transition:all 0.15s ease;box-shadow:0 2px 6px rgba(15,23,42,0.06);}
+    .lightbox-zoom-btn:hover{background:#eef2ff;border-color:#7c3aed;color:#5b21b6;}
+    .lightbox-zoom-readout{font-size:0.8rem;font-weight:700;color:#475569;min-width:64px;text-align:center;}
+    .lightbox-viewport{flex:1;min-height:0;overflow:auto;display:flex;align-items:flex-start;justify-content:center;background:radial-gradient(circle at top,#ffffff 0%,#f8fafc 72%);border:1px solid #e2e8f0;border-radius:14px;padding:18px;}
+    #lightboxImg{display:block;max-width:none;width:auto;height:auto;object-fit:contain;object-position:center;transform-origin:top center;transition:transform 0.16s ease,filter 0.16s ease;image-rendering:-webkit-optimize-contrast;image-rendering:crisp-edges;filter:brightness(1.04) contrast(1.08) saturate(1.02);box-shadow:0 8px 26px rgba(15,23,42,0.14);border-radius:10px;background:#ffffff;}
+    .lightbox-sidebar{flex:0 0 360px;min-width:320px;padding:24px 20px;background:#1e293b;color:#f8fafc;overflow-y:auto;border-left:1px solid #334155;font-size:0.85rem;line-height:1.5;}
+    @media (max-width: 1400px){.lightbox-main-shell{flex-direction:column;}.lightbox-controls{max-width:none;min-width:0;border-right:none;border-bottom:1px solid #dbe3ec;height:auto;}.lightbox-plot-panel{border-right:none;border-bottom:1px solid #e2e8f0;min-height:56vh;}.lightbox-sidebar{flex:0 0 auto;min-width:0;max-height:30vh;}}
+    @media (max-width: 900px){.lightbox{padding:6px;}.lightbox-content{width:100vw;height:100vh;border-radius:0;}.lightbox-toolbar{align-items:flex-start;}.lightbox-controls{padding:14px;}.lightbox-plot-panel{padding:12px;}.lightbox-viewport{padding:10px;}.lightbox-sidebar{padding:16px;}}
     .section-header{display:flex;align-items:center;gap:12px;padding:14px 18px;background:#f9fafb;border-bottom:1px solid #dbe3ec;}
     .section-header .bullet{width:10px;height:10px;border-radius:50%;display:inline-block;flex-shrink:0;}
     .section-header h2{font-size:0.95rem;font-weight:700;margin:0;}
@@ -282,7 +296,7 @@
     <div class="import-box">
         <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2" style="margin-bottom: 12px;"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
         <h2>Dynamic Update4 Ingestion Engine — Multi-Navigation Suite</h2>
-        <p>Upload your data log asset. The text stream matcher parses metrics safely without execution risks, dynamically populating both the XAI suite and legacy environments[cite: 1].</p>
+        <p>Upload your data log asset. The text stream matcher parses metrics safely without execution risks, dynamically populating both the XAI suite and legacy environments[cite: 1, 2].</p>
         <div class="file-input-wrapper">
             Load Operational Log Asset
             <input type="file" id="localDataImporter" accept=".html,.txt,.json">
@@ -830,40 +844,33 @@
 
 <!-- Lightbox Modal with Left-Side Controls & Maximized Gemini Answer Box -->
 <div class="lightbox" id="globalLightbox">
-  <div class="lightbox-content" style="flex-direction: row;">
+  <div class="lightbox-content">
     <button class="lightbox-close" onclick="closeLightbox()">×</button>
-    
-    <!-- Main Left Area: Side Control Panel + Image View -->
-    <div style="flex: 3; padding: 20px; display: flex; flex-direction: row; gap: 20px; align-items: center; position: relative; background: #ffffff;">
-      
-      <!-- Left Side Waterfall Controls Panel -->
-      <div id="lightboxLeftControls" style="display: flex; flex-direction: column; gap: 12px; min-width: 270px; max-width: 290px; background: #f8fafc; padding: 14px; border-radius: 8px; border: 1px solid #cbd5e1; align-self: stretch; justify-content: flex-start; height: 100%;">
-        <div style="font-weight: 700; color: #4c1d95; font-size: 0.82rem; border-bottom: 1px solid #cbd5e1; padding-bottom: 4px;">Waterfall Triage & Navigation</div>
-        
-        <!-- Navigation -->
-        <div id="lightboxNavControls" style="display: flex; flex-direction: column; gap: 4px;">
-          <span id="lightboxWfCounter" style="font-size: 0.75rem; font-weight: 700; color: #475569; text-align: center;"></span>
-          <div style="display: flex; gap: 6px;">
+    <div class="lightbox-main-shell">
+      <div class="lightbox-controls" id="lightboxLeftControls">
+        <div style="font-weight: 800; color: #4c1d95; font-size: 0.88rem; border-bottom: 1px solid #cbd5e1; padding-bottom: 6px;">Waterfall Triage & Navigation</div>
+
+        <div id="lightboxNavControls" style="display:flex; flex-direction:column; gap:6px;">
+          <span id="lightboxWfCounter" style="font-size:0.78rem; font-weight:700; color:#475569; text-align:center;"></span>
+          <div style="display:flex; gap:8px;">
             <button class="decision-btn" style="flex:1;" onclick="navigateLightboxWaterfall(-1)">◀ Prev</button>
             <button class="decision-btn" style="flex:1;" onclick="navigateLightboxWaterfall(1)">Next ▶</button>
           </div>
         </div>
 
-        <!-- Quick Disposition & Day Scenario Tag Side-by-Side / Column Alignment -->
-        <div id="lightboxDecisionPanel" style="display: flex; flex-direction: column; gap: 6px;">
-          <span style="font-size: 0.75rem; font-weight: 700; color: #4c1d95;">Quick Disposition:</span>
-          <div style="display: flex; gap: 4px; flex-wrap: wrap;">
-            <button class="decision-btn lb-verdict-btn" style="flex: 1;" data-val="true" onclick="setLightboxVerdict(true)">⚠️ Threat</button>
-            <button class="decision-btn lb-verdict-btn" style="flex: 1;" data-val="false" onclick="setLightboxVerdict(false)">Dismiss</button>
+        <div id="lightboxDecisionPanel" style="display:flex; flex-direction:column; gap:6px;">
+          <span style="font-size:0.78rem; font-weight:800; color:#4c1d95;">Quick Disposition:</span>
+          <div style="display:flex; gap:6px; flex-wrap:wrap;">
+            <button class="decision-btn lb-verdict-btn" style="flex:1;" data-val="true" onclick="setLightboxVerdict(true)">⚠️ Threat</button>
+            <button class="decision-btn lb-verdict-btn" style="flex:1;" data-val="false" onclick="setLightboxVerdict(false)">Dismiss</button>
           </div>
           <button class="decision-btn lb-verdict-btn" data-val="null" onclick="setLightboxVerdict(null)">Prefer not to answer</button>
-          <span id="lightboxVerdictStatus" style="font-size: 0.72rem; font-weight: bold; text-align: center;">---</span>
+          <span id="lightboxVerdictStatus" style="font-size:0.74rem; font-weight:800; text-align:center;">---</span>
         </div>
 
-        <!-- Day Scenario Tag Dropdown -->
-        <div style="display: flex; flex-direction: column; gap: 4px;">
-          <span style="font-size: 0.75rem; font-weight: 700; color: #4c1d95;">Day Scenario Tag:</span>
-          <select id="lightboxScenarioSelect" onchange="setLightboxScenario(this.value)" style="padding: 5px 8px; font-size: 0.75rem; border: 1px solid #c084fc; border-radius: 6px; background: #fff; cursor: pointer; width: 100%;">
+        <div style="display:flex; flex-direction:column; gap:4px;">
+          <span style="font-size:0.78rem; font-weight:800; color:#4c1d95;">Day Scenario Tag:</span>
+          <select id="lightboxScenarioSelect" onchange="setLightboxScenario(this.value)" style="padding:7px 10px; font-size:0.76rem; border:1px solid #c084fc; border-radius:8px; background:#fff; cursor:pointer; width:100%;">
             <option value="">Select scenario...</option>
             <option value="S1">S1 - IP Theft via Media</option>
             <option value="S2">S2 - Fraud via Job/USB</option>
@@ -875,31 +882,43 @@
           </select>
         </div>
 
-        <!-- Gemini Mini Chat Box (Expanded to fill remaining vertical space) -->
-        <div style="border-top: 1px dashed #cbd5e1; padding-top: 8px; margin-top: 4px; flex: 1; display: flex; flex-direction: column; min-height: 0;">
-          <span style="font-size: 0.75rem; font-weight: 700; color: #7c3aed; display: flex; align-items: center; gap: 4px; margin-bottom: 4px;">
+        <div style="border-top: 1px dashed #cbd5e1; padding-top: 10px; margin-top: 4px; flex:1; display:flex; flex-direction:column; min-height:0;">
+          <span style="font-size:0.76rem; font-weight:800; color:#7c3aed; display:flex; align-items:center; gap:4px; margin-bottom:6px;">
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a10 10 0 1 0 10 10H12V2z"/></svg>
             Ask Gemini (AI Master):
           </span>
-          <div style="display: flex; gap: 4px; margin-bottom: 6px;">
-            <input type="text" id="lightboxChatInput" placeholder="Query plot features..." style="flex:1; padding:5px 8px; font-size:0.72rem; border:1px solid #cbd5e1; border-radius:4px;" />
-            <button onclick="submitLightboxChatQuery()" style="background:#7c3aed; color:white; border:none; padding:5px 10px; border-radius:4px; font-size:0.72rem; font-weight:600; cursor:pointer;">Ask</button>
+          <div style="display:flex; gap:6px; margin-bottom:8px;">
+            <input type="text" id="lightboxChatInput" placeholder="Query plot features..." style="flex:1; padding:7px 10px; font-size:0.74rem; border:1px solid #cbd5e1; border-radius:8px;" />
+            <button onclick="submitLightboxChatQuery()" style="background:#7c3aed; color:white; border:none; padding:7px 12px; border-radius:8px; font-size:0.74rem; font-weight:700; cursor:pointer;">Ask</button>
           </div>
-          <div id="lightboxChatResponse" style="font-size:0.72rem; background:#ffffff; border:1px solid #e2e8f0; padding:8px; border-radius:4px; flex: 1; overflow-y: auto; color:#334155; display:none; line-height: 1.4;"></div>
+          <div id="lightboxChatResponse" style="font-size:0.74rem; background:#ffffff; border:1px solid #e2e8f0; padding:10px; border-radius:8px; flex:1; overflow-y:auto; color:#334155; display:none; line-height:1.45;"></div>
         </div>
-
       </div>
 
-      <!-- Right Image Display Area -->
-      <div style="flex: 1; display: flex; flex-direction: column; height: 100%; justify-content: center; align-items: center; position: relative;">
-        <img id="lightboxImg" src="" style="width: 100%; height: calc(100% - 40px); object-fit: contain; display: block;" alt="Expanded Plot View" />
-        <div class="lightbox-label" id="lightboxTitle" style="position: static; margin-top: 10px; border-radius: 6px; width: 100%; text-align: center;"></div>
+      <div class="lightbox-plot-panel">
+        <div class="lightbox-toolbar">
+          <div class="lightbox-toolbar-left">
+            <div style="font-size:0.78rem; font-weight:800; color:#334155; background:#eef2ff; border:1px solid #c7d2fe; padding:8px 10px; border-radius:10px;">High-clarity plot viewer</div>
+            <div style="font-size:0.76rem; color:#64748b; font-weight:600;">Use zoom to inspect y-axis feature names and small labels.</div>
+          </div>
+          <div class="lightbox-zoom-controls">
+            <button class="lightbox-zoom-btn" onclick="adjustLightboxZoom(-0.1)">−</button>
+            <button class="lightbox-zoom-btn" onclick="setLightboxZoom(0.1)">10%</button>
+            <button class="lightbox-zoom-btn" onclick="setLightboxZoom(0.25)">25%</button>
+            <button class="lightbox-zoom-btn" onclick="setLightboxZoom(0.5)">50%</button>
+            <button class="lightbox-zoom-btn" onclick="adjustLightboxZoom(0.1)">+</button>
+            <button class="lightbox-zoom-btn" onclick="resetLightboxZoom()">Reset</button>
+            <span class="lightbox-zoom-readout" id="lightboxZoomLevel">100%</span>
+          </div>
+        </div>
+        <div class="lightbox-viewport" id="lightboxViewport">
+          <img id="lightboxImg" src="" alt="Expanded Plot View" />
+        </div>
+        <div class="lightbox-label" id="lightboxTitle" style="position:static; margin-top:12px; border-radius:10px; width:100%; text-align:center;"></div>
       </div>
-    </div>
 
-    <!-- Right Sidebar: Scenario Checklist -->
-    <div style="flex: 1; min-width: 320px; padding: 24px 20px; background: #1e293b; color: #f8fafc; overflow-y: auto; border-left: 1px solid #334155; font-size: 0.85rem; line-height: 1.5;">
-      <div style="font-weight:700; color:#fff; border-bottom:1px solid #334155; padding-bottom:10px; margin-bottom:16px; font-size: 1.05rem;">📋 Scenario Checklist</div>
+      <div class="lightbox-sidebar">
+        <div style="font-weight:700; color:#fff; border-bottom:1px solid #334155; padding-bottom:10px; margin-bottom:16px; font-size: 1.05rem;">📋 Scenario Checklist</div>
       
       <div style="margin-bottom:16px;">
         <strong style="color:#f87171; font-size: 0.95rem;">S1 — IP Theft via Media</strong><br>
@@ -973,6 +992,7 @@ const MIN_STD = 0.25;
 
 let currentLightboxType = 'wf';
 let currentLightboxIndex = 0;
+let currentLightboxZoom = 0.25;
 
 const WEEKDAYS_MAP = {};
 const ZSCORE_DATA = {};
@@ -1606,49 +1626,83 @@ function setLightboxScenario(scenario) {
 // =====================================================================
 // LIGHTBOX NAVIGATION & VERDICT SYNC
 // =====================================================================
+function applyLightboxZoom() {
+  const img = document.getElementById('lightboxImg');
+  const zoomLabel = document.getElementById('lightboxZoomLevel');
+  if (img) img.style.transform = `scale(${currentLightboxZoom})`;
+  if (zoomLabel) zoomLabel.innerText = `${Math.round(currentLightboxZoom * 100)}%`;
+}
+
+function setLightboxZoom(value) {
+  currentLightboxZoom = Math.min(3, Math.max(0.1, +value));
+  applyLightboxZoom();
+}
+
+function resetLightboxZoom() {
+  currentLightboxZoom = 0.25;
+  applyLightboxZoom();
+  const viewport = document.getElementById('lightboxViewport');
+  if (viewport) {
+    viewport.scrollTop = 0;
+    viewport.scrollLeft = 0;
+  }
+}
+
+function adjustLightboxZoom(delta) {
+  currentLightboxZoom = Math.min(3, Math.max(0.1, +(currentLightboxZoom + delta).toFixed(2)));
+  applyLightboxZoom();
+}
+
 function openLightboxForCurrentState() {
   const lightboxLeftControls = document.getElementById('lightboxLeftControls');
   const lightboxNav = document.getElementById('lightboxNavControls');
   const decisionPanel = document.getElementById('lightboxDecisionPanel');
-  
+  const lightboxImg = document.getElementById('lightboxImg');
+
   if (currentLightboxType === 'wf') {
     if (lightboxLeftControls) lightboxLeftControls.style.display = 'flex';
     if (lightboxNav) lightboxNav.style.display = 'flex';
     if (decisionPanel) decisionPanel.style.display = 'flex';
-    
+
     const date = ANOMALOUS_DATES[currentLightboxIndex];
     const dayName = WEEKDAYS_MAP[date] || "";
     document.getElementById('lightboxWfCounter').innerText = `Waterfall ${currentLightboxIndex + 1} of ${ANOMALOUS_DATES.length} (${date})`;
-    document.getElementById('lightboxTitle').innerText = `Waterfall Interpretation Matrix: ${date} ${dayName ? '('+dayName+')' : ''}`;
-    
+    document.getElementById('lightboxTitle').innerText = `Waterfall Interpretation Matrix: ${date} ${dayName ? '(' + dayName + ')' : ''}`;
+
     const cardEl = document.getElementById(`wfCard-${currentLightboxIndex}`);
-    if (cardEl) {
+    if (cardEl && lightboxImg) {
       const imgEl = cardEl.querySelector('img');
-      const placeholderEl = document.getElementById('lightboxImg');
       if (imgEl) {
-        placeholderEl.src = imgEl.src;
-        placeholderEl.style.display = 'block';
+        lightboxImg.src = imgEl.src;
+        lightboxImg.style.display = 'block';
       } else {
-        placeholderEl.src = "";
+        lightboxImg.src = "";
       }
     }
+
     updateLightboxVerdictUI(date);
-    
+
     const lbScenarioSel = document.getElementById('lightboxScenarioSelect');
-    if (lbScenarioSel) {
-      lbScenarioSel.value = dayScenarios[date] || '';
-    }
-    
+    if (lbScenarioSel) lbScenarioSel.value = dayScenarios[date] || '';
+
     const chatResp = document.getElementById('lightboxChatResponse');
-    if (chatResp) { chatResp.style.display = 'none'; chatResp.innerText = ''; }
+    if (chatResp) {
+      chatResp.style.display = 'none';
+      chatResp.innerText = '';
+    }
   } else {
+    if (lightboxLeftControls) lightboxLeftControls.style.display = 'none';
     if (lightboxNav) lightboxNav.style.display = 'none';
     if (decisionPanel) decisionPanel.style.display = 'none';
     document.getElementById('lightboxTitle').innerText = `Global Summary Population Beeswarm Map`;
-    document.getElementById('lightboxImg').src = "";
+    if (lightboxImg) {
+      const beeswarmImg = document.querySelector('#bsCard-0 img');
+      lightboxImg.src = beeswarmImg ? beeswarmImg.src : "";
+    }
   }
 
   document.getElementById('globalLightbox').classList.add('open');
+  resetLightboxZoom();
 }
 
 function navigateLightboxWaterfall(direction) {
@@ -2198,7 +2252,8 @@ window.closeLightbox = function() { document.getElementById('globalLightbox').cl
 document.addEventListener('DOMContentLoaded', () => {
   window.closeLightbox = function() {
     document.getElementById('globalLightbox').classList.remove('open');
-    document.getElementById('lightboxImg').src = ""; 
+    document.getElementById('lightboxImg').src = "";
+    resetLightboxZoom();
   };
 
   document.getElementById('globalLightbox').addEventListener('click', function(e) {
