@@ -315,17 +315,21 @@
 .assessment-card-header{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:14px;}
 .assessment-card-header h3{margin:0;font-size:0.98rem;font-weight:800;color:#312e81;letter-spacing:0.01em;}
 .assessment-card-header p{margin:4px 0 0;font-size:0.78rem;color:#64748b;max-width:54ch;line-height:1.45;}
-.assessment-field-stack{display:flex;flex-direction:column;gap:14px;}.assessment-field-stack-tight{gap:16px;}
+.assessment-field-stack{display:flex;flex-direction:column;gap:14px;}
+.assessment-field-stack-tight{gap:28px;}
 .assessment-field{display:flex;flex-direction:column;gap:6px;}
 .assessment-field label,#strategyQuestionContainer label{font-size:0.78rem;font-weight:700;color:#334155;letter-spacing:0.01em;}
 .assessment-mini-grid{display:grid;grid-template-columns:1fr 0.78fr;gap:14px;}
 .assessment-select,.assessment-textarea{width:100%;border:1px solid #c4b5fd;border-radius:12px;background:#fff;padding:12px 14px;font-size:0.84rem;color:#1e293b;box-shadow:inset 0 1px 2px rgba(15,23,42,0.03);transition:border-color .18s ease, box-shadow .18s ease, transform .18s ease;}
 .assessment-select:focus,.assessment-textarea:focus{outline:none;border-color:#7c3aed;box-shadow:0 0 0 4px rgba(124,58,237,0.12);transform:translateY(-1px);}
 .assessment-textarea{min-height:108px;resize:vertical;line-height:1.5;}
-.assessment-rating-block{display:flex;flex-direction:column;gap:8px;}.assessment-rating-row{display:flex;flex-wrap:wrap;gap:8px;}
-.assessment-chip{padding:9px 12px;border:1px solid #d8b4fe;border-radius:999px;background:#f8f5ff;color:#5b21b6;font-size:0.76rem;font-weight:700;line-height:1;cursor:pointer;transition:all .16s ease;}
+
+.assessment-rating-block { display: flex; flex-direction: column; gap: 8px; }
+.assessment-rating-row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; }
+.assessment-chip { padding: 9px 4px; text-align: center; border: 1px solid #d8b4fe; border-radius: 999px; background: #f8f5ff; color: #5b21b6; font-size: 0.72rem; font-weight: 700; line-height: 1; cursor: pointer; transition: all .16s ease; white-space: nowrap; }
 .assessment-chip:hover{background:#ede9fe;border-color:#a78bfa;transform:translateY(-1px);}
 .assessment-chip.active{background:linear-gradient(135deg,#7c3aed 0%,#4f46e5 100%);color:#fff;border-color:transparent;box-shadow:0 8px 18px rgba(79,70,229,0.24);}
+
 .assessment-action-bar{display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding:14px 16px;border:1px solid #dbe3ec;border-radius:16px;background:#fff;box-shadow:0 8px 20px rgba(15,23,42,0.05);}
 .assessment-session-pill{display:flex;align-items:center;gap:10px;background:#1e293b;color:#fff;padding:8px 14px;border-radius:12px;box-shadow:0 4px 10px rgba(15,23,42,0.18);}
 .assessment-session-label{font-size:0.74rem;font-weight:700;color:#cbd5e1;text-transform:uppercase;letter-spacing:0.04em;}
@@ -946,13 +950,13 @@
 
 <div id="global-tooltip-box"></div>
 
-<!-- Lightbox Modal with Left-Side Controls & Maximized Gemini Answer Box -->
+<!-- Lightbox Modal with Context-Aware Left Controls & Gemini LLM Support -->
 <div class="lightbox" id="globalLightbox">
   <div class="lightbox-content">
     <button class="lightbox-close" onclick="closeLightbox()">×</button>
     <div class="lightbox-main-shell">
       <div class="lightbox-controls" id="lightboxLeftControls">
-        <div style="font-weight: 800; color: #4c1d95; font-size: 0.88rem; border-bottom: 1px solid #cbd5e1; padding-bottom: 6px;">Waterfall Triage & Navigation</div>
+        <div id="lightboxLeftHeader" style="font-weight: 800; color: #4c1d95; font-size: 0.88rem; border-bottom: 1px solid #cbd5e1; padding-bottom: 6px;">Waterfall Triage & Navigation</div>
 
         <div id="lightboxNavControls" style="display:flex; flex-direction:column; gap:6px;">
           <span id="lightboxWfCounter" style="font-size:0.78rem; font-weight:700; color:#475569; text-align:center;"></span>
@@ -972,7 +976,7 @@
           <span id="lightboxVerdictStatus" style="font-size:0.74rem; font-weight:800; text-align:center;">---</span>
         </div>
 
-        <div style="display:flex; flex-direction:column; gap:4px;">
+        <div id="lightboxScenarioContainer" style="display:flex; flex-direction:column; gap:4px;">
           <span style="font-size:0.78rem; font-weight:800; color:#4c1d95;">Day Scenario Tag:</span>
           <select id="lightboxScenarioSelect" onchange="setLightboxScenario(this.value)" style="padding:7px 10px; font-size:0.76rem; border:1px solid #c084fc; border-radius:8px; background:#fff; cursor:pointer; width:100%;">
             <option value="">Select scenario...</option>
@@ -992,7 +996,7 @@
             Ask Gemini (AI Master):
           </span>
           <div style="display:flex; gap:6px; margin-bottom:8px;">
-            <input type="text" id="lightboxChatInput" placeholder="Query plot features..." style="flex:1; padding:7px 10px; font-size:0.74rem; border:1px solid #cbd5e1; border-radius:8px;" />
+            <input type="text" id="lightboxChatInput" placeholder="Query plot features..." style="flex:1; padding:7px 10px; font-size:0.74rem; border:1px solid #cbd5e1; border-radius:8px;" onkeypress="if(event.key==='Enter') submitLightboxChatQuery()"/>
             <button onclick="submitLightboxChatQuery()" style="background:#7c3aed; color:white; border:none; padding:7px 12px; border-radius:8px; font-size:0.74rem; font-weight:700; cursor:pointer;">Ask</button>
           </div>
           <div id="lightboxChatResponse" style="font-size:0.74rem; background:#ffffff; border:1px solid #e2e8f0; padding:10px; border-radius:8px; flex:1; overflow-y:auto; color:#334155; display:none; line-height:1.45;"></div>
@@ -1421,7 +1425,7 @@ function bootDashboard() {
     populateDropdowns();
     initChart();
     buildAlertsTable();
-    attachTooltipListeners();
+    attachTooltipListeners(); 
     
     if(TEST_DATES.length > 0) {
         syncAllPanels(TEST_DATES[0]);
@@ -1661,6 +1665,10 @@ function buildAlertsTable() {
       : `${severityLabel}`;
 
     const currentDayScenario = dayScenarios[date] || '';
+    const currentVerdict = analystVerdicts[date];
+    const isDeactivated = (currentVerdict === false || currentVerdict === null);
+    const selectDisabledAttr = isDeactivated ? 'disabled' : '';
+    const selectStyle = isDeactivated ? 'background:#f1f5f9; color:#94a3b8; cursor:not-allowed;' : '';
 
     return `<tr onclick="syncAllPanels('${date}')" style="cursor:pointer;">
       <td><strong>${date} (${dayName})</strong></td>
@@ -1673,7 +1681,7 @@ function buildAlertsTable() {
           <button class="decision-btn verdict-btn" data-date="${date}" data-val="false" onclick="setVerdict('${date}',false)">Dismiss Alarm</button>
           <button class="decision-btn verdict-btn" data-date="${date}" data-val="null" onclick="setVerdict('${date}',null)">Prefer not to answer</button>
           <span id="verdict-${date}" style="font-size:0.75rem; font-weight:bold; margin-right:4px;">---</span>
-          <select id="day-scenario-${date}" onchange="setDayScenario('${date}', this.value)" style="padding:4px 6px; font-size:0.75rem; border:1px solid #c084fc; border-radius:4px; background:#fff; cursor:pointer; width:180px;">
+          <select id="day-scenario-${date}" onchange="setDayScenario('${date}', this.value)" ${selectDisabledAttr} style="padding:4px 6px; font-size:0.75rem; border:1px solid #c084fc; border-radius:4px; background:#fff; cursor:pointer; width:180px; ${selectStyle}">
             ${getScenarioOptionsHtml(currentDayScenario)}
           </select>
         </div>
@@ -1699,6 +1707,41 @@ function setVerdict(date, verdict) {
     if(verdict === true) lbl.innerText = '⚠️ True Threat';
     else if(verdict === false) lbl.innerText = 'Cleared Alarm';
     else lbl.innerText = '🚫 Opted Out';
+  }
+
+  // Deactivate or reset scenario dropdown when dismissed (false) or opted out (null)
+  const rowSel = document.getElementById(`day-scenario-${date}`);
+  if (rowSel) {
+    if (verdict === false || verdict === null) {
+      rowSel.value = '';
+      dayScenarios[date] = '';
+      rowSel.disabled = true;
+      rowSel.style.background = '#f1f5f9';
+      rowSel.style.color = '#94a3b8';
+      rowSel.style.cursor = 'not-allowed';
+    } else {
+      rowSel.disabled = false;
+      rowSel.style.background = '#fff';
+      rowSel.style.color = '#1e293b';
+      rowSel.style.cursor = 'pointer';
+    }
+  }
+
+  // Also sync with the lightbox scenario select if active for this date
+  const lbSel = document.getElementById('lightboxScenarioSelect');
+  if (lbSel && ANOMALOUS_DATES[currentLightboxIndex] === date) {
+    if (verdict === false || verdict === null) {
+      lbSel.value = '';
+      lbSel.disabled = true;
+      lbSel.style.background = '#f1f5f9';
+      lbSel.style.color = '#94a3b8';
+      lbSel.style.cursor = 'not-allowed';
+    } else {
+      lbSel.disabled = false;
+      lbSel.style.background = '#fff';
+      lbSel.style.color = '#1e293b';
+      lbSel.style.cursor = 'pointer';
+    }
   }
   
   const size = Object.keys(analystVerdicts).length;
@@ -1728,7 +1771,7 @@ function setLightboxScenario(scenario) {
 }
 
 // =====================================================================
-// LIGHTBOX NAVIGATION & VERDICT SYNC
+// LIGHTBOX NAVIGATION & VERDICT SYNC (DUAL GEMINI SUPPORT ENABLED)
 // =====================================================================
 function applyLightboxZoom() {
   const img = document.getElementById('lightboxImg');
@@ -1761,12 +1804,27 @@ function openLightboxForCurrentState() {
   const lightboxLeftControls = document.getElementById('lightboxLeftControls');
   const lightboxNav = document.getElementById('lightboxNavControls');
   const decisionPanel = document.getElementById('lightboxDecisionPanel');
+  const scenarioContainer = document.getElementById('lightboxScenarioContainer');
+  const leftHeader = document.getElementById('lightboxLeftHeader');
   const lightboxImg = document.getElementById('lightboxImg');
 
+  // Always display the left sidebar controls so Gemini Chat remains accessible for both WF & BS
+  if (lightboxLeftControls) lightboxLeftControls.style.display = 'flex';
+
+  // Reset chat responses and input fields when opening a lightbox frame
+  const chatResp = document.getElementById('lightboxChatResponse');
+  if (chatResp) {
+    chatResp.style.display = 'none';
+    chatResp.innerText = '';
+  }
+  const chatInput = document.getElementById('lightboxChatInput');
+  if (chatInput) chatInput.value = '';
+
   if (currentLightboxType === 'wf') {
-    if (lightboxLeftControls) lightboxLeftControls.style.display = 'flex';
+    if (leftHeader) leftHeader.innerText = 'Waterfall Triage & Navigation';
     if (lightboxNav) lightboxNav.style.display = 'flex';
     if (decisionPanel) decisionPanel.style.display = 'flex';
+    if (scenarioContainer) scenarioContainer.style.display = 'flex';
 
     const date = ANOMALOUS_DATES[currentLightboxIndex];
     const dayName = WEEKDAYS_MAP[date] || "";
@@ -1787,21 +1845,34 @@ function openLightboxForCurrentState() {
     updateLightboxVerdictUI(date);
 
     const lbScenarioSel = document.getElementById('lightboxScenarioSelect');
-    if (lbScenarioSel) lbScenarioSel.value = dayScenarios[date] || '';
-
-    const chatResp = document.getElementById('lightboxChatResponse');
-    if (chatResp) {
-      chatResp.style.display = 'none';
-      chatResp.innerText = '';
+    const currentVerdict = analystVerdicts[date];
+    if (lbScenarioSel) {
+      lbScenarioSel.value = dayScenarios[date] || '';
+      if (currentVerdict === false || currentVerdict === null) {
+        lbScenarioSel.disabled = true;
+        lbScenarioSel.style.background = '#f1f5f9';
+        lbScenarioSel.style.color = '#94a3b8';
+        lbScenarioSel.style.cursor = 'not-allowed';
+      } else {
+        lbScenarioSel.disabled = false;
+        lbScenarioSel.style.background = '#fff';
+        lbScenarioSel.style.color = '#1e293b';
+        lbScenarioSel.style.cursor = 'pointer';
+      }
     }
+
   } else {
-    if (lightboxLeftControls) lightboxLeftControls.style.display = 'none';
+    // Beeswarm Mode: Adapt header and hide Waterfall-only triage controls
+    if (leftHeader) leftHeader.innerText = 'Beeswarm Analysis & AI Assistant';
     if (lightboxNav) lightboxNav.style.display = 'none';
     if (decisionPanel) decisionPanel.style.display = 'none';
+    if (scenarioContainer) scenarioContainer.style.display = 'none';
+
     document.getElementById('lightboxTitle').innerText = `Global Summary Population Beeswarm Map`;
     if (lightboxImg) {
       const beeswarmImg = document.querySelector('#bsCard-0 img');
       lightboxImg.src = beeswarmImg ? beeswarmImg.src : "";
+      lightboxImg.style.display = 'block';
     }
   }
 
@@ -1858,24 +1929,30 @@ async function submitLightboxChatQuery() {
   if (!query) return;
   
   respEl.style.display = 'block';
-  respEl.innerText = 'AI Master is evaluating current waterfall frame...';
+  respEl.innerText = currentLightboxType === 'bs' 
+    ? 'AI Master is evaluating global beeswarm dataset map...' 
+    : 'AI Master is evaluating current waterfall frame...';
   inputEl.value = '';
 
   try {
     const activeImg = document.getElementById('lightboxImg');
     let base64Data = null;
     let mimeType = null;
-    if (activeImg && activeImg.src.startsWith('data:')) {
+    if (activeImg && activeImg.src && activeImg.src.startsWith('data:')) {
       mimeType = activeImg.src.substring(activeImg.src.indexOf(":") + 1, activeImg.src.indexOf(";"));
       base64Data = activeImg.src.split(',')[1];
     }
+
+    const contextStr = currentLightboxType === 'bs' 
+      ? `Lightbox Beeswarm Context: Global Summary Beeswarm Map` 
+      : `Lightbox Waterfall Context for Date: ${ANOMALOUS_DATES[currentLightboxIndex]}`;
 
     const response = await fetch('/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
             prompt: query,
-            context: `Lightbox Waterfall Context for Date: ${ANOMALOUS_DATES[currentLightboxIndex]}`,
+            context: contextStr,
             imageData: base64Data, 
             mimeType: mimeType     
         })
