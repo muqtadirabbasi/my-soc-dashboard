@@ -374,6 +374,28 @@
     <div class="sidebar-nav-label xai-nav-label" data-design-only="B">Explainable AI (XAI)</div>
     <a href="#shapWaterfall" data-nav-target="shapWaterfall" data-design-only="B"><span class="nav-icon">↕</span><span class="nav-text">SHAP waterfall plots</span></a>
     <a href="#shapBeeswarm" data-nav-target="shapBeeswarm" data-design-only="B"><span class="nav-icon">✦</span><span class="nav-text">SHAP beeswarm plot</span></a>
+    
+    <div class="sidebar-nav-label" style="margin-top:14px;">Triage Reference Guide</div>
+    <div style="padding: 4px 10px;">
+      <details id="sidebarChecklistDetails" open style="background:#1e293b; border:1px solid #334155; border-radius:6px; padding:8px; color:#cbd5e1; font-size:0.72rem;">
+        <summary style="cursor:pointer; font-weight:700; color:#c084fc; outline:none; display:flex; align-items:center; justify-content:space-between;">
+          <span>📋 Scenario Checklist</span>
+          <span style="font-size:0.65rem; color:#94a3b8; font-weight:normal;">(Expand)</span>
+        </summary>
+        <div style="margin-top:8px; display:flex; flex-direction:column; gap:8px; border-top:1px solid #334155; padding-top:6px;">
+          <div><strong style="color:#f87171;">S1 — IP Theft via Media</strong><br><span style="color:#94a3b8;">• Primary:</span> Wikileaks Access<br><span style="color:#94a3b8;">• Secondary:</span> Thumb Drive, After-Hours</div>
+          <div><strong style="color:#fb923c;">S2 — Fraud via Job/USB</strong><br><span style="color:#94a3b8;">• Primary:</span> Job Site Access<br><span style="color:#94a3b8;">• Secondary:</span> Competitor Email, Thumb</div>
+          <div><strong style="color:#38bdf8;">S3 — Keylogger Misuse</strong><br><span style="color:#94a3b8;">• Primary:</span> Keylogger Download<br><span style="color:#94a3b8;">• Secondary:</span> Unauth Login, Mass Mail</div>
+          <div><strong style="color:#c084fc;">S4 — Exfiltration</strong><br><span style="color:#94a3b8;">• Primary:</span> Unauth Login<br><span style="color:#94a3b8;">• Secondary:</span> File Search, Home Mail</div>
+          <div><strong style="color:#a5b4fc;">S5 — Mixed Profile</strong><br><span style="color:#94a3b8;">• Primary:</span> Overlapping Spikes<br><span style="color:#94a3b8;">• Secondary:</span> Multi-vector indicators</div>
+          <div><strong style="color:#6ee7b7;">S6 — Benign Anomaly</strong><br><span style="color:#94a3b8;">• Primary:</span> Isolated Deviation<br><span style="color:#94a3b8;">• Secondary:</span> Safe task spikes</div>
+          <div style="border-top:1px dashed #475569; padding-top:6px; color:#fde047; font-size:0.68rem;">
+            <strong>💡 Easy Triage Trick:</strong><br>
+            <span id="sidebarTriageTrickText">Check top features for Primary & Secondary badges. If Primary is present with 1-2 Secondary factors above it, confirm threat!</span>
+          </div>
+        </div>
+      </details>
+    </div>
   </nav><div class="sidebar-footer">SOC anomaly analysis</div>
 </aside>
 
@@ -600,11 +622,14 @@
       </div>
 
         <!-- PERSISTENT SCENARIO CHECKLIST FOR DESIGN B -->
-        <div class="card" style="margin-bottom: 18px; border: 2px solid #8b5cf6; background: #f5f3ff; box-shadow: inset 0 2px 10px rgba(139,92,246,0.05);">
-          <div class="card-header" style="background: #ede9fe; color: #4338ca; border-bottom: 1px solid #c4b5fd;">
-            <span class="dot" style="background:#8b5cf6;"></span>
-            <span style="font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; font-size: 0.85rem;">Unified Scenario Checklist & Triage Guide</span>
-          </div>
+        <details class="card" id="unifiedScenarioChecklistB" style="margin-bottom: 18px; border: 2px solid #8b5cf6; background: #f5f3ff; box-shadow: inset 0 2px 10px rgba(139,92,246,0.05);">
+          <summary class="card-header" style="background: #ede9fe; color: #4338ca; border-bottom: 1px solid #c4b5fd; cursor: pointer; user-select: none;">
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span class="dot" style="background:#8b5cf6;"></span>
+              <span style="font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; font-size: 0.85rem;">Unified Scenario Checklist & Triage Guide</span>
+            </div>
+            <span style="font-size: 0.75rem; color: #6d28d9; margin-left: auto;">(Click to collapse/expand)</span>
+          </summary>
           <div style="padding: 16px; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; font-size: 0.8rem;">
 
             <div style="background: #ffffff; padding: 12px; border-radius: 8px; border: 1px solid #ede9fe; box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
@@ -664,7 +689,7 @@
             </div>
 
           </div>
-        </div>
+        </details>
 
       <div class="card" id="shapWaterfall" tabindex="-1">
         <div class="section-header">
@@ -733,11 +758,14 @@
     <div id="legacyWrapperBody" class="themed-panel-group panel-legacy">
 
         <!-- PERSISTENT SCENARIO CHECKLIST FOR DESIGN A -->
-        <div class="card" style="margin-bottom: 18px; border: 2px solid #0ea5e9; background: #f0f9ff; box-shadow: inset 0 2px 10px rgba(14,165,233,0.05);">
-          <div class="card-header" style="background: #e0f2fe; color: #0369a1; border-bottom: 1px solid #bae6fd;">
-            <span class="dot" style="background:#0ea5e9;"></span>
-            <span style="font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; font-size: 0.85rem;">Unified Scenario Checklist & Triage Guide</span>
-          </div>
+        <details class="card" id="unifiedScenarioChecklistA" style="margin-bottom: 18px; border: 2px solid #0ea5e9; background: #f0f9ff; box-shadow: inset 0 2px 10px rgba(14,165,233,0.05);">
+          <summary class="card-header" style="background: #e0f2fe; color: #0369a1; border-bottom: 1px solid #bae6fd; cursor: pointer; user-select: none;">
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span class="dot" style="background:#0ea5e9;"></span>
+              <span style="font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; font-size: 0.85rem;">Unified Scenario Checklist & Triage Guide</span>
+            </div>
+            <span style="font-size: 0.75rem; color: #0284c7; margin-left: auto;">(Click to collapse/expand)</span>
+          </summary>
           <div style="padding: 16px; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; font-size: 0.8rem;">
 
             <div style="background: #ffffff; padding: 12px; border-radius: 8px; border: 1px solid #e0f2fe; box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
@@ -797,7 +825,7 @@
             </div>
 
           </div>
-        </div>
+        </details>
       <div class="themed-panel-label">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"></ellipse><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path></svg>
         Legacy Z-Score Logs & Raw Action Streams
@@ -824,7 +852,7 @@
               <div class="toggle-container">
                 <span>Filter Variations Only</span>
                 <label class="switch">
-                  <input type="checkbox" id="anomalyToggle">
+                  <input type="checkbox" id="anomalyToggle" checked>
                   <span class="slider"></span>
                 </label>
               </div>
@@ -2085,6 +2113,8 @@ function switchDashboardArchitecture(selectedMode) {
     const stratA = document.getElementById('strategyA');
     const stratB = document.getElementById('strategyB');
 
+    const trickText = document.getElementById('sidebarTriageTrickText');
+
     if (selectedMode === 'A') {
         wrapA.style.display = 'flex';
         wrapB.style.display = 'none';
@@ -2092,6 +2122,10 @@ function switchDashboardArchitecture(selectedMode) {
         
         if (stratA) stratA.style.display = 'block';
         if (stratB) stratB.style.display = 'none';
+
+        if (trickText) {
+          trickText.innerHTML = "Check Autoencoder table for Primary & Secondary badges. If Primary is paired with 1-2 secondary features highlighted in orange/red, confirm threat (or toggle <strong>Filter Variations Only</strong>).";
+        }
         
         btnA.classList.add('active');
         btnB.classList.remove('active');
@@ -2104,6 +2138,10 @@ function switchDashboardArchitecture(selectedMode) {
         
         if (stratA) stratA.style.display = 'none';
         if (stratB) stratB.style.display = 'block';
+
+        if (trickText) {
+          trickText.innerHTML = "Check top features in SHAP plots for Primary & Secondary badges. If Primary has 1-2 Secondary badges above it (contributing more), confirm threat.";
+        }
         
         btnB.classList.add('active');
         btnA.classList.remove('active');
@@ -2504,12 +2542,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
   document.querySelectorAll('.assessment-rating-row').forEach(row => {
     const buttons = row.querySelectorAll('.assessment-chip');
-    buttons.forEach(btn => {
-      btn.addEventListener('click', () => {
-        buttons.forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        const target = document.getElementById(btn.dataset.target);
-        if (target) target.value = btn.dataset.value;
+    buttons.forEach(b => {
+      b.addEventListener('click', () => {
+        buttons.forEach(btn => btn.classList.remove('active'));
+        b.classList.add('active');
+        const target = document.getElementById(b.dataset.target);
+        if (target) target.value = b.dataset.value;
       });
     });
   });
