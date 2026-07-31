@@ -621,8 +621,8 @@
         Explainability Plots & Visual Matrices
       </div>
 
-        <!-- PERSISTENT SCENARIO CHECKLIST FOR DESIGN B -->
-        <details class="card" id="unifiedScenarioChecklistB" open style="margin-bottom: 18px; border: 2px solid #8b5cf6; background: #f5f3ff; box-shadow: inset 0 2px 10px rgba(139,92,246,0.05);">
+        <!-- PERSISTENT SCENARIO CHECKLIST FOR DESIGN B (HIDDEN BY DEFAULT WITH details without 'open') -->
+        <details class="card" id="unifiedScenarioChecklistB" style="margin-bottom: 18px; border: 2px solid #8b5cf6; background: #f5f3ff; box-shadow: inset 0 2px 10px rgba(139,92,246,0.05);">
           <summary class="card-header" style="background: #ede9fe; color: #4338ca; border-bottom: 1px solid #c4b5fd; cursor: pointer; user-select: none;">
             <div style="display: flex; align-items: center; gap: 8px;">
               <span class="dot" style="background:#8b5cf6;"></span>
@@ -676,7 +676,7 @@
               <strong style="color:#059669; font-size: 0.85rem;">S6 — Benign User / Normal Anomaly</strong>
               <div style="margin-top: 6px;">
                 <span style="color:#ffffff; font-weight:bold; background:#059669; padding:2px 6px; border-radius:4px; font-size:0.65rem; margin-right:6px;">PRIMARY</span> <strong>Isolated Statistical Deviation</strong><br>
-                <span style="color:#475569; padding-left:4px; display:inline-block; margin-top:4px;">• Secondary: Safe task spikes, no exfil markers</span>
+                <span style="color:#475569; padding-left:4px; display:inline-block; margin-top:4px;">• Secondary: Safe task spikes, no exfiltration markers</span>
               </div>
             </div>
 
@@ -757,8 +757,8 @@
     <!-- REFACTORED & STREAMLINED DESIGN A WRAPPER -->
     <div id="legacyWrapperBody" class="themed-panel-group panel-legacy">
 
-        <!-- PERSISTENT SCENARIO CHECKLIST FOR DESIGN A -->
-        <details class="card" id="unifiedScenarioChecklistA" open style="margin-bottom: 18px; border: 2px solid #0ea5e9; background: #f0f9ff; box-shadow: inset 0 2px 10px rgba(14,165,233,0.05);">
+        <!-- PERSISTENT SCENARIO CHECKLIST FOR DESIGN A (HIDDEN BY DEFAULT WITH details without 'open') -->
+        <details class="card" id="unifiedScenarioChecklistA" style="margin-bottom: 18px; border: 2px solid #0ea5e9; background: #f0f9ff; box-shadow: inset 0 2px 10px rgba(14,165,233,0.05);">
           <summary class="card-header" style="background: #e0f2fe; color: #0369a1; border-bottom: 1px solid #bae6fd; cursor: pointer; user-select: none;">
             <div style="display: flex; align-items: center; gap: 8px;">
               <span class="dot" style="background:#0ea5e9;"></span>
@@ -831,7 +831,44 @@
         Legacy Z-Score Logs & Raw Action Streams
       </div>
       
-      <!-- EXPANDED FULL-WIDTH AUTOENCODER FEATURE PANEL (DUP THREAT PANEL REMOVED) -->
+      <!-- DETECTED DATES & TRIAGE CONTROLS PANEL DIRECTLY ABOVE AUTOENCODER INPUT FEATURE PANEL -->
+      <div class="card" style="width: 100%; margin-bottom: 18px; border: 2px solid #7c3aed; background: #f5f3ff;">
+        <div class="card-header" style="background: #ede9fe; color: #5b21b6;">
+          <span class="dot" style="background:#7c3aed"></span>
+          <strong>Detected Anomaly Dates & Quick Triage Controls</strong>
+          <span style="font-size:0.72rem; font-weight:400; color:#6b7280; margin-left:6px;">&mdash; Select a date to link and update the autoencoder input panel</span>
+        </div>
+        <div class="card-body" style="padding: 16px; display: flex; flex-direction: column; gap: 14px;">
+          
+          <!-- List of Detected Dates Buttons/Pills Linked to Anomalies -->
+          <div style="display: flex; flex-wrap: wrap; gap: 8px; align-items: center;" id="detectedDatesPillsContainer">
+            <span style="font-size: 0.78rem; font-weight: 700; color: #4c1d95; text-transform: uppercase;">Detected Anomaly Dates:</span>
+            <!-- Dynamically populated or rendered via script -->
+          </div>
+
+          <!-- Three Triage Buttons & Scenario Dropdown -->
+          <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap; padding-top: 10px; border-top: 1px dashed #c4b5fd;">
+            <span style="font-size: 0.78rem; font-weight: 700; color: #4c1d95; text-transform: uppercase;">Active Date Triage:</span>
+            <button class="decision-btn verdict-btn-panel" data-val="true" onclick="setVerdict(currentSelectedDate, true)">⚠️ Confirm Threat</button>
+            <button class="decision-btn verdict-btn-panel" data-val="false" onclick="setVerdict(currentSelectedDate, false)">Dismiss Alarm</button>
+            <button class="decision-btn verdict-btn-panel" data-val="null" onclick="setVerdict(currentSelectedDate, null)">Prefer not to answer</button>
+            
+            <select id="panelScenarioSelect" onchange="setDayScenario(currentSelectedDate, this.value)" style="padding:6px 10px; font-size:0.78rem; border:1px solid #c084fc; border-radius:6px; background:#fff; cursor:pointer; margin-left: auto;">
+              <option value="">Select scenario...</option>
+              <option value="S1">S1 - IP Theft via Media</option>
+              <option value="S2">S2 - Fraud via Job/USB</option>
+              <option value="S3">S3 - Misuse via Keylogger</option>
+              <option value="S4">S4 - Exfiltration</option>
+              <option value="S5">S5 - Mixed Profile</option>
+              <option value="S6">S6 - Benign User / Normal Anomaly</option>
+              <option value="PASS">Pass / Prefer Not to Answer</option>
+            </select>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- EXPANDED FULL-WIDTH AUTOENCODER FEATURE PANEL -->
       <div class="card" style="width: 100%;">
         <button class="collapse-toggle" onclick="togglePanel('featurePanelBody','featureChevron')">
           <div class="card-header" style="display: flex; align-items: center; width: 100%;">
@@ -1450,6 +1487,7 @@ function bootDashboard() {
     });
 
     buildWaterfallGrid();
+    buildDetectedDatesPanel();
     populateDropdowns();
     initChart();
     buildAlertsTable();
@@ -1485,6 +1523,17 @@ function buildWaterfallGrid() {
             <div class="thumb-label">${date} (${dayName}) Waterfall</div>
         </div>`;
     }).join('');
+}
+
+function buildDetectedDatesPanel() {
+    const container = document.getElementById('detectedDatesPillsContainer');
+    if (!container) return;
+    
+    let html = `<span style="font-size: 0.78rem; font-weight: 700; color: #4c1d95; text-transform: uppercase;">Detected Anomaly Dates:</span>`;
+    ANOMALOUS_DATES.forEach(date => {
+        html += `<button class="decision-btn date-pill-btn" data-date="${date}" onclick="syncAllPanels('${date}')">${date}</button>`;
+    });
+    container.innerHTML = html;
 }
 
 /* ENHANCED DESIGN A AUTOENCODER FEATURE TABLE WITH INLINE THREAT HIGHLIGHTS */
@@ -1675,7 +1724,7 @@ function buildAlertsTable() {
     const errorZ = (score - TIMELINE_STATS.mean) / TIMELINE_STATS.stdDev;
     
     let severityLabel = "Stable Baseline Profile";
-    let colorStyle = "color:#64748b; font-weight:500;"; // Changed from green to neutral slate gray
+    let colorStyle = "color:#64748b; font-weight:500;";
     if (errorZ > 4.5) {
       severityLabel = "Severe Outlier Event";
       colorStyle = "color:#dc2626; font-weight:600;";
@@ -1684,7 +1733,7 @@ function buildAlertsTable() {
       colorStyle = "color:#f97316; font-weight:600;";
     } else {
       severityLabel = "Stable Baseline Profile";
-      colorStyle = "color:#64748b; font-weight:500;"; // Changed from green to neutral slate gray
+      colorStyle = "color:#64748b; font-weight:500;";
     }
 
     const severityDisplay = showTimelineZScoreValues 
@@ -1728,6 +1777,17 @@ function setVerdict(date, verdict) {
         else if (verdict === null) btn.classList.add('selected-null');
     }
   });
+
+  if (date === currentSelectedDate) {
+    document.querySelectorAll('.verdict-btn-panel').forEach(btn => {
+      btn.classList.remove('selected-true', 'selected-false', 'selected-null');
+      if (btn.dataset.val === String(verdict)) {
+        if (verdict === true) btn.classList.add('selected-true');
+        else if (verdict === false) btn.classList.add('selected-false');
+        else if (verdict === null) btn.classList.add('selected-null');
+      }
+    });
+  }
   
   const lbl = document.getElementById(`verdict-${date}`);
   if(lbl) {
@@ -1736,7 +1796,6 @@ function setVerdict(date, verdict) {
     else lbl.innerText = '🚫 Opted Out';
   }
 
-  // Deactivate or reset scenario dropdown when dismissed (false) or opted out (null)
   const rowSel = document.getElementById(`day-scenario-${date}`);
   if (rowSel) {
     if (verdict === false || verdict === null) {
@@ -1754,7 +1813,22 @@ function setVerdict(date, verdict) {
     }
   }
 
-  // Also sync with the lightbox scenario select if active for this date
+  const panelSel = document.getElementById('panelScenarioSelect');
+  if (panelSel && date === currentSelectedDate) {
+    if (verdict === false || verdict === null) {
+      panelSel.value = '';
+      panelSel.disabled = true;
+      panelSel.style.background = '#f1f5f9';
+      panelSel.style.color = '#94a3b8';
+      panelSel.style.cursor = 'not-allowed';
+    } else {
+      panelSel.disabled = false;
+      panelSel.style.background = '#fff';
+      panelSel.style.color = '#1e293b';
+      panelSel.style.cursor = 'pointer';
+    }
+  }
+
   const lbSel = document.getElementById('lightboxScenarioSelect');
   if (lbSel && ANOMALOUS_DATES[currentLightboxIndex] === date) {
     if (verdict === false || verdict === null) {
@@ -1788,6 +1862,10 @@ function setDayScenario(date, scenario) {
   if (rowSel) {
     rowSel.value = scenario;
   }
+  const panelSel = document.getElementById('panelScenarioSelect');
+  if (panelSel && date === currentSelectedDate) {
+    panelSel.value = scenario;
+  }
 }
 
 function setLightboxScenario(scenario) {
@@ -1798,7 +1876,7 @@ function setLightboxScenario(scenario) {
 }
 
 // =====================================================================
-// LIGHTBOX NAVIGATION & VERDICT SYNC (DUAL GEMINI SUPPORT ENABLED)
+// LIGHTBOX NAVIGATION & VERDICT SYNC
 // =====================================================================
 function applyLightboxZoom() {
   const img = document.getElementById('lightboxImg');
@@ -1835,10 +1913,8 @@ function openLightboxForCurrentState() {
   const leftHeader = document.getElementById('lightboxLeftHeader');
   const lightboxImg = document.getElementById('lightboxImg');
 
-  // Always display the left sidebar controls so Gemini Chat remains accessible for both WF & BS
   if (lightboxLeftControls) lightboxLeftControls.style.display = 'flex';
 
-  // Reset chat responses and input fields when opening a lightbox frame
   const chatResp = document.getElementById('lightboxChatResponse');
   if (chatResp) {
     chatResp.style.display = 'none';
@@ -1889,7 +1965,6 @@ function openLightboxForCurrentState() {
     }
 
   } else {
-    // Beeswarm Mode: Adapt header and hide Waterfall-only triage controls
     if (leftHeader) leftHeader.innerText = 'Beeswarm Analysis & AI Assistant';
     if (lightboxNav) lightboxNav.style.display = 'none';
     if (decisionPanel) decisionPanel.style.display = 'none';
@@ -2450,6 +2525,42 @@ function syncAllPanels(date) {
     document.getElementById('actionDateIndicator').className = indClass;
   }
   
+  document.querySelectorAll('.date-pill-btn').forEach(btn => {
+    if (btn.dataset.date === date) {
+      btn.style.background = '#7c3aed';
+      btn.style.color = '#fff';
+    } else {
+      btn.style.background = '#fff';
+      btn.style.color = '#5b21b6';
+    }
+  });
+
+  const currentVerdict = analystVerdicts[date];
+  document.querySelectorAll('.verdict-btn-panel').forEach(btn => {
+    btn.classList.remove('selected-true', 'selected-false', 'selected-null');
+    if (currentVerdict !== undefined && btn.dataset.val === String(currentVerdict)) {
+      if (currentVerdict === true) btn.classList.add('selected-true');
+      else if (currentVerdict === false) btn.classList.add('selected-false');
+      else if (currentVerdict === null) btn.classList.add('selected-null');
+    }
+  });
+
+  const panelSel = document.getElementById('panelScenarioSelect');
+  if (panelSel) {
+    panelSel.value = dayScenarios[date] || '';
+    if (currentVerdict === false || currentVerdict === null) {
+      panelSel.disabled = true;
+      panelSel.style.background = '#f1f5f9';
+      panelSel.style.color = '#94a3b8';
+      panelSel.style.cursor = 'not-allowed';
+    } else {
+      panelSel.disabled = false;
+      panelSel.style.background = '#fff';
+      panelSel.style.color = '#1e293b';
+      panelSel.style.cursor = 'pointer';
+    }
+  }
+
   const dateIdx = ANOMALOUS_DATES.indexOf(date);
   if(dateIdx !== -1) {
        selectPlotForChat('wf', date, `wfCard-${dateIdx}`, true);
