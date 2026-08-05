@@ -269,7 +269,7 @@
     .assessment-select:focus,.assessment-textarea:focus{outline:none;border-color:#7c3aed;box-shadow:0 0 0 4px rgba(124,58,237,0.12);transform:translateY(-1px);}
     .assessment-textarea{min-height:108px;resize:vertical;line-height:1.5;}
 
-    .field-error { border-color: #ef4444 !important; background-color: #fef2f2 !important; box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.2) !important; }
+    .field-error { border-color: #ef4444 !important; background-color: #fef2f2 !important; box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.2) !important; border-radius: 8px; padding: 4px; }
 
     .assessment-rating-block { display: flex; flex-direction: column; gap: 8px; }
     .assessment-rating-row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; }
@@ -578,7 +578,7 @@
           </div>
 
           <div id="validationErrorBox" style="display:none; background:#fef2f2; border:1px solid #fca5a5; border-radius:8px; padding:12px 16px; color:#991b1b; font-size:0.82rem; font-weight:600; width:100%;">
-            ⚠️ <strong>Export Blocked:</strong> <span id="validationErrorText">Please fill in all highlighted mandatory fields before exporting.</span>
+            ⚠️ <strong>Export Blocked:</strong> <span id="validationErrorText">Please assign a decision (Confirm, Dismiss, or Opt-Out) to every flagged date in the Detected Anomalies panel before exporting.</span>
           </div>
 
           <div class="case-assessment-grid">
@@ -645,33 +645,33 @@
                 </div>
               </div>
               <div id="scenarioWorkloadPanel" class="assessment-field-stack assessment-field-stack-tight">
-                <div class="assessment-rating-block">
+                <div class="assessment-rating-block" id="mentalBlock">
                   <label class="has-tooltip" data-tooltip="
                     <div style='font-weight:700; color:#fff; border-bottom:1px solid #334155; padding-bottom:4px; margin-bottom:8px;'>NASA-TLX: Mental Demand</div>
                     <strong>Definition:</strong> How much mental and perceptual activity was required to complete this triage sequence (e.g., thinking, deciding, calculating, or searching)?
                   ">Mental Demand</label>
                   <div class="assessment-rating-row" data-rating-group="mental">
-                    <button type="button" class="assessment-chip active" data-value="1" data-target="tlxMental">Very low</button>
+                    <button type="button" class="assessment-chip" data-value="1" data-target="tlxMental">Very low</button>
                     <button type="button" class="assessment-chip" data-value="6" data-target="tlxMental">Low</button>
                     <button type="button" class="assessment-chip" data-value="11" data-target="tlxMental">Moderate</button>
                     <button type="button" class="assessment-chip" data-value="16" data-target="tlxMental">High</button>
                     <button type="button" class="assessment-chip" data-value="21" data-target="tlxMental">Very high</button>
                   </div>
-                  <input type="hidden" id="tlxMental" value="11">
+                  <input type="hidden" id="tlxMental" value="">
                 </div>
-                <div class="assessment-rating-block">
+                <div class="assessment-rating-block" id="frustrationBlock">
                   <label class="has-tooltip" data-tooltip="
                     <div style='font-weight:700; color:#fff; border-bottom:1px solid #334155; padding-bottom:4px; margin-bottom:8px;'>NASA-TLX: Frustration Level</div>
                     <strong>Definition:</strong> How insecure, discouraged, irritated, stressed, or annoyed did you feel during this evaluation trial?
                   ">Frustration Level</label>
                   <div class="assessment-rating-row" data-rating-group="frustration">
-                    <button type="button" class="assessment-chip active" data-value="1" data-target="tlxFrustration">Very low</button>
+                    <button type="button" class="assessment-chip" data-value="1" data-target="tlxFrustration">Very low</button>
                     <button type="button" class="assessment-chip" data-value="6" data-target="tlxFrustration">Low</button>
                     <button type="button" class="assessment-chip" data-value="11" data-target="tlxFrustration">Moderate</button>
                     <button type="button" class="assessment-chip" data-value="16" data-target="tlxFrustration">High</button>
                     <button type="button" class="assessment-chip" data-value="21" data-target="tlxFrustration">Very high</button>
                   </div>
-                  <input type="hidden" id="tlxFrustration" value="11">
+                  <input type="hidden" id="tlxFrustration" value="">
                 </div>
               </div>
             </section>
@@ -1307,7 +1307,7 @@ function bootDashboard() {
     document.getElementById('kpiAuditedWindow').innerText = `${TEST_DATES.length} Days`;
     document.getElementById('headerMonitorDays').innerText = `Monitoring (${TEST_DATES.length} days)`;
 
-    document.getElementById('headerRecall').innerText = window.CHART_DATA.recall || "100%";
+    document.getElementById('headerRecall').innerText = window.CHART_DATA.recall || "67%";
     document.getElementById('headerPrecision').innerText = window.CHART_DATA.precision || "40%";
 
     TIMELINE_STATS = calculateTimelineAnomalyZScores(window.CHART_DATA);
@@ -2086,12 +2086,15 @@ function populateDropdowns() {
     const justEl = document.getElementById('analystJustificationText');
     const analystEl = document.getElementById('analystIdSelect');
 
+    const mentalVal = document.getElementById('tlxMental').value;
+    const frustrationVal = document.getElementById('tlxFrustration').value;
+
     const isDesignA = isDesignAActive();
     const feedbackAEl = document.getElementById('feedbackTextA');
     const feedbackBEl = document.getElementById('feedbackTextB');
 
     if (totalVerdictsAssigned < ANOMALOUS_DATES.length) {
-      missingFields.push("All alert row decisions");
+      missingFields.push("First assign a decision (Confirm, Dismiss, or Opt-Out) to every flagged date in the Detected Anomalies panel. Then check the following fields");
     }
     if (!scenarioEl.value) {
       scenarioEl.classList.add('field-error');
@@ -2108,6 +2111,15 @@ function populateDropdowns() {
     if (!analystEl.value) {
       analystEl.classList.add('field-error');
       missingFields.push("SOC Analyst ID");
+    }
+
+    if (!mentalVal) {
+      document.getElementById('mentalBlock').classList.add('field-error');
+      missingFields.push("Mental Demand Rating");
+    }
+    if (!frustrationVal) {
+      document.getElementById('frustrationBlock').classList.add('field-error');
+      missingFields.push("Frustration Level Rating");
     }
 
     if (isDesignA && !feedbackAEl.value.trim()) {
@@ -2132,8 +2144,8 @@ function populateDropdowns() {
     const justificationText = justEl.value.trim();
     const analystId = analystEl.value;
     const targetStrategyFeedback = isDesignA ? feedbackAEl.value.trim() : feedbackBEl.value.trim();
-    const mentalWorkloadValue = document.getElementById('tlxMental').value;
-    const frustrationWorkloadValue = document.getElementById('tlxFrustration').value;
+    const mentalWorkloadValue = mentalVal;
+    const frustrationWorkloadValue = frustrationVal;
     const activeDesignLog = isDesignA ? "Design A (Legacy Framework)" : "Design B (XAI Suite)";
     const activeDesignShort = isDesignA ? "DesignA" : "DesignB";
 
@@ -2458,6 +2470,9 @@ document.querySelectorAll('.assessment-rating-row').forEach(row => {
       b.classList.add('active');
       const target = document.getElementById(b.dataset.target);
       if (target) target.value = b.dataset.value;
+      
+      const parentBlock = b.closest('.assessment-rating-block');
+      if (parentBlock) parentBlock.classList.remove('field-error');
     });
   });
 });
