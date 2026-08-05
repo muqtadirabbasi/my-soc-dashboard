@@ -313,7 +313,7 @@
 <div id="importOverlay">
     <div class="import-box">
         <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2" style="margin-bottom: 12px;"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-        <h2>Dynamic Ingestion Engine — Multi-Navigation Suite</h2>
+        <h2>Dynamic Update4 Ingestion Engine — Multi-Navigation Suite</h2>
         <p>Upload your data log asset. The text stream matcher parses metrics safely without execution risks, dynamically populating both the XAI suite and legacy environments.</p>
         <div class="file-input-wrapper">
             Load Operational Log Asset
@@ -366,14 +366,14 @@
     <div class="topbar-left">
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
       <div>
-        <h1>SOC Anomaly Dashboard &mdash; User 162 (AYG1697)
+        <h1>SOC Anomaly Dashboard &mdash; User 093 (ALT1465)
           <span class="phase-badge baseline">Baseline (90 days)</span>
           <span class="phase-badge monitor" id="headerMonitorDays">Monitoring</span>
         </h1>
         <div class="sub">
-          LSTM Autoencoder &bull; Bayesian Threshold Optimisation &bull; CERT Insider Threat Dataset Baseline
+          LSTM Autoencoder &bull; Bayesian Threshold Optimisation &bull; CERT r5.2 Insider Threat Dataset Baseline
           <span class="schedule-highlight">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 16 14"></polyline></svg>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
             Schedule: Mon–Fri, 8:00 AM–6:00 PM (Weekends Off)
           </span>
         </div>
@@ -417,7 +417,7 @@
       <div class="card">
         <div class="card-header" style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
           <div style="display: flex; align-items: center; gap: 8px;">
-            <span class="dot" style="background:#E53935"></span> Detected Anomalies (<span id="anomalyCount">6</span> day(s) flagged)
+            <span class="dot" style="background:#E53935"></span> Detected Anomalies (<span id="anomalyCount">5</span> day(s) flagged)
           </div>
           
           <div class="toggle-container" onclick="event.stopPropagation();" style="margin-left: auto; padding-right: 10px;">
@@ -806,7 +806,7 @@
 
 <div id="global-tooltip-box"></div>
 
-<!-- Lightbox Modal -->
+<!-- Lightbox Modal with Context-Aware Left Controls & Gemini LLM Support -->
 <div class="lightbox" id="globalLightbox">
   <div class="lightbox-content">
     <button class="lightbox-close" onclick="closeLightbox()">×</button>
@@ -852,7 +852,7 @@
             Ask Gemini (AI Master):
           </span>
           <div style="display:flex; gap:6px; margin-bottom:8px;">
-            <input type="text" id="lightboxChatInput" placeholder="Query plot features..." style="flex:1; padding:7px 10px; font-size:0.74rem; border:1px solid #cbd5e1; border-radius:8px;"/>
+            <input type="text" id="lightboxChatInput" placeholder="Query plot features..."/>
             <button onclick="submitLightboxChatQuery()" style="background:#7c3aed; color:white; border:none; padding:7px 12px; border-radius:8px; font-size:0.74rem; font-weight:700; cursor:pointer;">Ask</button>
           </div>
           <div id="lightboxChatResponse" style="font-size:0.74rem; background:#ffffff; border:1px solid #e2e8f0; padding:10px; border-radius:8px; flex:1; overflow-y:auto; color:#334155; display:none; line-height:1.45;"></div>
@@ -1221,68 +1221,6 @@ function toggleTimelineZScoreDisplay() {
 }
 
 // =====================================================================
-// GEMINI LLM CONNECTIVITY ENGINE & LOG CAPTURE
-// =====================================================================
-async function submitLightboxChatQuery() {
-  const inputEl = document.getElementById('lightboxChatInput');
-  const responseEl = document.getElementById('lightboxChatResponse');
-  
-  if (!inputEl || !responseEl) return;
-  const query = inputEl.value.trim();
-  if (!query) return;
-
-  responseEl.style.display = 'block';
-  responseEl.innerHTML = '<span style="color:#7c3aed; font-weight:700;">Gemini AI thinking...</span>';
-  
-  const activeDate = currentLightboxType === 'wf' ? ANOMALOUS_DATES[currentLightboxIndex] : "Global Population";
-  const features = FULL_FEATURES[activeDate] || {};
-  let finalResponse = "";
-
-  try {
-    const payload = {
-      query: query,
-      lightbox_type: currentLightboxType,
-      context_date: activeDate,
-      features: features
-    };
-
-    const response = await fetch('/api/chat', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload)
-    });
-
-    if (!response.ok) {
-      throw new Error(`Server returned HTTP ${response.status}`);
-    }
-
-    const data = await response.json();
-    finalResponse = data.reply || data.response || "No response received from Gemini LLM.";
-    responseEl.innerText = finalResponse;
-  } catch (err) {
-    // Fallback context analysis when local backend route is unavailable
-    const matchedFeatureKeys = Object.keys(features).filter(k => k.toLowerCase().includes(query.toLowerCase()));
-    if (matchedFeatureKeys.length > 0) {
-      finalResponse = matchedFeatureKeys.map(k => `${k}: ${features[k]}`).join(' | ');
-      responseEl.innerHTML = `<strong>Context Features for ${activeDate}:</strong><br>${matchedFeatureKeys.map(k => `• <b>${k}</b>: ${features[k]}`).join('<br>')}`;
-    } else {
-      finalResponse = `Queried "${query}" against ${activeDate}. Context indicates standard operational features. (API route unreachable: ${err.message})`;
-      responseEl.innerHTML = `<span style="color:#64748b;">${finalResponse}</span>`;
-    }
-  }
-
-  // Store interaction to export array
-  geminiChatHistory.push({
-    date: activeDate,
-    query: query,
-    response: finalResponse,
-    timestamp: new Date().toLocaleTimeString()
-  });
-
-  inputEl.value = "";
-}
-
-// =====================================================================
 // LIGHTBOX KEYBOARD SHORTCUT EVENT LISTENERS (LEFT / RIGHT / ENTER)
 // =====================================================================
 document.addEventListener('keydown', function(event) {
@@ -1294,7 +1232,7 @@ document.addEventListener('keydown', function(event) {
 
   // Handle Enter Key for Chat Input
   if (event.key === 'Enter') {
-    if (isInputFocused) {
+    if (isInputFocused && typeof submitLightboxChatQuery === 'function') {
       event.preventDefault();
       submitLightboxChatQuery();
     }
@@ -1405,7 +1343,7 @@ function bootDashboard() {
     document.getElementById('headerMonitorDays').innerText = `Monitoring (${TEST_DATES.length} days)`;
 
     document.getElementById('headerRecall').innerText = window.CHART_DATA.recall || "100%";
-    document.getElementById('headerPrecision').innerText = window.CHART_DATA.precision || "34%";
+    document.getElementById('headerPrecision').innerText = window.CHART_DATA.precision || "40%";
 
     TIMELINE_STATS = calculateTimelineAnomalyZScores(window.CHART_DATA);
 
