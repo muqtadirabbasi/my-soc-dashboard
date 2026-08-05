@@ -124,7 +124,6 @@
     th{text-align:left;padding:10px 12px;font-size:0.75rem;font-weight:600;color:#6b7280;border-bottom:1px solid #dbe3ec;}
     td{padding:10px 12px;border-bottom:1px solid #dbe3ec;vertical-align:middle;}
     tr:hover td{background:#f5f8fd;}
-    tr.row-selected td { background-color: #fee2e2 !important; font-weight: 600; }
     
     /* Feature Table In-Line Indicator Badges for Design A */
     .indicator-badge-inline { display: inline-flex; align-items: center; gap: 4px; padding: 2px 7px; border-radius: 4px; font-size: 0.65rem; font-weight: 700; text-transform: uppercase; margin-left: 6px; vertical-align: middle; }
@@ -226,16 +225,16 @@
     
     #global-tooltip-box { position: fixed; display: none; background: #1e293b; color: #f8fafc; padding: 12px 16px; border-radius: 8px; font-size: 0.75rem; z-index: 10000; max-width: 380px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.3); border: 1px solid #334155; pointer-events: none; line-height: 1.4; }
 
-    /* Design B Analytical Visualization Layout Elements (Extremely Compact Thumbnails for Main Window) */
-    .thumbnail-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(100px,1fr));gap:6px;padding:8px;max-height:120px;overflow-y:auto;}
-    .thumbnail-card{background:#fff;border:1px solid #dbe3ec;border-radius:4px;overflow:hidden;cursor:pointer;transition:transform 0.15s,box-shadow 0.15s;position:relative;max-width:120px;margin:0 auto;}
-    .thumbnail-card:hover{transform:scale(1.02);box-shadow:0 2px 8px rgba(0,0,0,0.12);}
-    .thumbnail-card.selected-for-chat { border: 2px solid #7c3aed; box-shadow: 0 0 8px rgba(124,58,237,0.3); }
-    .thumbnail-card .thumb-label{padding:2px 4px;font-size:0.52rem;font-weight:600;color:#1f2937;background:#f9fafb;border-top:1px solid #dbe3ec;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-    .thumbnail-card .thumb-placeholder{width:100%;aspect-ratio:16/9;background:#f3f6fa;display:flex;align-items:center;justify-content:center;color:#6b7280;font-size:0.48rem;text-align:center;padding:2px;}
+    /* Design B Analytical Visualization Layout Elements */
+    .thumbnail-grid{display:grid;grid-template-columns:repeat(5, 1fr);gap:12px;padding:16px;}
+    .thumbnail-card{background:#fff;border:1px solid #dbe3ec;border-radius:8px;overflow:hidden;cursor:pointer;transition:transform 0.15s,box-shadow 0.15s;position:relative;}
+    .thumbnail-card:hover{transform:scale(1.02);box-shadow:0 4px 16px rgba(0,0,0,0.12);}
+    .thumbnail-card.selected-for-chat { border: 2px solid #7c3aed; box-shadow: 0 0 12px rgba(124,58,237,0.3); }
+    .thumbnail-card .thumb-label{padding:8px 12px;font-size:0.7rem;font-weight:600;color:#1f2937;background:#f9fafb;border-top:1px solid #dbe3ec;text-align:center;}
+    .thumbnail-card .thumb-placeholder{width:100%;aspect-ratio:16/10;background:#f3f6fa;display:flex;align-items:center;justify-content:center;color:#6b7280;font-size:0.7rem;text-align:center;padding:10px;}
     
-    .beeswarm-grid{display:grid;grid-template-columns:1fr;justify-items:center;padding:6px;max-height:110px;overflow:hidden;}
-    .shap-combined-card{max-width:160px;width:100%;position:relative;}
+    .beeswarm-grid{display:grid;grid-template-columns:1fr;justify-items:center;padding:16px;}
+    .shap-combined-card{max-width:375px;width:100%;position:relative;}
     
     .lightbox{position:fixed;inset:0;width:100%;height:100%;background:rgba(15,23,42,0.88);z-index:99999;display:none;justify-content:center;align-items:center;padding:12px;backdrop-filter:blur(8px);}
     .lightbox.open{display:flex;}
@@ -369,12 +368,12 @@
     <div class="sidebar-nav-label">Current workspace</div>
     <a href="#dashboardTop" class="active" data-nav-target="dashboardTop"><span class="nav-icon">⌂</span><span class="nav-text">Overview</span></a>
     <a href="#triageControls" data-nav-target="triageControls"><span class="nav-icon">◉</span><span class="nav-text">Detected anomalies</span></a>
+    <a href="#caseAssessment" data-nav-target="caseAssessment"><span class="nav-icon">✓</span><span class="nav-text">Case assessment</span></a>
     <a href="#featurePanelBody" data-nav-target="featurePanelBody"><span class="nav-icon">▤</span><span class="nav-text">Autoencoder input features</span></a>
     <a href="#rawActions" data-nav-target="rawActions"><span class="nav-icon">≡</span><span class="nav-text">Raw user actions</span></a>
     <div class="sidebar-nav-label xai-nav-label" data-design-only="B">Explainable AI (XAI)</div>
     <a href="#shapWaterfall" data-nav-target="shapWaterfall" data-design-only="B"><span class="nav-icon">↕</span><span class="nav-text">SHAP waterfall plots</span></a>
     <a href="#shapBeeswarm" data-nav-target="shapBeeswarm" data-design-only="B"><span class="nav-icon">✦</span><span class="nav-text">SHAP beeswarm plot</span></a>
-    <a href="#caseAssessment" data-nav-target="caseAssessment"><span class="nav-icon">✓</span><span class="nav-text">Case assessment</span></a>
     
     <div class="sidebar-nav-label" style="margin-top:14px;">Triage Reference Guide</div>
     <div style="padding: 4px 10px;">
@@ -483,12 +482,214 @@
         </div>
         
         <div style="display: flex; flex-direction: column; width: 100%;">
-          <!-- Case Assessment section was moved here, to the end of the main/layout flow -->
+          <div class="scenario-selector case-assessment-shell" id="caseAssessment" tabindex="-1" aria-labelledby="caseAssessmentHeading">
+  <div class="case-assessment-heading" id="caseAssessmentHeading">
+    <span class="heading-icon">✓</span>
+    <span>Case Assessment</span>
+    <p>Submit the final case classification, evidence confidence, and brief study feedback.</p>
+  </div>
+
+  <div class="case-assessment-grid">
+    <section class="assessment-card assessment-card-primary">
+      <div class="assessment-card-header">
+        <div>
+          <h3>Final Case Closure</h3>
+          <p>Select the scenario that best matches the investigated evidence.</p>
+        </div>
+        <div class="info-circle-trigger" id="matrix-trigger">i</div>
+      </div>
+      <div class="assessment-field-stack">
+        <div class="assessment-field">
+          <label for="threatScenarioSelect">Overall Case Closure Classification</label>
+          <select id="threatScenarioSelect" class="assessment-select">
+            <option value="">Select closing scenario assessment...</option>
+            <option value="S1">S1 - IP Theft via Media</option>
+            <option value="S2">S2 - Fraud via Job/USB</option>
+            <option value="S3">S3 - Misuse via Keylogger</option>
+            <option value="S4">S4 - Exfiltration</option>
+            <option value="S5">S5 - Mixed Profile</option>
+            <option value="S6">S6 - Benign User / Normal Anomaly</option>
+            <option value="PASS">Pass / Prefer Not to Answer</option>
+          </select>
+        </div>
+        <div class="assessment-mini-grid">
+          <div class="assessment-field">
+            <label class="has-tooltip" data-tooltip="
+              <div style='font-weight:700; color:#fff; border-bottom:1px solid #334155; padding-bottom:4px; margin-bottom:8px;'>Analyst Confidence Level (Diagnostic Certainty)</div>
+              <strong>Definition:</strong> Your subjective certainty regarding the accuracy of your final closing Case Classification choice.<br><br>
+              <strong>Rationale Matrix:</strong><br>
+              • <strong>Levels 4-5:</strong> Definitive forensic confirmation found in features or logs.<br>
+              • <strong>Levels 1-2:</strong> Contradictory, speculative, or missing context tracks.
+            ">Analyst Confidence Level</label>
+            <select id="analystConfidenceSelect" class="assessment-select">
+              <option value="">Select confidence level...</option>
+              <option value="5">5 - Highly Confident (Certainty)</option>
+              <option value="4">4 - Moderately Confident (High Probability)</option>
+              <option value="3">3 - Standard Confidence (Indeterminate)</option>
+              <option value="2">2 - Low Confidence (Speculative)</option>
+              <option value="1">1 - Skeptical / Highly Uncertain</option>
+              <option value="PASS">Pass / Prefer Not to Answer</option>
+            </select>
+          </div>
+          <div class="assessment-field">
+            <label for="analystIdSelect">SOC Analyst ID</label>
+            <select id="analystIdSelect" class="assessment-select assessment-select-compact">
+              <option value="">Select ID...</option>
+            </select>
+          </div>
+        </div>
+        <div class="assessment-field">
+          <label for="analystJustificationText">Analyst Case Justification Narrative</label>
+          <textarea id="analystJustificationText" rows="4" class="assessment-textarea" placeholder="Summarize the evidence pattern, why the scenario was selected, and any remaining uncertainty. Enter Pass or N/A if you do not wish to answer."></textarea>
+        </div>
+      </div>
+    </section>
+
+    <section class="assessment-card assessment-card-secondary">
+      <div class="assessment-card-header">
+        <div>
+          <h3>Workload Reflection</h3>
+          <p>Use compact study responses instead of continuous slider bars.</p>
+        </div>
+      </div>
+      <div id="scenarioWorkloadPanel" class="assessment-field-stack assessment-field-stack-tight">
+        <div class="assessment-rating-block">
+          <label class="has-tooltip" data-tooltip="
+            <div style='font-weight:700; color:#fff; border-bottom:1px solid #334155; padding-bottom:4px; margin-bottom:8px;'>NASA-TLX: Mental Demand</div>
+            <strong>Definition:</strong> How much mental and perceptual activity was required to complete this triage sequence (e.g., thinking, deciding, calculating, or searching)?
+          ">Mental Demand</label>
+          <div class="assessment-rating-row" data-rating-group="mental">
+            <button type="button" class="assessment-chip active" data-value="1" data-target="tlxMental">Very low</button>
+            <button type="button" class="assessment-chip" data-value="6" data-target="tlxMental">Low</button>
+            <button type="button" class="assessment-chip" data-value="11" data-target="tlxMental">Moderate</button>
+            <button type="button" class="assessment-chip" data-value="16" data-target="tlxMental">High</button>
+            <button type="button" class="assessment-chip" data-value="21" data-target="tlxMental">Very high</button>
+          </div>
+          <input type="hidden" id="tlxMental" value="11">
+        </div>
+        <div class="assessment-rating-block">
+          <label class="has-tooltip" data-tooltip="
+            <div style='font-weight:700; color:#fff; border-bottom:1px solid #334155; padding-bottom:4px; margin-bottom:8px;'>NASA-TLX: Frustration Level</div>
+            <strong>Definition:</strong> How insecure, discouraged, irritated, stressed, or annoyed did you feel during this evaluation trial?
+          ">Frustration Level</label>
+          <div class="assessment-rating-row" data-rating-group="frustration">
+            <button type="button" class="assessment-chip active" data-value="1" data-target="tlxFrustration">Very low</button>
+            <button type="button" class="assessment-chip" data-value="6" data-target="tlxFrustration">Low</button>
+            <button type="button" class="assessment-chip" data-value="11" data-target="tlxFrustration">Moderate</button>
+            <button type="button" class="assessment-chip" data-value="16" data-target="tlxFrustration">High</button>
+            <button type="button" class="assessment-chip" data-value="21" data-target="tlxFrustration">Very high</button>
+          </div>
+          <input type="hidden" id="tlxFrustration" value="11">
+        </div>
+      </div>
+    </section>
+
+    <section class="assessment-card assessment-card-full">
+      <div class="assessment-card-header">
+        <div>
+          <h3>Interface Reflection</h3>
+          <p>Capture the reasoning strategy used in the active dashboard condition.</p>
+        </div>
+      </div>
+      <div id="strategyQuestionContainer" class="assessment-field-stack assessment-field-stack-tight">
+        <div id="strategyA" style="display:none;">
+          <label for="feedbackTextA">Design A Reflection</label>
+          <textarea id="feedbackTextA" rows="3" class="assessment-textarea" placeholder="Describe how the highlighted threat badges, autoencoder details, and raw action logs supported your final decision. Enter Pass or N/A if you do not wish to answer."></textarea>
+        </div>
+        <div id="strategyB" style="display:none;">
+          <label for="feedbackTextB">Design B Reflection</label>
+          <textarea id="feedbackTextB" rows="3" class="assessment-textarea" placeholder="Describe whether the SHAP waterfall and beeswarm explanations were sufficient for decision-making or whether you still needed raw log verification. Enter Pass or N/A if you do not wish to answer."></textarea>
+        </div>
+      </div>
+      <div id="scenarioStatus" style="display:none; width: 100%;"></div>
+    </section>
+  </div>
+
+  <div class="assessment-action-bar">
+    <div class="assessment-session-pill">
+      <span class="assessment-session-label">Active Session</span>
+      <span id="sessionElapsed">00:00</span>
+      <button id="timerToggleBtn" onclick="toggleTimer()" class="assessment-timer-btn">Pause</button>
+    </div>
+    <span id="decisionProgress" class="assessment-progress">Decisions Made: 0 / 0</span>
+    <button id="exportBtn" class="assessment-export-btn">Export Forensic Evidence Package</button>
+  </div>
+</div>
 <div id="designBWrapper" class="themed-panel-group panel-xai" data-nav-section="xaiSuite">
       <div class="themed-panel-label">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>
         Explainability Plots & Visual Matrices
       </div>
+
+        <!-- PERSISTENT SCENARIO CHECKLIST FOR DESIGN B (HIDDEN BY DEFAULT) -->
+        <details class="card" id="unifiedScenarioChecklistB" style="margin-bottom: 18px; border: 2px solid #8b5cf6; background: #f5f3ff; box-shadow: inset 0 2px 10px rgba(139,92,246,0.05);">
+          <summary class="card-header" style="background: #ede9fe; color: #4338ca; border-bottom: 1px solid #c4b5fd; cursor: pointer; user-select: none;">
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span class="dot" style="background:#8b5cf6;"></span>
+              <span style="font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; font-size: 0.85rem;">Unified Scenario Checklist & Triage Guide</span>
+            </div>
+            <span style="font-size: 0.75rem; color: #6d28d9; margin-left: auto;">(Click to collapse/expand)</span>
+          </summary>
+          <div style="padding: 16px; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; font-size: 0.8rem;">
+
+            <div style="background: #ffffff; padding: 12px; border-radius: 8px; border: 1px solid #ede9fe; box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
+              <strong style="color:#b91c1c; font-size: 0.85rem;">S1 — IP Theft via Media</strong>
+              <div style="margin-top: 6px;">
+                <span style="color:#ffffff; font-weight:bold; background:#b91c1c; padding:2px 6px; border-radius:4px; font-size:0.65rem; margin-right:6px;">PRIMARY</span> <strong>Wikileaks Access</strong><br>
+                <span style="color:#475569; padding-left:4px; display:inline-block; margin-top:4px;">• Secondary: Thumb Drive, After-Hours</span>
+              </div>
+            </div>
+
+            <div style="background: #ffffff; padding: 12px; border-radius: 8px; border: 1px solid #ede9fe; box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
+              <strong style="color:#c2410c; font-size: 0.85rem;">S2 — Fraud via Job/USB</strong>
+              <div style="margin-top: 6px;">
+                <span style="color:#ffffff; font-weight:bold; background:#c2410c; padding:2px 6px; border-radius:4px; font-size:0.65rem; margin-right:6px;">PRIMARY</span> <strong>Job Site Access</strong><br>
+                <span style="color:#475569; padding-left:4px; display:inline-block; margin-top:4px;">• Secondary: Competitor Email, Thumb Drive</span>
+              </div>
+            </div>
+
+            <div style="background: #ffffff; padding: 12px; border-radius: 8px; border: 1px solid #ede9fe; box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
+              <strong style="color:#0369a1; font-size: 0.85rem;">S3 — Misuse via Keylogger</strong>
+              <div style="margin-top: 6px;">
+                <span style="color:#ffffff; font-weight:bold; background:#0369a1; padding:2px 6px; border-radius:4px; font-size:0.65rem; margin-right:6px;">PRIMARY</span> <strong>Keylogger Download</strong><br>
+                <span style="color:#475569; padding-left:4px; display:inline-block; margin-top:4px;">• Secondary: Unauthorized Login, Mass Email</span>
+              </div>
+            </div>
+
+            <div style="background: #ffffff; padding: 12px; border-radius: 8px; border: 1px solid #ede9fe; box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
+              <strong style="color:#7e22ce; font-size: 0.85rem;">S4 — Exfiltration</strong>
+              <div style="margin-top: 6px;">
+                <span style="color:#ffffff; font-weight:bold; background:#7e22ce; padding:2px 6px; border-radius:4px; font-size:0.65rem; margin-right:6px;">PRIMARY</span> <strong>Unauthorized Login</strong><br>
+                <span style="color:#475569; padding-left:4px; display:inline-block; margin-top:4px;">• Secondary: File Search, Home Email</span>
+              </div>
+            </div>
+
+            <div style="background: #ffffff; padding: 12px; border-radius: 8px; border: 1px solid #ede9fe; box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
+              <strong style="color:#4f46e5; font-size: 0.85rem;">S5 — Mixed Profile</strong>
+              <div style="margin-top: 6px;">
+                <span style="color:#ffffff; font-weight:bold; background:#4f46e5; padding:2px 6px; border-radius:4px; font-size:0.65rem; margin-right:6px;">PRIMARY</span> <strong>Overlapping Behavioral Spikes</strong><br>
+                <span style="color:#475569; padding-left:4px; display:inline-block; margin-top:4px;">• Secondary: Multi-vector indicators</span>
+              </div>
+            </div>
+
+            <div style="background: #ffffff; padding: 12px; border-radius: 8px; border: 1px solid #ede9fe; box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
+              <strong style="color:#059669; font-size: 0.85rem;">S6 — Benign User / Normal Anomaly</strong>
+              <div style="margin-top: 6px;">
+                <span style="color:#ffffff; font-weight:bold; background:#059669; padding:2px 6px; border-radius:4px; font-size:0.65rem; margin-right:6px;">PRIMARY</span> <strong>Isolated Statistical Deviation</strong><br>
+                <span style="color:#475569; padding-left:4px; display:inline-block; margin-top:4px;">• Secondary: Safe task spikes, no exfiltration markers</span>
+              </div>
+            </div>
+
+            <div style="grid-column: 1 / -1; background: #fef3c7; border: 1px solid #fde68a; border-radius: 8px; padding: 12px; color: #92400e; display: flex; gap: 10px; align-items: flex-start;">
+              <span style="font-size: 1.2rem;">💡</span>
+              <div>
+                <strong style="display: block; margin-bottom: 2px;">Easy Triage Trick (Design B):</strong>
+                Check the top features in the <strong>SHAP (Waterfall or Beeswarm) plots</strong> for <strong>🚨 Primary</strong> and <strong>📊 Secondary</strong> threat badges. If you find a Primary badge with one or two Secondary badges listed <strong>above it</strong> (meaning they are contributing more to the score), classify the scenario based on that Primary flag and confirm the threat. Checking raw user action logs remains optional if extra context is needed. (*After-hours* = evening, night time, and weekends).
+              </div>
+            </div>
+
+          </div>
+        </details>
 
       <div class="card" id="shapWaterfall" tabindex="-1">
         <div class="section-header">
@@ -504,6 +705,17 @@
           ">ⓘ</span>
         </div>
         <div class="thumbnail-grid" id="waterfallGrid"></div>
+        
+        <div class="llm-chatbot-panel">
+          <div class="context-indicator-bar" id="wf-context-bar">Target Context Stack: Awaiting Selection...</div>
+          <div class="chat-history-window" id="wf-chat-history">
+            <div class="chat-msg system">Hello Analyst. Select an image frame block above to load its profile map, then query the Gemini LLM engine below regarding any particular feature layout or behavior vector.</div>
+          </div>
+          <div class="chat-input-row">
+            <input type="text" class="chat-input-field" id="wf-chat-input" placeholder="Ask Gemini master anything about this waterfall plot..."/>
+            <button class="chat-submit-btn" onclick="submitQueryToLLM('wf')">Send Query to AI Master</button>
+          </div>
+        </div>
       </div>
 
 <!-- Design B: Global Population Model Beeswarm Map Card -->
@@ -521,6 +733,18 @@
                 </div>
               </div> 
               <!-- The beeswarmGrid wrapper ends properly above -->
+
+              <!-- Unified Themed Chatbot Panel (Strictly Separated from the Grid Layout) -->
+              <div class="llm-chatbot-panel" id="bs-chatbot-panel">
+                <div class="context-indicator-bar" id="bs-context-bar" style="background: #e0f2fe; color: #0369a1;">Target Context Stack: Global Summary Beeswarm Chart Map</div>
+                <div class="chat-history-window" id="bs-chat-history">
+                  <div class="chat-msg system">Global Core Session Engaged. Query the system regarding global dataset dimensions, spread indices, or multi-vector behavior distributions.</div>
+                </div>
+                <div class="chat-input-row">
+                  <input type="text" class="chat-input-field" id="bs-chat-input" placeholder="Ask Gemini master anything about the global beeswarm plot distribution profile..."/>
+                  <button class="chat-submit-btn" onclick="submitQueryToLLM('bs')" style="background: #0284c7;">Send Query to AI Master</button>
+                </div>
+              </div>
             </div> <!-- Closes the master card container -->
     </div>
     <div class="legacy-toggle-container">
@@ -532,9 +756,116 @@
 
     <!-- REFACTORED & STREAMLINED DESIGN A WRAPPER -->
     <div id="legacyWrapperBody" class="themed-panel-group panel-legacy">
+
+        <!-- PERSISTENT SCENARIO CHECKLIST FOR DESIGN A (HIDDEN BY DEFAULT) -->
+        <details class="card" id="unifiedScenarioChecklistA" style="margin-bottom: 18px; border: 2px solid #0ea5e9; background: #f0f9ff; box-shadow: inset 0 2px 10px rgba(14,165,233,0.05);">
+          <summary class="card-header" style="background: #e0f2fe; color: #0369a1; border-bottom: 1px solid #bae6fd; cursor: pointer; user-select: none;">
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span class="dot" style="background:#0ea5e9;"></span>
+              <span style="font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; font-size: 0.85rem;">Unified Scenario Checklist & Triage Guide</span>
+            </div>
+            <span style="font-size: 0.75rem; color: #0284c7; margin-left: auto;">(Click to collapse/expand)</span>
+          </summary>
+          <div style="padding: 16px; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; font-size: 0.8rem;">
+
+            <div style="background: #ffffff; padding: 12px; border-radius: 8px; border: 1px solid #e0f2fe; box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
+              <strong style="color:#b91c1c; font-size: 0.85rem;">S1 — IP Theft via Media</strong>
+              <div style="margin-top: 6px;">
+                <span style="color:#ffffff; font-weight:bold; background:#b91c1c; padding:2px 6px; border-radius:4px; font-size:0.65rem; margin-right:6px;">PRIMARY</span> <strong>Wikileaks Access</strong><br>
+                <span style="color:#475569; padding-left:4px; display:inline-block; margin-top:4px;">• Secondary: Thumb Drive, After-Hours</span>
+              </div>
+            </div>
+
+            <div style="background: #ffffff; padding: 12px; border-radius: 8px; border: 1px solid #e0f2fe; box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
+              <strong style="color:#c2410c; font-size: 0.85rem;">S2 — Fraud via Job/USB</strong>
+              <div style="margin-top: 6px;">
+                <span style="color:#ffffff; font-weight:bold; background:#c2410c; padding:2px 6px; border-radius:4px; font-size:0.65rem; margin-right:6px;">PRIMARY</span> <strong>Job Site Access</strong><br>
+                <span style="color:#475569; padding-left:4px; display:inline-block; margin-top:4px;">• Secondary: Competitor Email, Thumb Drive</span>
+              </div>
+            </div>
+
+            <div style="background: #ffffff; padding: 12px; border-radius: 8px; border: 1px solid #e0f2fe; box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
+              <strong style="color:#0369a1; font-size: 0.85rem;">S3 — Misuse via Keylogger</strong>
+              <div style="margin-top: 6px;">
+                <span style="color:#ffffff; font-weight:bold; background:#0369a1; padding:2px 6px; border-radius:4px; font-size:0.65rem; margin-right:6px;">PRIMARY</span> <strong>Keylogger Download</strong><br>
+                <span style="color:#475569; padding-left:4px; display:inline-block; margin-top:4px;">• Secondary: Unauthorized Login, Mass Email</span>
+              </div>
+            </div>
+
+            <div style="background: #ffffff; padding: 12px; border-radius: 8px; border: 1px solid #e0f2fe; box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
+              <strong style="color:#7e22ce; font-size: 0.85rem;">S4 — Exfiltration</strong>
+              <div style="margin-top: 6px;">
+                <span style="color:#ffffff; font-weight:bold; background:#7e22ce; padding:2px 6px; border-radius:4px; font-size:0.65rem; margin-right:6px;">PRIMARY</span> <strong>Unauthorized Login</strong><br>
+                <span style="color:#475569; padding-left:4px; display:inline-block; margin-top:4px;">• Secondary: File Search, Home Email</span>
+              </div>
+            </div>
+
+            <div style="background: #ffffff; padding: 12px; border-radius: 8px; border: 1px solid #e0f2fe; box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
+              <strong style="color:#4f46e5; font-size: 0.85rem;">S5 — Mixed Profile</strong>
+              <div style="margin-top: 6px;">
+                <span style="color:#ffffff; font-weight:bold; background:#4f46e5; padding:2px 6px; border-radius:4px; font-size:0.65rem; margin-right:6px;">PRIMARY</span> <strong>Overlapping Behavioral Spikes</strong><br>
+                <span style="color:#475569; padding-left:4px; display:inline-block; margin-top:4px;">• Secondary: Multi-vector indicators</span>
+              </div>
+            </div>
+
+            <div style="background: #ffffff; padding: 12px; border-radius: 8px; border: 1px solid #e0f2fe; box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
+              <strong style="color:#059669; font-size: 0.85rem;">S6 — Benign User / Normal Anomaly</strong>
+              <div style="margin-top: 6px;">
+                <span style="color:#ffffff; font-weight:bold; background:#059669; padding:2px 6px; border-radius:4px; font-size:0.65rem; margin-right:6px;">PRIMARY</span> <strong>Isolated Statistical Deviation</strong><br>
+                <span style="color:#475569; padding-left:4px; display:inline-block; margin-top:4px;">• Secondary: Safe task spikes, no exfiltration markers</span>
+              </div>
+            </div>
+
+            <div style="grid-column: 1 / -1; background: #fef3c7; border: 1px solid #fde68a; border-radius: 8px; padding: 12px; color: #92400e; display: flex; gap: 10px; align-items: flex-start;">
+              <span style="font-size: 1.2rem;">💡</span>
+              <div>
+                <strong style="display: block; margin-bottom: 2px;">Easy Triage Trick (Design A):</strong>
+                Check the top features in the Autoencoder table for <span class="indicator-badge-inline primary">🚨 PRIMARY</span> and <span class="indicator-badge-inline secondary">📊 SECONDARY</span> threat badges. If you find at least one Primary badge paired with one or two Secondary badges highlighted in orange or red, you can confirm a threat (or inspect the Raw User Actions log if extra confirmation is needed). If you want to view only the highlighted threat features, turn on the <strong>Filter Variations Only</strong> toggle button, or use the <strong>Show Statistical Math</strong> toggle button to view statistical Z-scores and standard deviations. (*After-hours* = evening, night time, and weekends).
+              </div>
+            </div>
+
+          </div>
+        </details>
       <div class="themed-panel-label">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"></ellipse><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path></svg>
         Legacy Z-Score Logs & Raw Action Streams
+      </div>
+      
+      <!-- DETECTED DATES & TRIAGE CONTROLS PANEL DIRECTLY ABOVE AUTOENCODER INPUT FEATURE PANEL -->
+      <div class="card" style="width: 100%; margin-bottom: 18px; border: 2px solid #7c3aed; background: #f5f3ff;">
+        <div class="card-header" style="background: #ede9fe; color: #5b21b6;">
+          <span class="dot" style="background:#7c3aed"></span>
+          <strong>Detected Anomaly Dates & Quick Triage Controls</strong>
+          <span style="font-size:0.72rem; font-weight:400; color:#6b7280; margin-left:6px;">&mdash; Select a date to link and update the autoencoder input panel</span>
+        </div>
+        <div class="card-body" style="padding: 16px; display: flex; flex-direction: column; gap: 14px;">
+          
+          <!-- List of Detected Dates Buttons/Pills Linked to Anomalies -->
+          <div style="display: flex; flex-wrap: wrap; gap: 8px; align-items: center;" id="detectedDatesPillsContainer">
+            <span style="font-size: 0.78rem; font-weight: 700; color: #4c1d95; text-transform: uppercase;">Detected Anomaly Dates:</span>
+            <!-- Dynamically populated or rendered via script -->
+          </div>
+
+          <!-- Three Triage Buttons & Scenario Dropdown (Dropdown moved next to 'Prefer not to answer') -->
+          <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap; padding-top: 10px; border-top: 1px dashed #c4b5fd;">
+            <span style="font-size: 0.78rem; font-weight: 700; color: #4c1d95; text-transform: uppercase;">Active Date Triage:</span>
+            <button class="decision-btn verdict-btn-panel" data-val="true" onclick="setVerdict(currentSelectedDate, true)">⚠️ Confirm Threat</button>
+            <button class="decision-btn verdict-btn-panel" data-val="false" onclick="setVerdict(currentSelectedDate, false)">Dismiss Alarm</button>
+            <button class="decision-btn verdict-btn-panel" data-val="null" onclick="setVerdict(currentSelectedDate, null)">Prefer not to answer</button>
+            
+            <select id="panelScenarioSelect" onchange="setDayScenario(currentSelectedDate, this.value)" style="padding:6px 10px; font-size:0.78rem; border:1px solid #c084fc; border-radius:6px; background:#fff; cursor:pointer;">
+              <option value="">Select scenario...</option>
+              <option value="S1">S1 - IP Theft via Media</option>
+              <option value="S2">S2 - Fraud via Job/USB</option>
+              <option value="S3">S3 - Misuse via Keylogger</option>
+              <option value="S4">S4 - Exfiltration</option>
+              <option value="S5">S5 - Mixed Profile</option>
+              <option value="S6">S6 - Benign User / Normal Anomaly</option>
+              <option value="PASS">Pass / Prefer Not to Answer</option>
+            </select>
+          </div>
+
+        </div>
       </div>
 
       <!-- EXPANDED FULL-WIDTH AUTOENCODER FEATURE PANEL -->
@@ -580,7 +911,7 @@
         </div>
       </div> 
       
-      <div class="card" style="margin-top: 18px;" id="rawActions">
+      <div class="card" style="margin-top: 18px;">
         <button class="collapse-toggle" onclick="togglePanel('actionsPanelBody','actionsChevron')">
           <div class="card-header"><span class="dot" style="background:#01696f"></span> Actual Raw User Actions in Chronological Order <span id="actionDateIndicator" class="selected-date-badge"></span></div>
           <span class="collapse-chevron" id="actionsChevron">▼</span>
@@ -609,144 +940,7 @@
       </div>
     </div>
     </div>
-    
-    <!-- Case Assessment Section repositioned here at the very end of the main container stream -->
-    <div class="scenario-selector case-assessment-shell" id="caseAssessment" tabindex="-1" aria-labelledby="caseAssessmentHeading">
-      <div class="case-assessment-heading" id="caseAssessmentHeading">
-        <span class="heading-icon">✓</span>
-        <span>Case Assessment</span>
-        <p>Submit the final case classification, evidence confidence, and brief study feedback.</p>
-      </div>
-
-      <div class="case-assessment-grid">
-        <section class="assessment-card assessment-card-primary">
-          <div class="assessment-card-header">
-            <div>
-              <h3>Final Case Closure</h3>
-              <p>Select the scenario that best matches the investigated evidence.</p>
-            </div>
-            <div class="info-circle-trigger" id="matrix-trigger">i</div>
-          </div>
-          <div class="assessment-field-stack">
-            <div class="assessment-field">
-              <label for="threatScenarioSelect">Overall Case Closure Classification</label>
-              <select id="threatScenarioSelect" class="assessment-select">
-                <option value="">Select closing scenario assessment...</option>
-                <option value="S1">S1 - IP Theft via Media</option>
-                <option value="S2">S2 - Fraud via Job/USB</option>
-                <option value="S3">S3 - Misuse via Keylogger</option>
-                <option value="S4">S4 - Exfiltration</option>
-                <option value="S5">S5 - Mixed Profile</option>
-                <option value="S6">S6 - Benign User / Normal Anomaly</option>
-                <option value="PASS">Pass / Prefer Not to Answer</option>
-              </select>
-            </div>
-            <div class="assessment-mini-grid">
-              <div class="assessment-field">
-                <label class="has-tooltip" data-tooltip="
-                  <div style='font-weight:700; color:#fff; border-bottom:1px solid #334155; padding-bottom:4px; margin-bottom:8px;'>Analyst Confidence Level (Diagnostic Certainty)</div>
-                  <strong>Definition:</strong> Your subjective certainty regarding the accuracy of your final closing Case Classification choice.<br><br>
-                  <strong>Rationale Matrix:</strong><br>
-                  • <strong>Levels 4-5:</strong> Definitive forensic confirmation found in features or logs.<br>
-                  • <strong>Levels 1-2:</strong> Contradictory, speculative, or missing context tracks.
-                ">Analyst Confidence Level</label>
-                <select id="analystConfidenceSelect" class="assessment-select">
-                  <option value="">Select confidence level...</option>
-                  <option value="5">5 - Highly Confident (Certainty)</option>
-                  <option value="4">4 - Moderately Confident (High Probability)</option>
-                  <option value="3">3 - Standard Confidence (Indeterminate)</option>
-                  <option value="2">2 - Low Confidence (Speculative)</option>
-                  <option value="1">1 - Skeptical / Highly Uncertain</option>
-                  <option value="PASS">Pass / Prefer Not to Answer</option>
-                </select>
-              </div>
-              <div class="assessment-field">
-                <label for="analystIdSelect">SOC Analyst ID</label>
-                <select id="analystIdSelect" class="assessment-select assessment-select-compact">
-                  <option value="">Select ID...</option>
-                </select>
-              </div>
-            </div>
-            <div class="assessment-field">
-              <label for="analystJustificationText">Analyst Case Justification Narrative</label>
-              <textarea id="analystJustificationText" rows="4" class="assessment-textarea" placeholder="Summarize the evidence pattern, why the scenario was selected, and any remaining uncertainty. Enter Pass or N/A if you do not wish to answer."></textarea>
-            </div>
-          </div>
-        </section>
-
-        <section class="assessment-card assessment-card-secondary">
-          <div class="assessment-card-header">
-            <div>
-              <h3>Workload Reflection</h3>
-              <p>Use compact study responses instead of continuous slider bars.</p>
-            </div>
-          </div>
-          <div id="scenarioWorkloadPanel" class="assessment-field-stack assessment-field-stack-tight">
-            <div class="assessment-rating-block">
-              <label class="has-tooltip" data-tooltip="
-                <div style='font-weight:700; color:#fff; border-bottom:1px solid #334155; padding-bottom:4px; margin-bottom:8px;'>NASA-TLX: Mental Demand</div>
-                <strong>Definition:</strong> How much mental and perceptual activity was required to complete this triage sequence (e.g., thinking, deciding, calculating, or searching)?
-              ">Mental Demand</label>
-              <div class="assessment-rating-row" data-rating-group="mental">
-                <button type="button" class="assessment-chip active" data-value="1" data-target="tlxMental">Very low</button>
-                <button type="button" class="assessment-chip" data-value="6" data-target="tlxMental">Low</button>
-                <button type="button" class="assessment-chip" data-value="11" data-target="tlxMental">Moderate</button>
-                <button type="button" class="assessment-chip" data-value="16" data-target="tlxMental">High</button>
-                <button type="button" class="assessment-chip" data-value="21" data-target="tlxMental">Very high</button>
-              </div>
-              <input type="hidden" id="tlxMental" value="11">
-            </div>
-            <div class="assessment-rating-block">
-              <label class="has-tooltip" data-tooltip="
-                <div style='font-weight:700; color:#fff; border-bottom:1px solid #334155; padding-bottom:4px; margin-bottom:8px;'>NASA-TLX: Frustration Level</div>
-                <strong>Definition:</strong> How insecure, discouraged, irritated, stressed, or annoyed did you feel during this evaluation trial?
-              ">Frustration Level</label>
-              <div class="assessment-rating-row" data-rating-group="frustration">
-                <button type="button" class="assessment-chip active" data-value="1" data-target="tlxFrustration">Very low</button>
-                <button type="button" class="assessment-chip" data-value="6" data-target="tlxFrustration">Low</button>
-                <button type="button" class="assessment-chip" data-value="11" data-target="tlxFrustration">Moderate</button>
-                <button type="button" class="assessment-chip" data-value="16" data-target="tlxFrustration">High</button>
-                <button type="button" class="assessment-chip" data-value="21" data-target="tlxFrustration">Very high</button>
-              </div>
-              <input type="hidden" id="tlxFrustration" value="11">
-            </div>
-          </div>
-        </section>
-
-        <section class="assessment-card assessment-card-full">
-          <div class="assessment-card-header">
-            <div>
-              <h3>Interface Reflection</h3>
-              <p>Capture the reasoning strategy used in the active dashboard condition.</p>
-            </div>
-          </div>
-          <div id="strategyQuestionContainer" class="assessment-field-stack assessment-field-stack-tight">
-            <div id="strategyA" style="display:none;">
-              <label for="feedbackTextA">Design A Reflection</label>
-              <textarea id="feedbackTextA" rows="3" class="assessment-textarea" placeholder="Describe how the highlighted threat badges, autoencoder details, and raw action logs supported your final decision. Enter Pass or N/A if you do not wish to answer."></textarea>
-            </div>
-            <div id="strategyB" style="display:none;">
-              <label for="feedbackTextB">Design B Reflection</label>
-              <textarea id="feedbackTextB" rows="3" class="assessment-textarea" placeholder="Describe whether the SHAP waterfall and beeswarm explanations were sufficient for decision-making or whether you still needed raw log verification. Enter Pass or N/A if you do not wish to answer."></textarea>
-            </div>
-          </div>
-          <div id="scenarioStatus" style="display:none; width: 100%;"></div>
-        </section>
-      </div>
-
-      <div class="assessment-action-bar">
-        <div class="assessment-session-pill">
-          <span class="assessment-session-label">Active Session</span>
-          <span id="sessionElapsed">00:00</span>
-          <button id="timerToggleBtn" onclick="toggleTimer()" class="assessment-timer-btn">Pause</button>
-        </div>
-        <span id="decisionProgress" class="assessment-progress">Decisions Made: 0 / 0</span>
-        <button id="exportBtn" class="assessment-export-btn">Export Forensic Evidence Package</button>
-      </div>
-    </div>
-
-  </div> <!-- Closes main container -->
-</div> <!-- Closes dashboardContent -->
+</div>
 
 <div id="matrix-hover-panel">
   <div class="matrix-header-grid">
@@ -1293,6 +1487,7 @@ function bootDashboard() {
     });
 
     buildWaterfallGrid();
+    buildDetectedDatesPanel();
     populateDropdowns();
     initChart();
     buildAlertsTable();
@@ -1329,6 +1524,17 @@ function buildWaterfallGrid() {
             <div class="thumb-label">${date} (${dayName}) Waterfall</div>
         </div>`;
     }).join('');
+}
+
+function buildDetectedDatesPanel() {
+    const container = document.getElementById('detectedDatesPillsContainer');
+    if (!container) return;
+    
+    let html = `<span style="font-size: 0.78rem; font-weight: 700; color: #4c1d95; text-transform: uppercase;">Detected Anomaly Dates:</span>`;
+    ANOMALOUS_DATES.forEach(date => {
+        html += `<button class="decision-btn date-pill-btn" data-date="${date}" onclick="syncAllPanels('${date}')">${date}</button>`;
+    });
+    container.innerHTML = html;
 }
 
 /* ENHANCED DESIGN A AUTOENCODER FEATURE TABLE WITH INLINE THREAT HIGHLIGHTS */
@@ -1487,31 +1693,12 @@ function initChart() {
         const points = chart.getElementsAtEventForMode(e, 'nearest', { intersect: true }, true);
         if(!points.length) return;
         const pt = points[0];
-        if (pt.datasetIndex === 1) {
-          syncAllPanels(normalPoints[pt.index]?.x);
-        } else if (pt.datasetIndex === 2) {
-          const selectedDate = anomalyPoints[pt.index]?.x;
-          syncAllPanels(selectedDate);
-          highlightAnomalyTableRow(selectedDate);
-        }
+        if (pt.datasetIndex === 1) syncAllPanels(normalPoints[pt.index]?.x);
+        else if (pt.datasetIndex === 2) syncAllPanels(anomalyPoints[pt.index]?.x);
       },
       scales: { x: { type: 'time', time: { unit: 'month' } } }
     }
   });
-}
-
-function highlightAnomalyTableRow(selectedDate) {
-  const anomalyTableBody = document.getElementById('anomalyTableBody');
-  if (anomalyTableBody) {
-    const rows = anomalyTableBody.querySelectorAll('tr');
-    rows.forEach(row => {
-      if (row.dataset.date === selectedDate) {
-        row.classList.add('row-selected');
-      } else {
-        row.classList.remove('row-selected');
-      }
-    });
-  }
 }
 
 function getScenarioOptionsHtml(selectedVal = '') {
@@ -1560,7 +1747,7 @@ function buildAlertsTable() {
     const selectDisabledAttr = isDeactivated ? 'disabled' : '';
     const selectStyle = isDeactivated ? 'background:#f1f5f9; color:#94a3b8; cursor:not-allowed;' : '';
 
-    return `<tr data-date="${date}" onclick="syncAllPanels('${date}'); highlightAnomalyTableRow('${date}');" style="cursor:pointer;">
+    return `<tr onclick="syncAllPanels('${date}')" style="cursor:pointer;">
       <td><strong>${date} (${dayName})</strong></td>
       <td>${score.toFixed(5)}</td>
       <td style="color:#dc2626; font-weight:600;">+${(score - THRESHOLD).toFixed(5)}</td>
@@ -1836,8 +2023,53 @@ function updateLightboxVerdictUI(date) {
   }
 }
 
+async function submitLightboxChatQuery() {
+  const inputEl = document.getElementById('lightboxChatInput');
+  const respEl = document.getElementById('lightboxChatResponse');
+  if (!inputEl || !respEl) return;
+  
+  const query = inputEl.value.trim();
+  if (!query) return;
+  
+  respEl.style.display = 'block';
+  respEl.innerText = currentLightboxType === 'bs' 
+    ? 'AI Master is evaluating global beeswarm dataset map...' 
+    : 'AI Master is evaluating current waterfall frame...';
+  inputEl.value = '';
+
+  try {
+    const activeImg = document.getElementById('lightboxImg');
+    let base64Data = null;
+    let mimeType = null;
+    if (activeImg && activeImg.src && activeImg.src.startsWith('data:')) {
+      mimeType = activeImg.src.substring(activeImg.src.indexOf(":") + 1, activeImg.src.indexOf(";"));
+      base64Data = activeImg.src.split(',')[1];
+    }
+
+    const contextStr = currentLightboxType === 'bs' 
+      ? `Lightbox Beeswarm Context: Global Summary Beeswarm Map` 
+      : `Lightbox Waterfall Context for Date: ${ANOMALOUS_DATES[currentLightboxIndex]}`;
+
+    const response = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            prompt: query,
+            context: contextStr,
+            imageData: base64Data, 
+            mimeType: mimeType     
+        })
+    });
+    if (!response.ok) throw new Error(`Server status: ${response.status}`);
+    const data = await response.json();
+    respEl.innerText = data.text;
+  } catch (err) {
+    respEl.innerText = `Error: ${err.message}`;
+  }
+}
+
 // =====================================================================
-// EXPLAINABLE AI MODEL HOOKS
+// EXPLAINABLE AI MODEL HOOKS & ASYNC BOT CHANNELS
 // =====================================================================
 function selectPlotForChat(panelType, contextKey, htmlCardId, isProgrammatic = false) {
   const cardElement = document.getElementById(htmlCardId);
@@ -1852,13 +2084,93 @@ function selectPlotForChat(panelType, contextKey, htmlCardId, isProgrammatic = f
     activeWfChatDate = contextKey;
     currentLightboxIndex = ANOMALOUS_DATES.indexOf(contextKey);
     if (currentLightboxIndex === -1) currentLightboxIndex = 0;
+    
+    document.getElementById('wf-context-bar').innerText = `Target Context Stack: ${contextKey} Waterfall Frame`;
+    document.getElementById('wf-chat-history').innerHTML = '';
   } else {
     activeBsChatContext = contextKey;
+    document.getElementById('bs-context-bar').innerText = `Target Context Stack: Global Summary Beeswarm Chart Map`;
+    document.getElementById('bs-chat-history').innerHTML = '';
   }
 
   if (!isProgrammatic) {
     openLightboxForCurrentState();
   }
+}
+
+async function submitQueryToLLM(mode) {
+    const inputField = document.getElementById(`${mode}-chat-input`);
+    const chatHistory = document.getElementById(`${mode}-chat-history`);
+    const contextBar = document.getElementById(`${mode}-context-bar`);
+    
+    if (!inputField || !chatHistory) return;
+    const queryText = inputField.value.trim();
+    if (!queryText) return;
+
+    let activeImageElement = null;
+    if (mode === 'bs') {
+        activeImageElement = document.querySelector('#bsCard-0 img');
+    } else {
+        activeImageElement = document.querySelector('.thumbnail-card.selected-for-chat img') || 
+                             document.querySelector('.selected-for-chat img');
+    }
+    
+    let base64Data = null;
+    let mimeType = null;
+
+    if (activeImageElement && activeImageElement.src.startsWith('data:')) {
+        const srcString = activeImageElement.src;
+        mimeType = srcString.substring(srcString.indexOf(":") + 1, srcString.indexOf(";"));
+        base64Data = srcString.split(',')[1];
+    }
+
+    const userMsg = document.createElement('div');
+    userMsg.className = 'chat-msg user';
+    userMsg.innerText = queryText;
+    chatHistory.appendChild(userMsg);
+    
+    inputField.value = '';
+
+    const loadingMsg = document.createElement('div');
+    loadingMsg.className = 'chat-msg loading';
+    loadingMsg.innerText = mode === 'bs' 
+        ? 'AI Master is evaluating global beeswarm dataset distribution paths...' 
+        : 'AI Master is inspecting per-day feature waterfall tracks...';
+    chatHistory.appendChild(loadingMsg);
+    chatHistory.scrollTop = chatHistory.scrollHeight;
+
+    try {
+        const response = await fetch('/api/chat', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                prompt: queryText,
+                context: contextBar ? contextBar.innerText : '',
+                imageData: base64Data, 
+                mimeType: mimeType     
+            })
+        });
+
+        if (loadingMsg.parentNode) loadingMsg.parentNode.removeChild(loadingMsg);
+
+        if (!response.ok) throw new Error(`Server returned error status: ${response.status}`);
+        const data = await response.json();
+
+        const aiMsg = document.createElement('div');
+        aiMsg.className = 'chat-msg ai-response';
+        aiMsg.innerText = data.text;
+        chatHistory.appendChild(aiMsg);
+
+    } catch (error) {
+        if (loadingMsg.parentNode) loadingMsg.parentNode.removeChild(loadingMsg);
+        const errorMsg = document.createElement('div');
+        errorMsg.className = 'chat-msg system';
+        errorMsg.innerText = `Error processing query: ${error.message}`;
+        chatHistory.appendChild(errorMsg);
+        console.error("AI Communication Error Details:", error);
+    }
+
+    chatHistory.scrollTop = chatHistory.scrollHeight;
 }
 
 // =====================================================================
@@ -2110,6 +2422,15 @@ function populateDropdowns() {
       statusEl.style.display = 'none';
     }
   });
+
+  ['wf', 'bs'].forEach(type => {
+    const chatInput = document.getElementById(`${type}-chat-input`);
+    if (chatInput) {
+      chatInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') submitQueryToLLM(type);
+      });
+    }
+  });
 }
 
 function attachTooltipListeners() {
@@ -2205,6 +2526,16 @@ function syncAllPanels(date) {
     document.getElementById('actionDateIndicator').className = indClass;
   }
   
+  document.querySelectorAll('.date-pill-btn').forEach(btn => {
+    if (btn.dataset.date === date) {
+      btn.style.background = '#7c3aed';
+      btn.style.color = '#fff';
+    } else {
+      btn.style.background = '#fff';
+      btn.style.color = '#5b21b6';
+    }
+  });
+
   const currentVerdict = analystVerdicts[date];
   document.querySelectorAll('.verdict-btn-panel').forEach(btn => {
     btn.classList.remove('selected-true', 'selected-false', 'selected-null');
