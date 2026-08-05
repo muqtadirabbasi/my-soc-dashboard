@@ -231,21 +231,6 @@
     .section-header .bullet{width:10px;height:10px;border-radius:50%;display:inline-block;flex-shrink:0;}
     .section-header h2{font-size:0.95rem;font-weight:700;margin:0;}
 
-    /* Interactive AI Simulation Windows */
-    .llm-chatbot-panel { background: #ffffff; border-top: 1px solid #e2e8f0; display: flex; flex-direction: column; padding: 16px; gap: 12px; background: #f8fafc; }
-    .chat-history-window { background: #ffffff; border: 1px solid #cbd5e1; border-radius: 8px; height: 180px; overflow-y: auto; padding: 12px; display: flex; flex-direction: column; gap: 10px; }
-    .chat-msg { max-width: 85%; padding: 8px 12px; border-radius: 8px; font-size: 0.8rem; line-height: 1.45; }
-    .chat-msg.system { background: #e2e8f0; color: #334155; align-self: flex-start; border-top-left-radius: 0; font-weight: 500; }
-    .chat-msg.user { background: #7c3aed; color: #ffffff; align-self: flex-end; border-top-right-radius: 0; }
-    .chat-msg.ai-response { background: #f0fdf4; color: #166534; border: 1px solid #bbf7d0; align-self: flex-start; border-top-left-radius: 0; }
-    .chat-msg.loading { background: #f1f5f9; color: #64748b; font-style: italic; align-self: flex-start; }
-    .chat-input-row { display: flex; gap: 10px; align-items: center; }
-    .chat-input-field { flex: 1; padding: 8px 14px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 0.82rem; font-family: inherit; }
-    .chat-input-field:focus { outline: 2px solid #7c3aed; }
-    .chat-submit-btn { background: #1e293b; color: white; border: none; padding: 8px 16px; border-radius: 6px; font-size: 0.8rem; font-weight: 600; cursor: pointer; transition: background 0.15s; }
-    .chat-submit-btn:hover { background: #0f172a; }
-    .context-indicator-bar { font-size: 0.72rem; background: #fee2e2; color: #991b1b; padding: 4px 10px; border-radius: 4px; font-weight: 600; display: inline-flex; width: max-content; }
-
     #designBWrapper { display: flex; flex-direction: column; gap: 18px; width: 100%; }
     #legacyWrapperBody { display: none; flex-direction: column; gap: 18px; width: 100%; }
   
@@ -480,17 +465,6 @@
                 ">ⓘ</span>
               </div>
               <div class="thumbnail-grid" id="waterfallGrid"></div>
-              
-              <div class="llm-chatbot-panel">
-                <div class="context-indicator-bar" id="wf-context-bar">Target Context Stack: Awaiting Selection...</div>
-                <div class="chat-history-window" id="wf-chat-history">
-                  <div class="chat-msg system">Hello Analyst. Select an image frame block above to load its profile map, then query the Gemini LLM engine below regarding any particular feature layout or behavior vector.</div>
-                </div>
-                <div class="chat-input-row">
-                  <input type="text" class="chat-input-field" id="wf-chat-input" placeholder="Ask Gemini master anything about this waterfall plot..."/>
-                  <button class="chat-submit-btn" onclick="submitQueryToLLM('wf')">Send Query to AI Master</button>
-                </div>
-              </div>
             </div>
 
             <div class="card" id="shapBeeswarm" tabindex="-1">
@@ -506,17 +480,6 @@
           </div>
                 </div>
               </div> 
-              
-              <div class="llm-chatbot-panel" id="bs-chatbot-panel">
-                <div class="context-indicator-bar" id="bs-context-bar" style="background: #e0f2fe; color: #0369a1;">Target Context Stack: Global Summary Beeswarm Chart Map</div>
-                <div class="chat-history-window" id="bs-chat-history">
-                  <div class="chat-msg system">Global Core Session Engaged. Query the system regarding global dataset dimensions, spread indices, or multi-vector behavior distributions.</div>
-                </div>
-                <div class="chat-input-row">
-                  <input type="text" class="chat-input-field" id="bs-chat-input" placeholder="Ask Gemini master anything about the global beeswarm plot distribution profile..."/>
-                  <button class="chat-submit-btn" onclick="submitQueryToLLM('bs')" style="background: #0284c7;">Send Query to AI Master</button>
-                </div>
-              </div>
             </div>
           </div>
 
@@ -1325,99 +1288,6 @@ async function submitLightboxChatQuery() {
   }
 }
 
-/**
- * Handles chat queries submitted inside Design B inline panels (Waterfall & Beeswarm)
- */
-async function submitQueryToLLM(mode) {
-    const inputField = document.getElementById(`${mode}-chat-input`);
-    const chatHistory = document.getElementById(`${mode}-chat-history`);
-    const contextBar = document.getElementById(`${mode}-context-bar`);
-    
-    if (!inputField || !chatHistory) return;
-    const queryText = inputField.value.trim();
-    if (!queryText) return;
-
-    // 1. Extract image payload from thumbnail grid card
-    let activeImageElement = null;
-    if (mode === 'bs') {
-        activeImageElement = document.querySelector('#bsCard-0 img');
-    } else {
-        activeImageElement = document.querySelector('.thumbnail-card.selected-for-chat img') || 
-                             document.querySelector('.selected-for-chat img');
-    }
-    
-    let base64Data = null;
-    let mimeType = null;
-
-    if (activeImageElement && activeImageElement.src && activeImageElement.src.startsWith('data:')) {
-        const srcString = activeImageElement.src;
-        mimeType = srcString.substring(srcString.indexOf(":") + 1, srcString.indexOf(";"));
-        base64Data = srcString.split(',')[1];
-    }
-
-    // 2. Append User Message UI
-    const userMsg = document.createElement('div');
-    userMsg.className = 'chat-msg user';
-    userMsg.innerText = queryText;
-    chatHistory.appendChild(userMsg);
-    
-    inputField.value = '';
-
-    // 3. Append Loading Indicator UI
-    const loadingMsg = document.createElement('div');
-    loadingMsg.className = 'chat-msg loading';
-    loadingMsg.innerText = mode === 'bs' 
-        ? 'AI Master is evaluating global beeswarm dataset distribution paths...' 
-        : 'AI Master is inspecting per-day feature waterfall tracks...';
-    chatHistory.appendChild(loadingMsg);
-    chatHistory.scrollTop = chatHistory.scrollHeight;
-
-    try {
-        const response = await fetch('/api/chat', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                prompt: queryText,
-                context: contextBar ? contextBar.innerText : '',
-                imageData: base64Data, 
-                mimeType: mimeType     
-            })
-        });
-
-        if (loadingMsg.parentNode) loadingMsg.parentNode.removeChild(loadingMsg);
-
-        if (!response.ok) throw new Error(`Server returned error status: ${response.status}`);
-        
-        const data = await response.json();
-        const replyText = data.text || "No response generated.";
-
-        // 4. Render AI Response UI
-        const aiMsg = document.createElement('div');
-        aiMsg.className = 'chat-msg ai-response';
-        aiMsg.innerText = replyText;
-        chatHistory.appendChild(aiMsg);
-
-        // 5. Log for Forensic Export Package
-        geminiChatHistory.push({
-            date: mode === 'wf' ? activeWfChatDate : "Global Population",
-            query: queryText,
-            response: replyText,
-            timestamp: new Date().toLocaleTimeString()
-        });
-
-    } catch (error) {
-        if (loadingMsg.parentNode) loadingMsg.parentNode.removeChild(loadingMsg);
-        
-        const errorMsg = document.createElement('div');
-        errorMsg.className = 'chat-msg system';
-        errorMsg.innerText = `Error processing query: ${error.message}`;
-        chatHistory.appendChild(errorMsg);
-        console.error("AI Communication Error Details:", error);
-    }
-
-    chatHistory.scrollTop = chatHistory.scrollHeight;
-}
-
 // =====================================================================
 // LIGHTBOX KEYBOARD SHORTCUT EVENT LISTENERS (LEFT / RIGHT / ENTER)
 // =====================================================================
@@ -2176,13 +2046,8 @@ function selectPlotForChat(panelType, contextKey, htmlCardId, isProgrammatic = f
     activeWfChatDate = contextKey;
     currentLightboxIndex = ANOMALOUS_DATES.indexOf(contextKey);
     if (currentLightboxIndex === -1) currentLightboxIndex = 0;
-    
-    const wfBar = document.getElementById('wf-context-bar');
-    if (wfBar) wfBar.innerText = `Target Context Stack: ${contextKey} Waterfall Frame`;
   } else {
     activeBsChatContext = contextKey;
-    const bsBar = document.getElementById('bs-context-bar');
-    if (bsBar) bsBar.innerText = `Target Context Stack: Global Summary Beeswarm Chart Map`;
   }
 
   if (!isProgrammatic) {
@@ -2656,16 +2521,6 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('globalLightbox').addEventListener('click', function(e) {
     if (e.target === this) {
       closeLightbox();
-    }
-  });
-
-  // Attach Enter Key Listeners to Inline Chat Panels
-  ['wf', 'bs'].forEach(type => {
-    const chatInput = document.getElementById(`${type}-chat-input`);
-    if (chatInput) {
-      chatInput.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') submitQueryToLLM(type);
-      });
     }
   });
 });
