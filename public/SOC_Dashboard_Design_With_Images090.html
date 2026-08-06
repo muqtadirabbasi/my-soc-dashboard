@@ -13,7 +13,6 @@
     *{box-sizing:border-box;margin:0;padding:0;}
     body{font-family:'Inter',sans-serif;background:#f6f8fb;color:#1f2937;}
     
-    /* Dynamic Ingestion Engine Overlay Design */
     #importOverlay { position: fixed; inset: 0; background: rgba(246, 248, 251, 0.96); z-index: 99999; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
     .import-box { background: #fff; padding: 45px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); border: 1px solid #dbe3ec; max-width: 620px; width: 90%; }
     .import-box h2 { margin-bottom: 12px; color: #7c3aed; font-size: 1.4rem; font-weight: 700; }
@@ -23,7 +22,6 @@
     .file-input-wrapper input[type=file] { font-size: 100px; position: absolute; left: 0; top: 0; opacity: 0; cursor: pointer; }
     #dashboardContent { display: none; }
 
-    /* Topbar Controls Layout */
     .topbar{background:#fff;border-bottom:1px solid #dbe3ec;padding:14px 28px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;}
     .topbar-left{display:flex;align-items:center;gap:14px;}
     .topbar h1{font-size:1rem;font-weight:700;}
@@ -373,7 +371,7 @@
           <span class="phase-badge monitor" id="headerMonitorDays">Monitoring</span>
         </h1>
         <div class="sub">
-          LSTM Autoencoder &bull; Bayesian Threshold Optimisation &bull; CERT Insider Threat Dataset Baseline
+          LSTM Autoencoder &bull; Bayesian Threshold Optimisation &bull; CERT r5.2 Insider Threat Dataset Baseline
           <span class="schedule-highlight">
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 16 14"></polyline></svg>
             Schedule: Mon–Fri, 8:00 AM–6:00 PM (Weekends Off)
@@ -419,7 +417,7 @@
       <div class="card">
         <div class="card-header" style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
           <div style="display: flex; align-items: center; gap: 8px;">
-            <span class="dot" style="background:#E53935"></span> Detected Anomalies (<span id="anomalyCount">14</span> day(s) flagged)
+            <span class="dot" style="background:#E53935"></span> Detected Anomalies (<span id="anomalyCount">19</span> day(s) flagged)
           </div>
           
           <div class="toggle-container" onclick="event.stopPropagation();" style="margin-left: auto; padding-right: 10px;">
@@ -713,7 +711,6 @@
   </div> 
 </div>
 
-<!-- Hover Matrix Panel explicitly documenting S6 & PASS -->
 <div id="matrix-hover-panel">
   <div class="matrix-header-grid">
     <div>Scenario</div>
@@ -820,8 +817,8 @@
         <div id="lightboxNavControls" style="display:flex; flex-direction:column; gap:6px;">
           <span id="lightboxWfCounter" style="font-size:0.78rem; font-weight:700; color:#475569; text-align:center;"></span>
           <div style="display:flex; gap:8px;">
-            <button class="decision-btn" style="flex:1;" onclick="navigateLightboxWaterfall(-1)">◀ Prev</button>
-            <button class="decision-btn" style="flex:1;" onclick="navigateLightboxWaterfall(1)">Next ▶</button>
+            <button class="decision-btn" style="flex:1;" onclick="navigateLightboxWaterfall(-1)">◀ Prev (←)</button>
+            <button class="decision-btn" style="flex:1;" onclick="navigateLightboxWaterfall(1)">Next (→) ▶</button>
           </div>
         </div>
 
@@ -855,7 +852,7 @@
             Ask Gemini (AI Master):
           </span>
           <div style="display:flex; gap:6px; margin-bottom:8px;">
-            <input type="text" id="lightboxChatInput" placeholder="Query plot features..." style="flex:1; padding:7px 10px; font-size:0.74rem; border:1px solid #cbd5e1; border-radius:8px;" onkeypress="if(event.key==='Enter') submitLightboxChatQuery()"/>
+            <input type="text" id="lightboxChatInput" placeholder="Query plot features..." style="flex:1; padding:7px 10px; font-size:0.74rem; border:1px solid #cbd5e1; border-radius:8px;"/>
             <button onclick="submitLightboxChatQuery()" style="background:#7c3aed; color:white; border:none; padding:7px 12px; border-radius:8px; font-size:0.74rem; font-weight:700; cursor:pointer;">Ask</button>
           </div>
           <div id="lightboxChatResponse" style="font-size:0.74rem; background:#ffffff; border:1px solid #e2e8f0; padding:10px; border-radius:8px; flex:1; overflow-y:auto; color:#334155; display:none; line-height:1.45;"></div>
@@ -866,7 +863,7 @@
         <div class="lightbox-toolbar">
           <div class="lightbox-toolbar-left">
             <div style="font-size:0.78rem; font-weight:800; color:#334155; background:#eef2ff; border:1px solid #c7d2fe; padding:8px 10px; border-radius:10px;">High-clarity plot viewer</div>
-            <div style="font-size:0.76rem; color:#64748b; font-weight:600;">Use zoom to inspect y-axis feature names and small labels.</div>
+            <div style="font-size:0.76rem; color:#64748b; font-weight:600;">Use zoom or arrow keys (← / →) to navigate views.</div>
           </div>
           <div class="lightbox-zoom-controls">
             <button class="lightbox-zoom-btn" onclick="adjustLightboxZoom(-0.1)">−</button>
@@ -962,6 +959,9 @@ const ZSCORE_DATA = {};
 
 let activeWfChatDate = "";
 let activeBsChatContext = "Full Window";
+
+// Global Array to Store Gemini Chat History for Forensic Export
+let geminiChatHistory = [];
 
 // =====================================================================
 // INDEPENDENT CONDITION STATE MANAGEMENT (DESIGN A vs. DESIGN B)
@@ -1219,6 +1219,109 @@ function toggleTimelineZScoreDisplay() {
   }
   buildAlertsTable();
 }
+
+// =====================================================================
+// GEMINI LLM CONNECTIVITY ENGINE & MULTIMODAL INTEGRATION
+// =====================================================================
+
+/**
+ * Handles chat queries submitted inside the Lightbox Modal
+ */
+async function submitLightboxChatQuery() {
+  const inputEl = document.getElementById('lightboxChatInput');
+  const respEl = document.getElementById('lightboxChatResponse');
+  
+  if (!inputEl || !respEl) return;
+  const query = inputEl.value.trim();
+  if (!query) return;
+
+  respEl.style.display = 'block';
+  respEl.innerText = currentLightboxType === 'bs' 
+    ? 'AI Master is evaluating global beeswarm dataset map...' 
+    : 'AI Master is evaluating current waterfall frame...';
+  inputEl.value = '';
+
+  try {
+    // 1. Extract Base64 plot image from Lightbox Viewport if available
+    const activeImg = document.getElementById('lightboxImg');
+    let base64Data = null;
+    let mimeType = null;
+    if (activeImg && activeImg.src && activeImg.src.startsWith('data:')) {
+      mimeType = activeImg.src.substring(activeImg.src.indexOf(":") + 1, activeImg.src.indexOf(";"));
+      base64Data = activeImg.src.split(',')[1];
+    }
+
+    // 2. Formulate context string
+    const contextStr = currentLightboxType === 'bs' 
+      ? `Lightbox Beeswarm Context: Global Summary Beeswarm Map` 
+      : `Lightbox Waterfall Context for Date: ${ANOMALOUS_DATES[currentLightboxIndex]}`;
+
+    // 3. Dispatch POST request to /api/chat
+    const response = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            prompt: query,
+            context: contextStr,
+            imageData: base64Data, 
+            mimeType: mimeType     
+        })
+    });
+
+    if (!response.ok) throw new Error(`Server returned status: ${response.status}`);
+    
+    const data = await response.json();
+    const replyText = data.text || "No response text generated.";
+    respEl.innerText = replyText;
+
+    // Log to forensic history
+    geminiChatHistory.push({
+      date: currentLightboxType === 'wf' ? ANOMALOUS_DATES[currentLightboxIndex] : "Global Population",
+      query: query,
+      response: replyText,
+      timestamp: new Date().toLocaleTimeString()
+    });
+
+  } catch (err) {
+    respEl.innerText = `Error: ${err.message}`;
+    console.error("Gemini LLM Communication Error:", err);
+  }
+}
+
+// =====================================================================
+// LIGHTBOX KEYBOARD SHORTCUT EVENT LISTENERS (LEFT / RIGHT / ENTER)
+// =====================================================================
+document.addEventListener('keydown', function(event) {
+  const lightbox = document.getElementById('globalLightbox');
+  if (!lightbox || !lightbox.classList.contains('open')) return;
+
+  const chatInput = document.getElementById('lightboxChatInput');
+  const isInputFocused = document.activeElement === chatInput;
+
+  // Handle Enter Key for Chat Input
+  if (event.key === 'Enter') {
+    if (isInputFocused) {
+      event.preventDefault();
+      submitLightboxChatQuery();
+    }
+    return;
+  }
+
+  // Handle Left & Right Arrow Keys for Lightbox Navigation
+  const isTyping = ['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement.tagName);
+  if (!isTyping) {
+    if (event.key === 'ArrowLeft') {
+      event.preventDefault();
+      navigateLightboxWaterfall(-1);
+    } else if (event.key === 'ArrowRight') {
+      event.preventDefault();
+      navigateLightboxWaterfall(1);
+    } else if (event.key === 'Escape') {
+      event.preventDefault();
+      closeLightbox();
+    }
+  }
+});
 
 document.getElementById('localDataImporter').addEventListener('change', function(e) {
     const file = e.target.files[0];
@@ -2027,7 +2130,6 @@ function switchDashboardArchitecture(selectedMode) {
     }
 }
 
-// Always Active Legacy Toggle inside Design B
 function toggleLegacyFramework() {
     const wrapA = document.getElementById('legacyWrapperBody');
     const toggleBtn = document.getElementById('legacyToggleBtn');
@@ -2211,7 +2313,23 @@ function populateDropdowns() {
       textContent += `* Date: ${date} | Magnitude: ${rawScore.toFixed(5)} | Verdict: ${verdictText} | Day Scenario Tag: ${dayScenarioTag}\n`;
     });
     
-    textContent += `\n==================================================================\n`;
+    textContent += `\n------------------------------------------------------------------\n`;
+    textContent += `GEMINI LLM INTERACTIVE ASSISTANT CHAT LOGS\n`;
+    textContent += `------------------------------------------------------------------\n`;
+
+    if (geminiChatHistory.length === 0) {
+      textContent += `No interactive AI queries were performed during this session.\n\n`;
+    } else {
+      geminiChatHistory.forEach((item, index) => {
+        textContent += `[${item.timestamp}] Context Date/Frame: ${item.date}\n`;
+        textContent += `User Query : ${item.query}\n`;
+        textContent += `AI Response: ${item.response}\n`;
+        textContent += `------------------------------------------------------------------\n`;
+      });
+      textContent += `\n`;
+    }
+
+    textContent += `==================================================================\n`;
     textContent += `END OF LOG STREAM PACKAGE - SECURITY SIGN-OFF DATA\n`;
     textContent += `==================================================================\n`;
 
