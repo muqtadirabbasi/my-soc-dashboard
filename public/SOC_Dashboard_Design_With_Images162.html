@@ -140,7 +140,7 @@
     .info-circle-trigger { display: inline-flex; align-items: center; justify-content: center; width: 20px; height: 20px; border-radius: 50%; background: #e2e8f0; color: #475569; font-size: 0.75rem; font-weight: 700; font-family: monospace; cursor: help; transition: all 0.15s ease; user-select: none; }
     .info-circle-trigger:hover, .info-circle-trigger:focus { background: #7c3aed; color: #ffffff; outline: none; }
 
-    #matrix-hover-panel { position: fixed; display: none; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 10px; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.15), 0 10px 10px -5px rgba(0,0,0,0.1); z-index: 20000; width: 780px; max-height: 520px; overflow-y: auto; padding: 6px; pointer-events: none; }
+    #matrix-hover-panel { position: fixed; display: none; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 10px; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.15), 0 10px 10px -5px rgba(0,0,0,0.1); z-index: 20000; width: 780px; max-height: 750px; overflow-y: auto; padding: 6px; pointer-events: none; }
     .matrix-header-grid { display: grid; grid-template-columns: 70px 1fr 1fr; padding: 8px 12px; background: #f1f5f9; border-radius: 6px; font-size: 0.75rem; font-weight: 700; color: #334155; margin-bottom: 4px; }
     .matrix-row-grid { display: grid; grid-template-columns: 70px 1fr 1fr; padding: 10px 12px; border-bottom: 1px solid #f1f5f9; font-size: 0.78rem; align-items: start; gap: 14px; }
     .matrix-row-grid:last-child { border-bottom: none; }
@@ -366,7 +366,7 @@
     <div class="topbar-left">
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
       <div>
-        <h1>SOC Anomaly Dashboard &mdash; User 093 (ALT1465)
+        <h1>SOC Anomaly Dashboard &mdash; User 162 (AYG1697)
           <span class="phase-badge baseline">Baseline (90 days)</span>
           <span class="phase-badge monitor" id="headerMonitorDays">Monitoring</span>
         </h1>
@@ -417,7 +417,7 @@
       <div class="card">
         <div class="card-header" style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
           <div style="display: flex; align-items: center; gap: 8px;">
-            <span class="dot" style="background:#E53935"></span> Detected Anomalies (<span id="anomalyCount">5</span> day(s) flagged)
+            <span class="dot" style="background:#E53935"></span> Detected Anomalies (<span id="anomalyCount">6</span> day(s) flagged)
           </div>
           
           <div class="toggle-container" onclick="event.stopPropagation();" style="margin-left: auto; padding-right: 10px;">
@@ -1411,7 +1411,7 @@ function bootDashboard() {
     document.getElementById('headerMonitorDays').innerText = `Monitoring (${TEST_DATES.length} days)`;
 
     document.getElementById('headerRecall').innerText = window.CHART_DATA.recall || "100%";
-    document.getElementById('headerPrecision').innerText = window.CHART_DATA.precision || "40%";
+    document.getElementById('headerPrecision').innerText = window.CHART_DATA.precision || "34%";
 
     TIMELINE_STATS = calculateTimelineAnomalyZScores(window.CHART_DATA);
 
