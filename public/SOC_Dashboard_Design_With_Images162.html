@@ -366,7 +366,7 @@
     <div class="topbar-left">
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
       <div>
-        <h1>SOC Anomaly Dashboard &mdash; User 162 (AYG1697)
+        <h1>SOC Anomaly Dashboard &mdash; User 093 (ALT1465)
           <span class="phase-badge baseline">Baseline (90 days)</span>
           <span class="phase-badge monitor" id="headerMonitorDays">Monitoring</span>
         </h1>
@@ -417,7 +417,7 @@
       <div class="card">
         <div class="card-header" style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
           <div style="display: flex; align-items: center; gap: 8px;">
-            <span class="dot" style="background:#E53935"></span> Detected Anomalies (<span id="anomalyCount">6</span> day(s) flagged)
+            <span class="dot" style="background:#E53935"></span> Detected Anomalies (<span id="anomalyCount">5</span> day(s) flagged)
           </div>
           
           <div class="toggle-container" onclick="event.stopPropagation();" style="margin-left: auto; padding-right: 10px;">
@@ -1411,7 +1411,7 @@ function bootDashboard() {
     document.getElementById('headerMonitorDays').innerText = `Monitoring (${TEST_DATES.length} days)`;
 
     document.getElementById('headerRecall').innerText = window.CHART_DATA.recall || "100%";
-    document.getElementById('headerPrecision').innerText = window.CHART_DATA.precision || "34%";
+    document.getElementById('headerPrecision').innerText = window.CHART_DATA.precision || "40%";
 
     TIMELINE_STATS = calculateTimelineAnomalyZScores(window.CHART_DATA);
 
