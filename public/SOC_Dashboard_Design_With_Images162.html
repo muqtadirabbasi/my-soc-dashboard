@@ -167,14 +167,14 @@
     
     .status-badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 0.72rem; font-weight: 600; text-transform: uppercase;}
     .sb-normal { background: #e8f5e9; color: #2e7d32; opacity: 0.7; }
-    .sb-elevated { background: #fff3e0; color: #e65100; }
+    .sb-elevated { background: #fef3c7; color: #d97706; }
     .sb-high { background: #fee2e2; color: #dc2626; }
     .sb-critical { background: #fdecea; color: #c62828; }
 
     .deviation-track { background: #e5e7eb; height: 8px; border-radius: 4px; width: 90px; position: relative; overflow: hidden; display: inline-block; vertical-align: middle; margin-right: 8px;}
     .deviation-fill { height: 100%; border-radius: 4px; width: 0%; }
     .df-normal { background: #10b981; }
-    .df-elevated { background: #f97316; }
+    .df-elevated { background: #f59e0b; }
     .df-high { background: #ef4444; }
     .df-critical { background: #7c3aed; }
 
@@ -366,7 +366,7 @@
     <div class="topbar-left">
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
       <div>
-        <h1>SOC Anomaly Dashboard &mdash; User 162 (AXP1568)
+        <h1>SOC Anomaly Dashboard &mdash; User 162 (AYG1697)
           <span class="phase-badge baseline">Baseline (90 days)</span>
           <span class="phase-badge monitor" id="headerMonitorDays">Monitoring</span>
         </h1>
@@ -1410,7 +1410,7 @@ function bootDashboard() {
     document.getElementById('headerMonitorDays').innerText = `Monitoring (${TEST_DATES.length} days)`;
 
     document.getElementById('headerRecall').innerText = window.CHART_DATA.recall || "100%";
-    document.getElementById('headerPrecision').innerText = window.CHART_DATA.precision || "33%";
+    document.getElementById('headerPrecision').innerText = window.CHART_DATA.precision || "34%";
 
     TIMELINE_STATS = calculateTimelineAnomalyZScores(window.CHART_DATA);
 
@@ -1471,7 +1471,7 @@ function bootDashboard() {
         
         ZSCORE_DATA[r.date] = {
             z: errorZ,
-            label: errorZ > 4.5 ? "Severe Outlier Event" : errorZ > 2.0 ? "Significant Anomaly Drift" : "Mild Deviation"
+            label: errorZ > 4.5 ? "Severe Outlier Event" : errorZ > 2.0 ? "Significant Anomaly Drift" : "Stable Baseline Profile"
         };
     });
 
@@ -1549,7 +1549,7 @@ function renderFeatures(date) {
 
       if (r.zscore >= 5.0) { badgeClass = "sb-critical"; fillClass = "df-critical"; textStatus = "Extreme Outlier Event"; }
       else if (r.zscore >= 3.0) { badgeClass = "sb-high"; fillClass = "df-high"; textStatus = "Significant Variation Spike"; }
-      else if (r.zscore >= 1.91) { badgeClass = "sb-elevated"; fillClass = "df-elevated"; textStatus = "Behavioral Drift"; }
+      else if (r.zscore >= 1.91) { badgeClass = "sb-elevated"; fillClass = "df-elevated"; textStatus = "Mild Deviation"; }
 
       return `<tr class="${isElevatedThreat ? 'tr-threat-highlight' : ''}">
         <td>
@@ -1709,7 +1709,7 @@ function buildAlertsTable() {
     const dayName = WEEKDAYS_MAP[date] || "Unknown";
     const errorZ = (score - TIMELINE_STATS.mean) / TIMELINE_STATS.stdDev;
     
-    let severityLabel = "Mild Deviation";
+    let severityLabel = "Stable Baseline Profile";
     let colorStyle = "color:#64748b; font-weight:500;";
     if (errorZ > 4.5) {
       severityLabel = "Severe Outlier Event";
@@ -1718,7 +1718,7 @@ function buildAlertsTable() {
       severityLabel = "Significant Anomaly Drift";
       colorStyle = "color:#f97316; font-weight:600;";
     } else {
-      severityLabel = "Mild Deviation";
+      severityLabel = "Stable Baseline Profile";
       colorStyle = "color:#64748b; font-weight:500;";
     }
 
@@ -2375,7 +2375,7 @@ function attachTooltipListeners() {
         <div style="display:flex; flex-direction:column; gap:4px; font-size:11px;">
           <div><strong style="color:#f87171;">Severe Outlier Event (Z > 4.5):</strong> High-risk anomaly requiring urgent review.</div>
           <div><strong style="color:#fb923c;">Significant Anomaly Drift (Z > 2.0):</strong> Notable departure from baseline norms.</div>
-          <div><strong style="color:#4ade80;">Mild Deviation (Z &le; 2.0):</strong> Normal error bounds.</div>
+          <div><strong style="color:#94a3b8;">Stable Baseline Profile (Z &le; 2.0):</strong> Normal error bounds.</div>
         </div>`;
       tooltipBox.style.display = 'block';
     };
@@ -2901,7 +2901,7 @@ window.bootDashboard = function() {
         
         ZSCORE_DATA[r.date] = {
             z: errorZ,
-            label: errorZ > 4.5 ? "Severe Outlier Event" : errorZ > 2.0 ? "Significant Anomaly Drift" : "Mild Deviation"
+            label: errorZ > 4.5 ? "Severe Outlier Event" : errorZ > 2.0 ? "Significant Anomaly Drift" : "Stable Baseline Profile"
         };
     });
 
