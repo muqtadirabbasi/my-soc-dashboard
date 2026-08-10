@@ -212,7 +212,7 @@
     .lightbox-close:hover{background:#E53935;transform:scale(1.06);}
     .lightbox-label{position:absolute;bottom:0;left:0;right:0;background:rgba(15,23,42,0.9);color:#fff;padding:10px 16px;font-size:0.92rem;font-weight:800;text-align:center;letter-spacing:0.01em;}
     
-    /* UPDATED LIGHTBOX CSS FOR LAPTOP RESPONSIVENESS */
+    /* LIGHTBOX CSS FOR LAPTOP RESPONSIVENESS */
     .lightbox-main-shell{flex:1;display:flex;min-height:0;background:linear-gradient(180deg,#ffffff 0%,#f8fafc 100%);}
     .lightbox-controls{display:flex;flex-direction:column;gap:12px;min-width:300px;max-width:320px;background:#f8fafc;padding:18px;border-right:1px solid #dbe3ec;align-self:stretch;justify-content:flex-start;height:100%;overflow:auto;}
     .lightbox-plot-panel{flex:1;display:flex;flex-direction:column;min-width:0;min-height:0;padding:18px 18px 14px;background:#ffffff;border-right:1px solid #e2e8f0;}
@@ -314,13 +314,7 @@
     @media (max-width: 980px){.case-assessment-grid{grid-template-columns:1fr;}.assessment-card-full{grid-column:auto;}.assessment-mini-grid{grid-template-columns:1fr;}.assessment-export-btn{margin-left:0;width:100%;justify-content:center;}}
   </style>
 
-  <!-- Python Injection Target Container -->
-  <script id="embeddedDataContainer">
-    // Python scripts inject user dataset and variables here:
-    // window.CHART_DATA = { ... };
-    // window.RECORDS = [ ... ];
-    // window.ACTIONS_DATA_EXTRACTED = { ... };
-  </script>
+  <script id="embeddedDataContainer"></script>
 
   <style>
     #importOverlay { display: none !important; }
@@ -385,7 +379,7 @@
     <div class="topbar-left">
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
       <div>
-        <h1>SOC Anomaly Dashboard &mdash; User 162 (AYG1697)
+        <h1>SOC Anomaly Dashboard &mdash; User 093 (ALT1465)
           <span class="phase-badge baseline">Baseline (90 days)</span>
           <span class="phase-badge monitor" id="headerMonitorDays">Monitoring</span>
         </h1>
@@ -436,7 +430,7 @@
       <div class="card">
         <div class="card-header" style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
           <div style="display: flex; align-items: center; gap: 8px;">
-            <span class="dot" style="background:#E53935"></span> Detected Anomalies (<span id="anomalyCount">6</span> day(s) flagged)
+            <span class="dot" style="background:#E53935"></span> Detected Anomalies (<span id="anomalyCount">5</span> day(s) flagged)
           </div>
           
           <div class="toggle-container" onclick="event.stopPropagation();" style="margin-left: auto; padding-right: 10px;">
@@ -1345,7 +1339,6 @@ document.getElementById('localDataImporter').addEventListener('change', function
                 window.RECORDS.forEach(r => { window.ACTIONS_DATA_EXTRACTED[r.date] = r.actions || r.activities || []; });
             }
 
-            // --- EXTRACT IMAGES FROM UPLOADED HTML ---
             const tempDoc = new DOMParser().parseFromString(content, 'text/html');
             const wfImages = [];
             tempDoc.querySelectorAll('.thumb-card, .thumbnail-card').forEach(card => {
@@ -1380,7 +1373,6 @@ document.getElementById('localDataImporter').addEventListener('change', function
             } else if (wfImages.length > anomDates.length) {
                 window.CHART_DATA.beeswarm_image = wfImages[wfImages.length - 1];
             }
-            // ------------------------------------------------------
 
             document.getElementById('importOverlay').style.display = 'none';
             document.getElementById('dashboardContent').style.display = 'block';
@@ -1420,7 +1412,7 @@ function bootDashboard() {
     document.getElementById('headerMonitorDays').innerText = `Monitoring (${TEST_DATES.length} days)`;
 
     document.getElementById('headerRecall').innerText = window.CHART_DATA.recall || "100%";
-    document.getElementById('headerPrecision').innerText = window.CHART_DATA.precision || "34%";
+    document.getElementById('headerPrecision').innerText = window.CHART_DATA.precision || "40%";
 
     TIMELINE_STATS = calculateTimelineAnomalyZScores(window.CHART_DATA);
 
@@ -1435,7 +1427,18 @@ function bootDashboard() {
     const EXCLUDED_KEYS = ["composite Threat Activity flags", "Sudden Departure Flag", "Threat Activity Flag"];
     const VALID_FEATURES_KEYS = rawKeys.filter(k => !EXCLUDED_KEYS.some(ex => k.includes(ex)));
 
-    const baselineDays = window.RECORDS.filter(r => trainDates.includes(r.date));
+    // MODIFIED BASELINE CALCULATION WITH FALLBACK
+    let baselineDays = window.RECORDS.filter(r => trainDates.includes(r.date));
+    
+    // FALLBACK: If training data was omitted from the log file to save space, 
+    // estimate the baseline using the stable/normal test days instead.
+    if (baselineDays.length === 0) {
+        baselineDays = window.RECORDS.filter(r => !ANOMALOUS_DATES.includes(r.date));
+    }
+    if (baselineDays.length === 0) {
+        baselineDays = window.RECORDS; // Failsafe
+    }
+    
     const N = baselineDays.length > 0 ? baselineDays.length : 1;
 
     VALID_FEATURES_KEYS.forEach(key => {
