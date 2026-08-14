@@ -98,8 +98,8 @@
     tr.row-selected td { background-color: #fee2e2 !important; font-weight: 600; }
     
     .indicator-badge-inline { display: inline-flex; align-items: center; gap: 4px; padding: 2px 7px; border-radius: 4px; font-size: 0.65rem; font-weight: 700; text-transform: uppercase; margin-left: 6px; vertical-align: middle; }
-    .indicator-badge-inline.primary { background: #fee2e2; color: #991b1b; border: 1px solid #fca5a5; }
-    .indicator-badge-inline.secondary { background: #e0f2fe; color: #0369a1; border: 1px solid #7dd3fc; }
+    .indicator-badge-inline.primary { background: #f3e8ff; color: #7c3aed; border: 1px solid #c084fc; }
+    .indicator-badge-inline.secondary { background: #fef9c3; color: #ca8a04; border: 1px solid #fde047; }
     tr.tr-threat-highlight { background-color: #fff5f5 !important; }
     tr.tr-threat-highlight:hover td { background-color: #fee2e2 !important; }
 
@@ -359,16 +359,16 @@
           <span style="font-size:0.65rem; color:#94a3b8; font-weight:normal;">(Expand)</span>
         </summary>
         <div style="margin-top:8px; display:flex; flex-direction:column; gap:8px; border-top:1px solid #334155; padding-top:6px;">
-          <div><strong style="color:#f87171;">S1 — IP Theft via Media</strong><br><span style="color:#94a3b8;">• Primary:</span> Wikileaks Access<br><span style="color:#94a3b8;">• Secondary:</span> Thumb Drive, After-Hours</div>
-          <div><strong style="color:#fb923c;">S2 — Fraud via Job/USB</strong><br><span style="color:#94a3b8;">• Primary:</span> Job Site Access<br><span style="color:#94a3b8;">• Secondary:</span> Competitor Email, Thumb</div>
-          <div><strong style="color:#38bdf8;">S3 — Keylogger Misuse</strong><br><span style="color:#94a3b8;">• Primary:</span> Keylogger Download<br><span style="color:#94a3b8;">• Secondary:</span> Unauth Login, Mass Mail</div>
-          <div><strong style="color:#c084fc;">S4 — Exfiltration</strong><br><span style="color:#94a3b8;">• Primary:</span> Unauth Login<br><span style="color:#94a3b8;">• Secondary:</span> File Search, Home Mail</div>
-          <div><strong style="color:#a5b4fc;">S5 — Mixed Profile</strong><br><span style="color:#94a3b8;">• Primary:</span> Overlapping Spikes<br><span style="color:#94a3b8;">• Secondary:</span> Multi-vector indicators</div>
-          <div><strong style="color:#6ee7b7;">S6 — Benign Anomaly</strong><br><span style="color:#94a3b8;">• Primary:</span> Isolated Deviation<br><span style="color:#94a3b8;">• Secondary:</span> Safe task spikes</div>
+          <div><strong style="color:#f87171;">S1 — IP Theft via Media</strong><br><span style="color:#a855f7;">• Primary:</span> Wikileaks Access<br><span style="color:#fbbf24;">• Secondary:</span> Thumb Drive, After-Hours</div>
+          <div><strong style="color:#ec4899;">S2 — Fraud via Job/USB</strong><br><span style="color:#a855f7;">• Primary:</span> Job Site Access<br><span style="color:#fbbf24;">• Secondary:</span> Competitor Email, Thumb</div>
+          <div><strong style="color:#38bdf8;">S3 — Keylogger Misuse</strong><br><span style="color:#a855f7;">• Primary:</span> Keylogger Download<br><span style="color:#fbbf24;">• Secondary:</span> Unauth Login, Mass Mail</div>
+          <div><strong style="color:#c084fc;">S4 — Exfiltration</strong><br><span style="color:#a855f7;">• Primary:</span> Unauth Login<br><span style="color:#fbbf24;">• Secondary:</span> File Search, Home Mail</div>
+          <div><strong style="color:#a5b4fc;">S5 — Mixed Profile</strong><br><span style="color:#a855f7;">• Primary:</span> Overlapping Spikes<br><span style="color:#fbbf24;">• Secondary:</span> Multi-vector indicators</div>
+          <div><strong style="color:#6ee7b7;">S6 — Benign Anomaly</strong><br><span style="color:#a855f7;">• Primary:</span> Isolated Deviation<br><span style="color:#fbbf24;">• Secondary:</span> Safe task spikes</div>
           <div style="border-top:1px dashed #475569; padding-top:6px; color:#fde047; font-size:0.68rem;">
-            <strong>💡 Easy Triage Trick:</strong><br>
-            <span id="sidebarTriageTrickText">Check top features for Primary & Secondary badges. If Primary is present with 1-2 Secondary factors above it, confirm threat!</span>
-          </div>
+              <strong>💡 Easy Triage Trick:</strong><br>
+              <span id="sidebarTriageTrickText">Check top features for <span style="color:#a855f7;">Primary</span> & <span style="color:#fbbf24;">Secondary</span> badges. If <span style="color:#a855f7;">Primary</span> is present with 1-2 <span style="color:#fbbf24;">Secondary</span> factors above it, confirm threat!</span>
+            </div>
         </div>
       </details>
     </div>
@@ -894,60 +894,62 @@
         <div class="lightbox-label" id="lightboxTitle" style="position:static; margin-top:12px; border-radius:10px; width:100%; text-align:center;"></div>
       </div>
 
+       
       <div class="lightbox-sidebar">
-        <div style="font-weight:700; color:#fff; border-bottom:1px solid #334155; padding-bottom:10px; margin-bottom:16px; font-size: 1.05rem;">📋 Scenario Checklist</div>
-      
+      <div style="font-weight:700; color:#fff; border-bottom:1px solid #334155; padding-bottom:10px; margin-bottom:16px; font-size: 1.05rem;">📋 Scenario Checklist</div>
+
       <div style="margin-bottom:16px;">
         <strong style="color:#f87171; font-size: 0.95rem;">S1 — IP Theft via Media</strong><br>
         <span style="color:#cbd5e1; display: block; margin-top: 4px;">
-          <span style="color:#ffffff; font-weight:bold; background:#b91c1c; padding:2px 6px; border-radius:4px; font-size:0.7rem; margin-right: 4px; vertical-align: middle;">PRIMARY</span> <strong style="color:#ffffff;">Wikileaks Access</strong><br>
-          <span style="padding-left: 4px; display:inline-block; margin-top:4px;">• Secondary: Thumb Drive, After-Hours</span>
+          <span style="color:#ffffff; font-weight:bold; background:#9333ea; padding:2px 6px; border-radius:4px; font-size:0.7rem; margin-right: 4px; vertical-align: middle;">PRIMARY</span> <strong style="color:#ffffff;">Wikileaks Access</strong><br>
+          <span style="padding-left: 4px; display:inline-block; margin-top:4px; color:#fbbf24;">• Secondary: Thumb Drive, After-Hours</span>
         </span>
       </div>
 
       <div style="margin-bottom:16px;">
-        <strong style="color:#fb923c; font-size: 0.95rem;">S2 — Fraud via Job/USB</strong><br>
+        <strong style="color:#ec4899; font-size: 0.95rem;">S2 — Fraud via Job/USB</strong><br>
         <span style="color:#cbd5e1; display: block; margin-top: 4px;">
-          <span style="color:#ffffff; font-weight:bold; background:#c2410c; padding:2px 6px; border-radius:4px; font-size:0.7rem; margin-right: 4px; vertical-align: middle;">PRIMARY</span> <strong style="color:#ffffff;">Job Site Access</strong><br>
-          <span style="padding-left: 4px; display:inline-block; margin-top:4px;">• Secondary: Competitor Email, Thumb Drive</span>
+          <span style="color:#ffffff; font-weight:bold; background:#9333ea; padding:2px 6px; border-radius:4px; font-size:0.7rem; margin-right: 4px; vertical-align: middle;">PRIMARY</span> <strong style="color:#ffffff;">Job Site Access</strong><br>
+          <span style="padding-left: 4px; display:inline-block; margin-top:4px; color:#fbbf24;">• Secondary: Competitor Email, Thumb Drive</span>
         </span>
       </div>
 
       <div style="margin-bottom:16px;">
         <strong style="color:#38bdf8; font-size: 0.95rem;">S3 — Misuse via Keylogger</strong><br>
         <span style="color:#cbd5e1; display: block; margin-top: 4px;">
-          <span style="color:#ffffff; font-weight:bold; background:#0369a1; padding:2px 6px; border-radius:4px; font-size:0.7rem; margin-right: 4px; vertical-align: middle;">PRIMARY</span> <strong style="color:#ffffff;">Keylogger Download</strong><br>
-          <span style="padding-left: 4px; display:inline-block; margin-top:4px;">• Secondary: Unauthorized Login, Mass Email</span>
+          <span style="color:#ffffff; font-weight:bold; background:#9333ea; padding:2px 6px; border-radius:4px; font-size:0.7rem; margin-right: 4px; vertical-align: middle;">PRIMARY</span> <strong style="color:#ffffff;">Keylogger Download</strong><br>
+          <span style="padding-left: 4px; display:inline-block; margin-top:4px; color:#fbbf24;">• Secondary: Unauthorized Login, Mass Email</span>
         </span>
       </div>
 
       <div style="margin-bottom:16px;">
         <strong style="color:#c084fc; font-size: 0.95rem;">S4 — Exfiltration</strong><br>
         <span style="color:#cbd5e1; display: block; margin-top: 4px;">
-          <span style="color:#ffffff; font-weight:bold; background:#7e22ce; padding:2px 6px; border-radius:4px; font-size:0.7rem; margin-right: 4px; vertical-align: middle;">PRIMARY</span> <strong style="color:#ffffff;">Unauthorized Login</strong><br>
-          <span style="padding-left: 4px; display:inline-block; margin-top:4px;">• Secondary: File Search, Home Email</span>
+          <span style="color:#ffffff; font-weight:bold; background:#9333ea; padding:2px 6px; border-radius:4px; font-size:0.7rem; margin-right: 4px; vertical-align: middle;">PRIMARY</span> <strong style="color:#ffffff;">Unauthorized Login</strong><br>
+          <span style="padding-left: 4px; display:inline-block; margin-top:4px; color:#fbbf24;">• Secondary: File Search, Home Email</span>
         </span>
       </div>
 
       <div style="margin-bottom:16px;">
         <strong style="color:#a5b4fc; font-size: 0.95rem;">S5 — Mixed Profile</strong><br>
         <span style="color:#cbd5e1; display: block; margin-top: 4px;">
-          <span style="color:#ffffff; font-weight:bold; background:#4f46e5; padding:2px 6px; border-radius:4px; font-size:0.7rem; margin-right: 4px; vertical-align: middle;">PRIMARY</span> <strong style="color:#ffffff;">Overlapping Behavioral Spikes</strong><br>
-          <span style="padding-left: 4px; display:inline-block; margin-top:4px;">• Secondary: Multi-vector indicators</span>
+          <span style="color:#ffffff; font-weight:bold; background:#9333ea; padding:2px 6px; border-radius:4px; font-size:0.7rem; margin-right: 4px; vertical-align: middle;">PRIMARY</span> <strong style="color:#ffffff;">Overlapping Behavioral Spikes</strong><br>
+          <span style="padding-left: 4px; display:inline-block; margin-top:4px; color:#fbbf24;">• Secondary: Multi-vector indicators</span>
         </span>
       </div>
 
       <div style="margin-bottom:16px;">
         <strong style="color:#6ee7b7; font-size: 0.95rem;">S6 — Benign User / Normal Anomaly</strong><br>
         <span style="color:#cbd5e1; display: block; margin-top: 4px;">
-          <span style="color:#ffffff; font-weight:bold; background:#059669; padding:2px 6px; border-radius:4px; font-size:0.7rem; margin-right: 4px; vertical-align: middle;">PRIMARY</span> <strong style="color:#ffffff;">Isolated Statistical Deviation</strong><br>
-          <span style="padding-left: 4px; display:inline-block; margin-top:4px;">• Secondary: Safe task spikes, no exfil markers</span>
+          <span style="color:#ffffff; font-weight:bold; background:#9333ea; padding:2px 6px; border-radius:4px; font-size:0.7rem; margin-right: 4px; vertical-align: middle;">PRIMARY</span> <strong style="color:#ffffff;">Isolated Statistical Deviation</strong><br>
+          <span style="padding-left: 4px; display:inline-block; margin-top:4px; color:#fbbf24;">• Secondary: Safe task spikes, no exfil markers</span>
         </span>
       </div>
+      
       <div style="margin-top:20px; padding-top:16px; border-top:1px dashed #475569;">
-        <span style="color:#fbbf24; font-weight:bold; font-size:0.85rem; display:block; margin-bottom:6px;">💡 Analyst Triage Tip:</span>
-        <span style="color:#e2e8f0; font-size:0.8rem; line-height:1.4; display:block;">Check top 10 features top-down. <strong>Rule:</strong> Must have <strong>≥1 primary + prefer 2 secondary flags</strong> (secondary flags appear higher & contribute more). Note: Cross-checking autoencoder panels or raw actions is optional here unless extra evidence is needed. (*After-hours* = evening, night time, and weekends).</span>
-      </div>
+          <span style="color:#fbbf24; font-weight:bold; font-size:0.85rem; display:block; margin-bottom:6px;">💡 Analyst Triage Tip:</span>
+          <span style="color:#e2e8f0; font-size:0.8rem; line-height:1.4; display:block;">Check top 10 features top-down. <strong>Rule:</strong> Must have <strong>1 <span style="color:#a855f7;">primary</span> + prefer 2 <span style="color:#fbbf24;">secondary</span> flags</strong> (<span style="color:#fbbf24;">secondary</span> flags appear higher & contribute more). Note: Cross-checking autoencoder panels or raw actions is optional here unless extra evidence is needed. (*After-hours* = evening, night time, and weekends).</span>
+        </div>
     </div>
   </div>
 </div>
@@ -2060,32 +2062,32 @@ function switchDashboardArchitecture(selectedMode) {
     const trickText = document.getElementById('sidebarTriageTrickText');
 
     if (selectedMode === 'A') {
-        wrapA.style.display = 'flex';
-        wrapB.style.display = 'none';
-        if (bottomToggleContainer) bottomToggleContainer.style.display = 'none';
-        if (stratA) stratA.style.display = 'block';
-        if (stratB) stratB.style.display = 'none';
-        if (trickText) {
-          trickText.innerHTML = "Check Autoencoder table for Primary & Secondary badges. If Primary is paired with 1-2 secondary features highlighted in orange/red, confirm threat (or toggle <strong>Filter Variations Only</strong>).";
+            wrapA.style.display = 'flex';
+            wrapB.style.display = 'none';
+            if (bottomToggleContainer) bottomToggleContainer.style.display = 'none';
+            if (stratA) stratA.style.display = 'block';
+            if (stratB) stratB.style.display = 'none';
+            if (trickText) {
+              trickText.innerHTML = "Check Autoencoder table for <span style='color:#a855f7;'>Primary</span> & <span style='color:#fbbf24;'>Secondary</span> badges. If <span style='color:#a855f7;'>Primary</span> is paired with 1-2 <span style='color:#fbbf24;'>secondary</span> features highlighted in orange/red, confirm threat (or toggle <strong>Filter Variations Only</strong>).";
+            }
+            btnA.classList.add('active');
+            btnB.classList.remove('active');
+            if (toggleBtn) toggleBtn.classList.add('active');
+            if (chevron) chevron.style.transform = 'rotate(180deg)';
+        } else if (selectedMode === 'B') {
+            wrapA.style.display = 'none';
+            wrapB.style.display = 'flex';
+            if (bottomToggleContainer) bottomToggleContainer.style.display = 'flex';
+            if (stratA) stratA.style.display = 'none';
+            if (stratB) stratB.style.display = 'block';
+            if (trickText) {
+              trickText.innerHTML = "Check top features in SHAP plots for <span style='color:#a855f7;'>Primary</span> & <span style='color:#fbbf24;'>Secondary</span> badges. If <span style='color:#a855f7;'>Primary</span> has 1-2 <span style='color:#fbbf24;'>Secondary</span> badges above it (contributing more), confirm threat.";
+            }
+            btnB.classList.add('active');
+            btnA.classList.remove('active');
+            if (toggleBtn) toggleBtn.classList.remove('active');
+            if (chevron) chevron.style.transform = 'rotate(0deg)';
         }
-        btnA.classList.add('active');
-        btnB.classList.remove('active');
-        if (toggleBtn) toggleBtn.classList.add('active');
-        if (chevron) chevron.style.transform = 'rotate(180deg)';
-    } else if (selectedMode === 'B') {
-        wrapA.style.display = 'none';
-        wrapB.style.display = 'flex';
-        if (bottomToggleContainer) bottomToggleContainer.style.display = 'flex';
-        if (stratA) stratA.style.display = 'none';
-        if (stratB) stratB.style.display = 'block';
-        if (trickText) {
-          trickText.innerHTML = "Check top features in SHAP plots for Primary & Secondary badges. If Primary has 1-2 Secondary badges above it (contributing more), confirm threat.";
-        }
-        btnB.classList.add('active');
-        btnA.classList.remove('active');
-        if (toggleBtn) toggleBtn.classList.remove('active');
-        if (chevron) chevron.style.transform = 'rotate(0deg)';
-    }
 
     buildAlertsTable();
     const activeVerdicts = getActiveVerdicts();
