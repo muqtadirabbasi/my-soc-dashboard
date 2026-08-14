@@ -219,13 +219,11 @@
     .lightbox-sidebar{flex:0 0 360px;min-width:320px;padding:24px 20px;background:#1e293b;color:#f8fafc;overflow-y:auto;font-size:0.85rem;line-height:1.5;}
 
     @media (max-width: 1400px){
-      /* Keep side-by-side but reduce panel widths for laptop screens */
       .lightbox-controls{min-width:240px;max-width:260px;padding:14px;}
       .lightbox-sidebar{flex:0 0 280px;min-width:260px;padding:18px 14px;}
     }
 
     @media (max-width: 900px){
-      /* Stack vertically ONLY on mobile/very small screens (<900px) */
       .lightbox-main-shell{flex-direction:column;}
       .lightbox-controls{max-width:none;min-width:0;border-right:none;border-bottom:1px solid #dbe3ec;height:auto;padding:14px;}
       .lightbox-plot-panel{border-right:none;border-bottom:1px solid #e2e8f0;min-height:56vh;padding:12px;}
@@ -526,10 +524,10 @@
                       </label>
                     </div>
 
-                    <div class="toggle-container">
-                      <span>Filter Variations Only</span>
+                    <div class="toggle-container" id="anomalyToggleContainer">
+                      <span id="anomalyToggleLabel">Filter Variations Only</span>
                       <label class="switch">
-                        <input type="checkbox" id="anomalyToggle" checked>
+                        <input type="checkbox" id="anomalyToggle">
                         <span class="slider"></span>
                       </label>
                     </div>
@@ -1074,11 +1072,14 @@ const SECONDARY_INDICATOR_KEYS = [
   "Mass Email Count", "Mass Email",
   "Decoy File Access Count", "Decoy File Access",
   "File Search Count", "File Search",
+  "Home Email Count", "Home Email",
+  "Evening Activities", "Night Activities", "Is Weekend",
   "Activities During Off-Hours Count", "After-Hours Activity",
   "Activity Count: Connect", "Activity Count: Disconnect"
 ];
 
 function getThreatIndicatorTag(featureName) {
+  if (isDesignAActive()) return ""; // Removed for Design A per request
   if (PRIMARY_INDICATOR_KEYS.some(k => featureName.toLowerCase().includes(k.toLowerCase()))) {
     return `<span class="indicator-badge-inline primary">🚨 PRIMARY THREAT INDICATOR</span>`;
   }
@@ -1086,6 +1087,16 @@ function getThreatIndicatorTag(featureName) {
     return `<span class="indicator-badge-inline secondary">📊 SECONDARY INDICATOR</span>`;
   }
   return "";
+}
+
+function getFeatureTextStyle(featureName) {
+  if (PRIMARY_INDICATOR_KEYS.some(k => featureName.toLowerCase().includes(k.toLowerCase()))) {
+    return 'color: #7c3aed; font-weight: 700;'; // Purple for primary indicators
+  }
+  if (SECONDARY_INDICATOR_KEYS.some(k => featureName.toLowerCase().includes(k.toLowerCase()))) {
+    return 'color: #d97706; font-weight: 600;'; // Amber for secondary indicators
+  }
+  return '';
 }
 
 let timerInterval = null;
@@ -1429,16 +1440,13 @@ function bootDashboard() {
     const EXCLUDED_KEYS = ["composite Threat Activity flags", "Sudden Departure Flag", "Threat Activity Flag"];
     const VALID_FEATURES_KEYS = rawKeys.filter(k => !EXCLUDED_KEYS.some(ex => k.includes(ex)));
 
-    // MODIFIED BASELINE CALCULATION WITH FALLBACK
     let baselineDays = window.RECORDS.filter(r => trainDates.includes(r.date));
     
-    // FALLBACK: If training data was omitted from the log file to save space, 
-    // estimate the baseline using the stable/normal test days instead.
     if (baselineDays.length === 0) {
         baselineDays = window.RECORDS.filter(r => !ANOMALOUS_DATES.includes(r.date));
     }
     if (baselineDays.length === 0) {
-        baselineDays = window.RECORDS; // Failsafe
+        baselineDays = window.RECORDS; 
     }
     
     const N = baselineDays.length > 0 ? baselineDays.length : 1;
@@ -1587,6 +1595,7 @@ function renderFeatures(date) {
       let widthPct = Math.min((r.zscore / 6) * 100, 100);
 
       const threatTag = getThreatIndicatorTag(r.name);
+      const textStyle = getFeatureTextStyle(r.name);
       const isElevatedThreat = threatTag !== "" && r.zscore >= 1.91;
 
       if (r.zscore >= 5.0) { badgeClass = "sb-critical"; fillClass = "df-critical"; textStatus = "Extreme Outlier Event"; }
@@ -1596,7 +1605,7 @@ function renderFeatures(date) {
       return `<tr class="${isElevatedThreat ? 'tr-threat-highlight' : ''}">
         <td>
           <div class="has-tooltip" data-tip="${r.conf.desc}" tabindex="0">
-            <strong>${r.name}</strong> ${threatTag}
+            <strong style="${textStyle}">${r.name}</strong> ${threatTag}
           </div>
         </td>
         <td style="font-weight:700; color:${r.zscore >= 1.91 ? '#dc2626' : '#111827'};">${r.displayObserved}</td>
@@ -2060,6 +2069,8 @@ function switchDashboardArchitecture(selectedMode) {
     const stratA = document.getElementById('strategyA');
     const stratB = document.getElementById('strategyB');
     const trickText = document.getElementById('sidebarTriageTrickText');
+    const anomalyToggle = document.getElementById('anomalyToggle');
+    const anomalyToggleLabel = document.getElementById('anomalyToggleLabel');
 
     if (selectedMode === 'A') {
             wrapA.style.display = 'flex';
@@ -2074,6 +2085,15 @@ function switchDashboardArchitecture(selectedMode) {
             btnB.classList.remove('active');
             if (toggleBtn) toggleBtn.classList.add('active');
             if (chevron) chevron.style.transform = 'rotate(180deg)';
+            
+            // Activate filter toggle in Design A and set default to off state
+            if (anomalyToggle) {
+              anomalyToggle.disabled = false;
+              anomalyToggle.checked = false;
+            }
+            if (anomalyToggleLabel) {
+              anomalyToggleLabel.style.opacity = '1';
+            }
         } else if (selectedMode === 'B') {
             wrapA.style.display = 'none';
             wrapB.style.display = 'flex';
@@ -2087,6 +2107,15 @@ function switchDashboardArchitecture(selectedMode) {
             btnA.classList.remove('active');
             if (toggleBtn) toggleBtn.classList.remove('active');
             if (chevron) chevron.style.transform = 'rotate(0deg)';
+
+            // Re-enable filter toggle in Design B
+            if (anomalyToggle) {
+              anomalyToggle.disabled = false;
+              anomalyToggle.checked = true;
+            }
+            if (anomalyToggleLabel) {
+              anomalyToggleLabel.style.opacity = '1';
+            }
         }
 
     buildAlertsTable();
