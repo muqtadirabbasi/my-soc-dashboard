@@ -140,15 +140,30 @@
     .info-circle-trigger { display: inline-flex; align-items: center; justify-content: center; width: 20px; height: 20px; border-radius: 50%; background: #e2e8f0; color: #475569; font-size: 0.75rem; font-weight: 700; font-family: monospace; cursor: help; transition: all 0.15s ease; user-select: none; }
     .info-circle-trigger:hover, .info-circle-trigger:focus { background: #7c3aed; color: #ffffff; outline: none; }
 
-    #matrix-hover-panel { position: fixed; display: none; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 10px; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.15), 0 10px 10px -5px rgba(0,0,0,0.1); z-index: 20000; width: 780px; max-height: 750px; overflow-y: auto; padding: 6px; pointer-events: none; }
-    .matrix-header-grid { display: grid; grid-template-columns: 70px 1fr 1fr; padding: 8px 12px; background: #f1f5f9; border-radius: 6px; font-size: 0.75rem; font-weight: 700; color: #334155; margin-bottom: 4px; }
-    .matrix-row-grid { display: grid; grid-template-columns: 70px 1fr 1fr; padding: 10px 12px; border-bottom: 1px solid #f1f5f9; font-size: 0.78rem; align-items: start; gap: 14px; }
+    /* Interactive Matrix Hover Panel with enabled scrollbar */
+    #matrix-hover-panel { 
+      position: fixed; 
+      display: none; 
+      background: #ffffff; 
+      border: 1px solid #cbd5e1; 
+      border-radius: 10px; 
+      box-shadow: 0 20px 25px -5px rgba(0,0,0,0.15), 0 10px 10px -5px rgba(0,0,0,0.1); 
+      z-index: 20000; 
+      width: 860px; 
+      max-height: 800px; 
+      overflow-y: auto; 
+      padding: 12px; 
+      pointer-events: auto; 
+    }
+    .matrix-header-grid { display: grid; grid-template-columns: 60px 1.15fr 1fr 1.25fr; padding: 8px 12px; background: #f1f5f9; border-radius: 6px; font-size: 0.73rem; font-weight: 700; color: #334155; margin-bottom: 4px; gap: 10px; }
+    .matrix-row-grid { display: grid; grid-template-columns: 60px 1.15fr 1fr 1.25fr; padding: 12px; border-bottom: 1px solid #f1f5f9; font-size: 0.76rem; align-items: start; gap: 10px; }
     .matrix-row-grid:last-child { border-bottom: none; }
-    .scenario-pill { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 0.7 expansion; font-weight: 700; text-align: center; background: #e2e8f0; color: #334155;}
+    .scenario-pill { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 0.7rem; font-weight: 700; text-align: center; background: #e2e8f0; color: #334155;}
     .scenario-pill.s-alert { background: #fee2e2; color: #991b1b; }
     .flag-list { margin: 0; padding-left: 14px; color: #4b5563; }
-    .flag-list li { margin-bottom: 2px; font-size: 0.75rem;}
+    .flag-list li { margin-bottom: 2px; font-size: 0.72rem;}
     .flag-list li::marker { color: #7c3aed; }
+    .matrix-workflow-banner { background: #fdf4ff; border: 1px solid #f0abfc; border-radius: 6px; padding: 9px 12px; margin-bottom: 10px; font-size: 0.74rem; color: #701a75; line-height: 1.4; }
 
     .outside-guide-bar { background: #f8fafc; padding: 10px 18px; border-bottom: 1px solid #dbe3ec; display: flex; align-items: center; gap: 8px; font-size: 0.8rem; font-weight: 500; color: #475569; }
     .outside-guide-bar .info-circle-trigger { width: 18px; height: 18px; font-size: 0.7rem; }
@@ -166,17 +181,17 @@
     .detail-with-alert { display: flex; align-items: center; flex-wrap: wrap; gap: 4px; }
     
     .status-badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 0.72rem; font-weight: 600; text-transform: uppercase;}
-    .sb-normal { background: #e8f5e9; color: #2e7d32; opacity: 0.7; }
+    .sb-normal { background: #e8f5e9; color: #2e7d32; opacity: 0.9; }
     .sb-elevated { background: #fef3c7; color: #d97706; }
     .sb-high { background: #fee2e2; color: #dc2626; }
-    .sb-critical { background: #fdecea; color: #c62828; }
+    .sb-critical { background: #fee2e2; color: #b91c1c; border: 1px solid #fca5a5; }
 
     .deviation-track { background: #e5e7eb; height: 8px; border-radius: 4px; width: 90px; position: relative; overflow: hidden; display: inline-block; vertical-align: middle; margin-right: 8px;}
     .deviation-fill { height: 100%; border-radius: 4px; width: 0%; }
     .df-normal { background: #10b981; }
     .df-elevated { background: #f59e0b; }
     .df-high { background: #ef4444; }
-    .df-critical { background: #7c3aed; }
+    .df-critical { background: #dc2626; }
 
     .controls-wrapper { display: flex; align-items: center; gap: 20px; margin-left: auto; }
     .toggle-container { display: flex; align-items: center; gap: 8px; font-size: 0.8rem; font-weight: 500; }
@@ -192,7 +207,21 @@
     .has-tooltip { position: relative; cursor: help; border-bottom: 1px dotted #94a3b8; width: max-content; }
     .has-tooltip:hover { color: #1976d2; border-bottom-color: #1976d2; }
     
-    #global-tooltip-box { position: fixed; display: none; background: #1e293b; color: #f8fafc; padding: 12px 16px; border-radius: 8px; font-size: 0.75rem; z-index: 10000; max-width: 380px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.3); border: 1px solid #334155; pointer-events: none; line-height: 1.4; }
+    #global-tooltip-box { 
+      position: fixed; 
+      display: none; 
+      background: #1e293b; 
+      color: #f8fafc; 
+      padding: 12px 16px; 
+      border-radius: 8px; 
+      font-size: 0.75rem; 
+      z-index: 10000; 
+      max-width: 380px; 
+      box-shadow: 0 10px 15px -3px rgba(0,0,0,0.3); 
+      border: 1px solid #334155; 
+      pointer-events: none; 
+      line-height: 1.4; 
+    }
 
     .thumbnail-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(100px,1fr));gap:6px;padding:8px;max-height:120px;overflow-y:auto;}
     .thumbnail-card{background:#fff;border:1px solid #dbe3ec;border-radius:4px;overflow:hidden;cursor:pointer;transition:transform 0.15s,box-shadow 0.15s;position:relative;max-width:120px;margin:0 auto;}
@@ -212,15 +241,14 @@
     .lightbox-close:hover{background:#E53935;transform:scale(1.06);}
     .lightbox-label{position:absolute;bottom:0;left:0;right:0;background:rgba(15,23,42,0.9);color:#fff;padding:10px 16px;font-size:0.92rem;font-weight:800;text-align:center;letter-spacing:0.01em;}
     
-    /* LIGHTBOX CSS FOR LAPTOP RESPONSIVENESS */
     .lightbox-main-shell{flex:1;display:flex;min-height:0;background:linear-gradient(180deg,#ffffff 0%,#f8fafc 100%);}
     .lightbox-controls{display:flex;flex-direction:column;gap:12px;min-width:300px;max-width:320px;background:#f8fafc;padding:18px;border-right:1px solid #dbe3ec;align-self:stretch;justify-content:flex-start;height:100%;overflow:auto;}
     .lightbox-plot-panel{flex:1;display:flex;flex-direction:column;min-width:0;min-height:0;padding:18px 18px 14px;background:#ffffff;border-right:1px solid #e2e8f0;}
-    .lightbox-sidebar{flex:0 0 360px;min-width:320px;padding:24px 20px;background:#1e293b;color:#f8fafc;overflow-y:auto;font-size:0.85rem;line-height:1.5;}
+    .lightbox-sidebar{flex:0 0 420px;min-width:350px;padding:24px 20px;background:#1e293b;color:#f8fafc;overflow-y:auto;font-size:0.85rem;line-height:1.5;}
 
     @media (max-width: 1400px){
       .lightbox-controls{min-width:240px;max-width:260px;padding:14px;}
-      .lightbox-sidebar{flex:0 0 280px;min-width:260px;padding:18px 14px;}
+      .lightbox-sidebar{flex:0 0 350px;min-width:320px;padding:18px 14px;}
     }
 
     @media (max-width: 900px){
@@ -353,20 +381,60 @@
     <div style="padding: 4px 10px;">
       <details id="sidebarChecklistDetails" open style="background:#1e293b; border:1px solid #334155; border-radius:6px; padding:8px; color:#cbd5e1; font-size:0.72rem;">
         <summary style="cursor:pointer; font-weight:700; color:#c084fc; outline:none; display:flex; align-items:center; justify-content:space-between;">
-          <span>📋 Scenario Checklist</span>
+          <span>📋 Scenario Checklist & Guide</span>
           <span style="font-size:0.65rem; color:#94a3b8; font-weight:normal;">(Expand)</span>
         </summary>
         <div style="margin-top:8px; display:flex; flex-direction:column; gap:8px; border-top:1px solid #334155; padding-top:6px;">
-          <div><strong style="color:#f87171;">S1 — IP Theft via Media</strong><br><span style="color:#a855f7;">• Primary:</span> Wikileaks Access<br><span style="color:#fbbf24;">• Secondary:</span> Thumb Drive, After-Hours</div>
-          <div><strong style="color:#ec4899;">S2 — Fraud via Job/USB</strong><br><span style="color:#a855f7;">• Primary:</span> Job Site Access<br><span style="color:#fbbf24;">• Secondary:</span> Competitor Email, Thumb</div>
-          <div><strong style="color:#38bdf8;">S3 — Keylogger Misuse</strong><br><span style="color:#a855f7;">• Primary:</span> Keylogger Download<br><span style="color:#fbbf24;">• Secondary:</span> Unauth Login, Mass Mail</div>
-          <div><strong style="color:#c084fc;">S4 — Exfiltration</strong><br><span style="color:#a855f7;">• Primary:</span> Unauth Login<br><span style="color:#fbbf24;">• Secondary:</span> File Search, Home Mail</div>
-          <div><strong style="color:#a5b4fc;">S5 — Mixed Profile</strong><br><span style="color:#a855f7;">• Primary:</span> Overlapping Spikes<br><span style="color:#fbbf24;">• Secondary:</span> Multi-vector indicators</div>
-          <div><strong style="color:#6ee7b7;">S6 — Benign Anomaly</strong><br><span style="color:#a855f7;">• Primary:</span> Isolated Deviation<br><span style="color:#fbbf24;">• Secondary:</span> Safe task spikes</div>
-          <div style="border-top:1px dashed #475569; padding-top:6px; color:#fde047; font-size:0.68rem;">
-              <strong>💡 Easy Triage Trick:</strong><br>
-              <span id="sidebarTriageTrickText">Check top features for <span style="color:#a855f7;">Primary</span> & <span style="color:#fbbf24;">Secondary</span> badges. If <span style="color:#a855f7;">Primary</span> is present with 1-2 <span style="color:#fbbf24;">Secondary</span> factors above it, confirm threat!</span>
-            </div>
+          <div style="background:#0f172a; border:1px solid #334155; border-radius:6px; padding:6px 8px; font-size:0.69rem; line-height:1.35; color:#e2e8f0;">
+            <span style="color:#fde047; font-weight:bold;">⚡ Triage Principle:</span><br>
+            • <strong>Indicators</strong> = Initial starting signals (1 primary + 2 secondary indicators)<br>
+            • <strong>Logs/Features</strong> = Supporting evidence<br>
+            • <strong>Final Classification</strong> = Reached after deep digging across historical baselines & multi-step logs.
+          </div>
+          <div>
+            <strong style="color:#f87171;">S1 — IP Theft via Media</strong><br>
+            <span style="color:#94a3b8; font-size:0.68rem; font-style:italic; display:block; margin:2px 0;">Description: User with no prior removable drive or after-hours activity starts logging in after hours, using a removable drive, and uploading data to wikileaks.org, then leaves shortly after.</span>
+            <span style="color:#a855f7;">• Primary Indicator:</span> Wikileaks Access<br>
+            <span style="color:#fbbf24;">• Secondary Indicators:</span> Thumb Drive, After-Hours<br>
+            <span style="color:#93c5fd; font-size:0.68rem;">🔍 Supporting Evidence: Correlate unusual timing, removable-media behavior, web activity, prior baseline & departure context.</span>
+          </div>
+          <div>
+            <strong style="color:#ec4899;">S2 — Fraud via Job/USB</strong><br>
+            <span style="color:#94a3b8; font-size:0.68rem; font-style:italic; display:block; margin:2px 0;">Description: User searches job websites and solicits competitor employment. Before leaving, they heavily use a thumb drive to steal data, exceeding prior activity levels.</span>
+            <span style="color:#a855f7;">• Primary Indicator:</span> Job Site Access<br>
+            <span style="color:#fbbf24;">• Secondary Indicators:</span> Competitor Email, Thumb Drive<br>
+            <span style="color:#93c5fd; font-size:0.68rem;">🔍 Supporting Evidence: Compare removable-drive activity against historical baseline and correlate with departure behavior.</span>
+          </div>
+          <div>
+            <strong style="color:#38bdf8;">S3 — Misuse via Keylogger</strong><br>
+            <span style="color:#94a3b8; font-size:0.68rem; font-style:italic; display:block; margin:2px 0;">Description: Disgruntled administrator downloads a keylogger, transfers it via thumb drive to supervisor's machine, uses keylogs to send mass email causing panic, then leaves.</span>
+            <span style="color:#a855f7;">• Primary Indicator:</span> Keylogger Download<br>
+            <span style="color:#fbbf24;">• Secondary Indicators:</span> Unauthorized Login, Mass Email<br>
+            <span style="color:#93c5fd; font-size:0.68rem;">🔍 Supporting Evidence: Reconstruct multi-step sequence: device, malware/keylogger, supervisor machine access, mass email & timing.</span>
+          </div>
+          <div>
+            <strong style="color:#c084fc;">S4 — Exfiltration</strong><br>
+            <span style="color:#94a3b8; font-size:0.68rem; font-style:italic; display:block; margin:2px 0;">Description: User logs into another user's machine, searches for files, and emails them to a personal account, with increasing frequency over 3 months.</span>
+            <span style="color:#a855f7;">• Primary Indicator:</span> Unauthorized Login<br>
+            <span style="color:#fbbf24;">• Secondary Indicators:</span> File Search, Home Email<br>
+            <span style="color:#93c5fd; font-size:0.68rem;">🔍 Supporting Evidence: Examine cross-user machine access, file activity, personal email destination & longitudinal 3-month increase.</span>
+          </div>
+          <div>
+            <strong style="color:#a5b4fc;">S5 — Mixed Profile</strong><br>
+            <span style="color:#94a3b8; font-size:0.68rem; font-style:italic; display:block; margin:2px 0;">Description: Multi-Vector Overlapping Activity Profile matching complex scenario combinations or data blending variations.</span>
+            <span style="color:#a855f7;">• Primary Indicator:</span> Overlapping Spikes<br>
+            <span style="color:#fbbf24;">• Secondary Indicators:</span> Multi-vector indicators
+          </div>
+          <div>
+            <strong style="color:#6ee7b7;">S6 — Benign Anomaly</strong><br>
+            <span style="color:#94a3b8; font-size:0.68rem; font-style:italic; display:block; margin:2px 0;">Description: High statistical deviation triggered by legitimate workload spikes or task shifts without malicious intent or exfiltration activity.</span>
+            <span style="color:#a855f7;">• Primary Indicator:</span> Isolated Deviation<br>
+            <span style="color:#fbbf24;">• Secondary Indicators:</span> Safe task spikes
+          </div>
+          <div style="border-top:1px dashed #475569; padding-top:6px; color:#fde047; font-size:0.68rem; line-height:1.4;">
+              <strong>💡 Investigation Protocol:</strong><br>
+              <span id="sidebarTriageTrickText"><strong>Indicators</strong> = initial starting signals (1 primary + 2 secondary). <strong>Other logs/features</strong> = supporting evidence. Always do deep digging across baselines before finalizing classification!</span>
+          </div>
         </div>
       </details>
     </div>
@@ -377,7 +445,7 @@
     <div class="topbar-left">
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
       <div>
-        <h1>SOC Anomaly Dashboard &mdash; User 162 (AXP1568)
+        <h1>SOC Anomaly Dashboard &mdash; User 162 (AYG1697)
           <span class="phase-badge baseline">Baseline (90 days)</span>
           <span class="phase-badge monitor" id="headerMonitorDays">Monitoring</span>
         </h1>
@@ -503,7 +571,7 @@
 
           <div id="legacyWrapperBody" class="themed-panel-group panel-legacy">
             <div class="themed-panel-label">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"></ellipse><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path></svg>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"></ellipse><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34-9-3V5"></path></svg>
               Legacy Z-Score Logs & Raw Action Streams
             </div>
 
@@ -722,95 +790,135 @@
   </div> 
 </div>
 
+<!-- Scrollable & Interactive Matrix Panel -->
 <div id="matrix-hover-panel">
+  <div class="matrix-workflow-banner">
+    <strong>⚡ Investigation Protocol:</strong><br>
+    • <strong>Indicators</strong> = Initial Starting Signals (1 primary + 2 secondary indicators)<br>
+    • <strong>Other Logs & Features</strong> = Supporting Evidence<br>
+    • <strong>Final Classification</strong> = Participant's decision reached after integrating supporting evidence & deep digging.
+  </div>
   <div class="matrix-header-grid">
     <div>Scenario</div>
-    <div>Behavioral Context Profile</div>
-    <div>Associated Threat Signature Cues</div>
+    <div>Actual Scenario Description & Core Behavior</div>
+    <div>Starting Indicators</div>
+    <div>Required Deep Investigation</div>
   </div>
   
   <div class="matrix-row-grid">
     <div><span class="scenario-pill s-alert">S1</span></div>
-    <div style="color: #334155; font-weight: 500; line-height: 1.45;">User with no prior removable drive or after-hours activity starts logging in after hours, using a removable drive, and uploading data to wikileaks.org. Leaves the organization shortly after.</div>
+    <div style="color: #334155; font-weight: 500; line-height: 1.45;">
+      <strong>Actual Description:</strong> User with no prior removable drive or after-hours activity starts logging in after hours, using a removable drive, and uploading data to wikileaks.org. Leaves the organization shortly after.<br>
+      <span style="color:#7c3aed; font-size:0.72rem;"><strong>Core Behavior:</strong> After-hours activity + removable drive + Wikileaks + departure</span>
+    </div>
     <div>
       <ul class="flag-list">
-        <li>Unrecognized thumb drive mounting events</li>
-        <li>Overnight activity shifts (10:00 PM – 6:00 AM)</li>
-        <li>Connect sequences matching exfiltration targets</li>
+        <li><strong>Primary:</strong> Wikileaks Access</li>
+        <li><strong>Secondary:</strong> Thumb Drive, After-Hours</li>
       </ul>
+    </div>
+    <div style="color: #475569; font-size: 0.72rem; line-height: 1.35;">
+      <strong>Supporting Evidence Corridors:</strong> Correlate unusual timing, removable-media behavior, web activity, prior historical baseline, and organizational departure context.
     </div>
   </div>
 
   <div class="matrix-row-grid">
     <div><span class="scenario-pill s-alert">S2</span></div>
-    <div style="color: #334155; font-weight: 500; line-height: 1.45;">User searches job websites and solicits competitor employment. Before leaving, they heavily use a thumb drive to steal data, exceeding prior activity levels.</div>
+    <div style="color: #334155; font-weight: 500; line-height: 1.45;">
+      <strong>Actual Description:</strong> User searches job websites and solicits competitor employment. Before leaving, they heavily use a thumb drive to steal data, exceeding prior activity levels.<br>
+      <span style="color:#7c3aed; font-size:0.72rem;"><strong>Core Behavior:</strong> Job search + competitor solicitation + abnormal thumb-drive activity before departure</span>
+    </div>
     <div>
       <ul class="flag-list">
-        <li>Hyper-burst activity patterns (rapid action gaps)</li>
-        <li>Spikes in activity during morning windows</li>
-        <li>Heavy thumb drive utilization rates</li>
-        <li>Corporate job search engine hits</li>
+        <li><strong>Primary:</strong> Job Site Access</li>
+        <li><strong>Secondary:</strong> Competitor Email, Thumb Drive</li>
       </ul>
+    </div>
+    <div style="color: #475569; font-size: 0.72rem; line-height: 1.35;">
+      <strong>Supporting Evidence Corridors:</strong> Compare removable-drive activity against historical baseline; correlate with competitor solicitation emails and employment/departure behavior.
     </div>
   </div>
 
   <div class="matrix-row-grid">
     <div><span class="scenario-pill s-alert">S3</span></div>
-    <div style="color: #334155; font-weight: 500; line-height: 1.45;">Disgruntled administrator downloads a keylogger, transfers it via thumb drive to supervisor's machine, uses keylogs to send mass email causing panic, then leaves.</div>
+    <div style="color: #334155; font-weight: 500; line-height: 1.45;">
+      <strong>Actual Description:</strong> Disgruntled administrator downloads a keylogger, transfers it via thumb drive to supervisor's machine, uses keylogs to send mass email causing panic, then leaves.<br>
+      <span style="color:#7c3aed; font-size:0.72rem;"><strong>Core Behavior:</strong> Keylogger &rarr; thumb drive &rarr; supervisor machine &rarr; mass email &rarr; departure</span>
+    </div>
     <div>
       <ul class="flag-list">
-        <li>Mass email distribution anomalies</li>
-        <li>Keylogger script download footprints</li>
-        <li>Logins to unauthorized or peer computers</li>
-        <li>Morning activity shifts suggesting sabotage</li>
+        <li><strong>Primary:</strong> Keylogger Download</li>
+        <li><strong>Secondary:</strong> Unauthorized Login, Mass Email</li>
       </ul>
+    </div>
+    <div style="color: #475569; font-size: 0.72rem; line-height: 1.35;">
+      <strong>Supporting Evidence Corridors:</strong> Reconstruct multi-step sequence: correlate device insertion, malware download, supervisor workstation access, bulk email activity, and timeline.
     </div>
   </div>
 
   <div class="matrix-row-grid">
     <div><span class="scenario-pill s-alert">S4</span></div>
-    <div style="color: #334155; font-weight: 500; line-height: 1.45;">User logs into another's machine, searches for files, and emails them to personal account, with increasing frequency over 3 months.</div>
+    <div style="color: #334155; font-weight: 500; line-height: 1.45;">
+      <strong>Actual Description:</strong> User logs into another's machine, searches for files, and emails them to personal account, with increasing frequency over 3 months.<br>
+      <span style="color:#7c3aed; font-size:0.72rem;"><strong>Core Behavior:</strong> Access to another user's machine &rarr; file searches &rarr; personal email &rarr; increasing frequency over 3 months</span>
+    </div>
     <div>
       <ul class="flag-list">
-        <li>Unauthorized remote endpoint logins</li>
-        <li>Aggressive wildcard directory searches</li>
-        <li>Exfiltration routing to home email providers</li>
-        <li>Rapid sequence build-ups across quarters</li>
+        <li><strong>Primary:</strong> Unauthorized Login</li>
+        <li><strong>Secondary:</strong> File Search, Home Email</li>
       </ul>
+    </div>
+    <div style="color: #475569; font-size: 0.72rem; line-height: 1.35;">
+      <strong>Supporting Evidence Corridors:</strong> Examine cross-user endpoint access, wildcard file sweeps, personal email destinations, and longitudinal frequency increases over 3 months.
     </div>
   </div>
 
   <div class="matrix-row-grid">
     <div><span class="scenario-pill">S5</span></div>
-    <div style="color: #334155; font-weight: 500; line-height: 1.45;">Multi-Vector Overlapping Activity Profile matching complex scenario combinations or data blending variations.</div>
+    <div style="color: #334155; font-weight: 500; line-height: 1.45;">
+      <strong>Actual Description:</strong> Multi-Vector Overlapping Activity Profile matching complex scenario combinations or data blending variations.<br>
+      <span style="color:#7c3aed; font-size:0.72rem;"><strong>Core Behavior:</strong> Concurrent deviations across multiple vectors</span>
+    </div>
     <div>
       <ul class="flag-list">
-        <li>Concurrent deviations across multiple vectors</li>
-        <li>Correlated multi-vector baseline drift trends</li>
-        <li>Cross-domain indicator blending</li>
+        <li><strong>Primary:</strong> Overlapping Spikes</li>
+        <li><strong>Secondary:</strong> Multi-vector indicators</li>
       </ul>
+    </div>
+    <div style="color: #475569; font-size: 0.72rem; line-height: 1.35;">
+      <strong>Supporting Evidence Corridors:</strong> Correlate multiple baseline drift trends across separate channels simultaneously.
     </div>
   </div>
 
   <div class="matrix-row-grid">
     <div><span class="scenario-pill" style="background:#d1fae5; color:#065f46;">S6</span></div>
-    <div style="color: #334155; font-weight: 500; line-height: 1.45;">Benign User – Normal Anomaly (False Alarm). High statistical deviation triggered by legitimate workload spikes or temporary task shifts without malicious intent or exfiltration activity.</div>
+    <div style="color: #334155; font-weight: 500; line-height: 1.45;">
+      <strong>Actual Description:</strong> Benign User – Normal Anomaly (False Alarm). High statistical deviation triggered by legitimate workload spikes or temporary task shifts without malicious intent or exfiltration activity.<br>
+      <span style="color:#059669; font-size:0.72rem;"><strong>Core Behavior:</strong> Isolated volume spikes during safe operational windows</span>
+    </div>
     <div>
       <ul class="flag-list">
-        <li>Isolated statistical volume spikes</li>
-        <li>No unauthorized logins, keyloggers, or leaks sites</li>
-        <li>Standard operational tasks occurring during safe windows</li>
+        <li><strong>Primary:</strong> Isolated Deviation</li>
+        <li><strong>Secondary:</strong> Safe task spikes</li>
       </ul>
+    </div>
+    <div style="color: #475569; font-size: 0.72rem; line-height: 1.35;">
+      <strong>Supporting Evidence Corridors:</strong> Verify absence of unauthorized logins, keyloggers, or leaks sites; confirm legitimate working hours.
     </div>
   </div>
 
   <div class="matrix-row-grid">
     <div><span class="scenario-pill" style="background:#f1f5f9; color:#64748b;">PASS</span></div>
-    <div style="color: #334155; font-weight: 500; line-height: 1.45;">Pass / Prefer Not to Answer (Ethics Opt-Out). Participant explicitly opts out of evaluating or tagging this scenario.</div>
+    <div style="color: #334155; font-weight: 500; line-height: 1.45;">
+      <strong>Actual Description:</strong> Pass / Prefer Not to Answer (Ethics Opt-Out). Participant explicitly opts out of evaluating or tagging this scenario.
+    </div>
     <div>
       <ul class="flag-list">
-        <li>Uncertainty or voluntary task bypass</li>
+        <li>Bypass Option</li>
       </ul>
+    </div>
+    <div style="color: #475569; font-size: 0.72rem; line-height: 1.35;">
+      Voluntary research trial bypass.
     </div>
   </div>
 </div>
@@ -894,60 +1002,90 @@
 
        
       <div class="lightbox-sidebar">
-      <div style="font-weight:700; color:#fff; border-bottom:1px solid #334155; padding-bottom:10px; margin-bottom:16px; font-size: 1.05rem;">📋 Scenario Checklist</div>
+        <div style="font-weight:700; color:#fff; border-bottom:1px solid #334155; padding-bottom:10px; margin-bottom:12px; font-size: 1.05rem;">📋 Scenario Checklist & Deep Digging Guide</div>
 
-      <div style="margin-bottom:16px;">
-        <strong style="color:#f87171; font-size: 0.95rem;">S1 — IP Theft via Media</strong><br>
-        <span style="color:#cbd5e1; display: block; margin-top: 4px;">
-          <span style="color:#ffffff; font-weight:bold; background:#9333ea; padding:2px 6px; border-radius:4px; font-size:0.7rem; margin-right: 4px; vertical-align: middle;">PRIMARY</span> <strong style="color:#ffffff;">Wikileaks Access</strong><br>
-          <span style="padding-left: 4px; display:inline-block; margin-top:4px; color:#fbbf24;">• Secondary: Thumb Drive, After-Hours</span>
-        </span>
-      </div>
-
-      <div style="margin-bottom:16px;">
-        <strong style="color:#ec4899; font-size: 0.95rem;">S2 — Fraud via Job/USB</strong><br>
-        <span style="color:#cbd5e1; display: block; margin-top: 4px;">
-          <span style="color:#ffffff; font-weight:bold; background:#9333ea; padding:2px 6px; border-radius:4px; font-size:0.7rem; margin-right: 4px; vertical-align: middle;">PRIMARY</span> <strong style="color:#ffffff;">Job Site Access</strong><br>
-          <span style="padding-left: 4px; display:inline-block; margin-top:4px; color:#fbbf24;">• Secondary: Competitor Email, Thumb Drive</span>
-        </span>
-      </div>
-
-      <div style="margin-bottom:16px;">
-        <strong style="color:#38bdf8; font-size: 0.95rem;">S3 — Misuse via Keylogger</strong><br>
-        <span style="color:#cbd5e1; display: block; margin-top: 4px;">
-          <span style="color:#ffffff; font-weight:bold; background:#9333ea; padding:2px 6px; border-radius:4px; font-size:0.7rem; margin-right: 4px; vertical-align: middle;">PRIMARY</span> <strong style="color:#ffffff;">Keylogger Download</strong><br>
-          <span style="padding-left: 4px; display:inline-block; margin-top:4px; color:#fbbf24;">• Secondary: Unauthorized Login, Mass Email</span>
-        </span>
-      </div>
-
-      <div style="margin-bottom:16px;">
-        <strong style="color:#c084fc; font-size: 0.95rem;">S4 — Exfiltration</strong><br>
-        <span style="color:#cbd5e1; display: block; margin-top: 4px;">
-          <span style="color:#ffffff; font-weight:bold; background:#9333ea; padding:2px 6px; border-radius:4px; font-size:0.7rem; margin-right: 4px; vertical-align: middle;">PRIMARY</span> <strong style="color:#ffffff;">Unauthorized Login</strong><br>
-          <span style="padding-left: 4px; display:inline-block; margin-top:4px; color:#fbbf24;">• Secondary: File Search, Home Email</span>
-        </span>
-      </div>
-
-      <div style="margin-bottom:16px;">
-        <strong style="color:#a5b4fc; font-size: 0.95rem;">S5 — Mixed Profile</strong><br>
-        <span style="color:#cbd5e1; display: block; margin-top: 4px;">
-          <span style="color:#ffffff; font-weight:bold; background:#9333ea; padding:2px 6px; border-radius:4px; font-size:0.7rem; margin-right: 4px; vertical-align: middle;">PRIMARY</span> <strong style="color:#ffffff;">Overlapping Behavioral Spikes</strong><br>
-          <span style="padding-left: 4px; display:inline-block; margin-top:4px; color:#fbbf24;">• Secondary: Multi-vector indicators</span>
-        </span>
-      </div>
-
-      <div style="margin-bottom:16px;">
-        <strong style="color:#6ee7b7; font-size: 0.95rem;">S6 — Benign User / Normal Anomaly</strong><br>
-        <span style="color:#cbd5e1; display: block; margin-top: 4px;">
-          <span style="color:#ffffff; font-weight:bold; background:#9333ea; padding:2px 6px; border-radius:4px; font-size:0.7rem; margin-right: 4px; vertical-align: middle;">PRIMARY</span> <strong style="color:#ffffff;">Isolated Statistical Deviation</strong><br>
-          <span style="padding-left: 4px; display:inline-block; margin-top:4px; color:#fbbf24;">• Secondary: Safe task spikes, no exfil markers</span>
-        </span>
-      </div>
-      
-      <div style="margin-top:20px; padding-top:16px; border-top:1px dashed #475569;">
-          <span style="color:#fbbf24; font-weight:bold; font-size:0.85rem; display:block; margin-bottom:6px;">💡 Analyst Triage Tip:</span>
-          <span style="color:#e2e8f0; font-size:0.8rem; line-height:1.4; display:block;">Check top 10 features top-down. <strong>Rule:</strong> Must have <strong>1 <span style="color:#a855f7;">primary</span> + prefer 2 <span style="color:#fbbf24;">secondary</span> flags</strong> (<span style="color:#fbbf24;">secondary</span> flags appear higher & contribute more). Note: Cross-checking autoencoder panels or raw actions is optional here unless extra evidence is needed. (*After-hours* = evening, night time, and weekends).</span>
+        <div style="background:#0f172a; border:1px solid #334155; border-radius:6px; padding:8px 10px; margin-bottom:14px; font-size:0.73rem; line-height:1.4; color:#e2e8f0;">
+          <span style="color:#fde047; font-weight:bold;">⚡ Triage Principle:</span><br>
+          • <strong>Indicators</strong> = Initial starting signals (1 primary + 2 secondary indicators)<br>
+          • <strong>Logs/Features</strong> = Supporting evidence<br>
+          • <strong>Final Classification</strong> = Reached after deep digging across historical baselines & multi-step logs.
         </div>
+
+        <div style="margin-bottom:14px;">
+          <strong style="color:#f87171; font-size: 0.92rem;">S1 — IP Theft via Media</strong><br>
+          <span style="color:#94a3b8; font-size:0.71rem; font-style:italic; display:block; margin:2px 0 4px 0; line-height:1.35;">
+            <strong>Actual Description:</strong> User with no prior removable drive or after-hours activity starts logging in after hours, using a removable drive, and uploading data to wikileaks.org. Leaves the organization shortly after.
+          </span>
+          <span style="color:#cbd5e1; display: block; margin-top: 3px;">
+            <span style="color:#ffffff; font-weight:bold; background:#9333ea; padding:1px 5px; border-radius:4px; font-size:0.68rem; margin-right: 4px; vertical-align: middle;">PRIMARY INDICATOR</span> <strong style="color:#ffffff;">Wikileaks Access</strong><br>
+            <span style="padding-left: 4px; display:inline-block; margin-top:2px; color:#fbbf24; font-size:0.74rem;">• Secondary Indicators: Thumb Drive, After-Hours</span><br>
+            <span style="padding-left: 4px; display:inline-block; margin-top:2px; color:#94a3b8; font-size:0.71rem;">🔍 Supporting Evidence: Correlate unusual timing, removable media, web logs, prior baseline & departure context.</span>
+          </span>
+        </div>
+
+        <div style="margin-bottom:14px;">
+          <strong style="color:#ec4899; font-size: 0.92rem;">S2 — Fraud via Job/USB</strong><br>
+          <span style="color:#94a3b8; font-size:0.71rem; font-style:italic; display:block; margin:2px 0 4px 0; line-height:1.35;">
+            <strong>Actual Description:</strong> User searches job websites and solicits competitor employment. Before leaving, they heavily use a thumb drive to steal data, exceeding prior activity levels.
+          </span>
+          <span style="color:#cbd5e1; display: block; margin-top: 3px;">
+            <span style="color:#ffffff; font-weight:bold; background:#9333ea; padding:1px 5px; border-radius:4px; font-size:0.68rem; margin-right: 4px; vertical-align: middle;">PRIMARY INDICATOR</span> <strong style="color:#ffffff;">Job Site Access</strong><br>
+            <span style="padding-left: 4px; display:inline-block; margin-top:2px; color:#fbbf24; font-size:0.74rem;">• Secondary Indicators: Competitor Email, Thumb Drive</span><br>
+            <span style="padding-left: 4px; display:inline-block; margin-top:2px; color:#94a3b8; font-size:0.71rem;">🔍 Supporting Evidence: Compare removable drive volume against historical baseline & correlate with departure.</span>
+          </span>
+        </div>
+
+        <div style="margin-bottom:14px;">
+          <strong style="color:#38bdf8; font-size: 0.92rem;">S3 — Misuse via Keylogger</strong><br>
+          <span style="color:#94a3b8; font-size:0.71rem; font-style:italic; display:block; margin:2px 0 4px 0; line-height:1.35;">
+            <strong>Actual Description:</strong> Disgruntled administrator downloads a keylogger, transfers it via thumb drive to supervisor's machine, uses keylogs to send mass email causing panic, then leaves.
+          </span>
+          <span style="color:#cbd5e1; display: block; margin-top: 3px;">
+            <span style="color:#ffffff; font-weight:bold; background:#9333ea; padding:1px 5px; border-radius:4px; font-size:0.68rem; margin-right: 4px; vertical-align: middle;">PRIMARY INDICATOR</span> <strong style="color:#ffffff;">Keylogger Download</strong><br>
+            <span style="padding-left: 4px; display:inline-block; margin-top:2px; color:#fbbf24; font-size:0.74rem;">• Secondary Indicators: Unauthorized Login, Mass Email</span><br>
+            <span style="padding-left: 4px; display:inline-block; margin-top:2px; color:#94a3b8; font-size:0.71rem;">🔍 Supporting Evidence: Reconstruct sequence: device &rarr; keylogger &rarr; supervisor PC &rarr; mass email &rarr; timing.</span>
+          </span>
+        </div>
+
+        <div style="margin-bottom:14px;">
+          <strong style="color:#c084fc; font-size: 0.92rem;">S4 — Exfiltration</strong><br>
+          <span style="color:#94a3b8; font-size:0.71rem; font-style:italic; display:block; margin:2px 0 4px 0; line-height:1.35;">
+            <strong>Actual Description:</strong> User logs into another's machine, searches for files, and emails them to personal account, with increasing frequency over 3 months.
+          </span>
+          <span style="color:#cbd5e1; display: block; margin-top: 3px;">
+            <span style="color:#ffffff; font-weight:bold; background:#9333ea; padding:1px 5px; border-radius:4px; font-size:0.68rem; margin-right: 4px; vertical-align: middle;">PRIMARY INDICATOR</span> <strong style="color:#ffffff;">Unauthorized Login</strong><br>
+            <span style="padding-left: 4px; display:inline-block; margin-top:2px; color:#fbbf24; font-size:0.74rem;">• Secondary Indicators: File Search, Home Email</span><br>
+            <span style="padding-left: 4px; display:inline-block; margin-top:2px; color:#94a3b8; font-size:0.71rem;">🔍 Supporting Evidence: Examine peer workstation access, wildcard directory searches, personal email & 3-month growth.</span>
+          </span>
+        </div>
+
+        <div style="margin-bottom:14px;">
+          <strong style="color:#a5b4fc; font-size: 0.92rem;">S5 — Mixed Profile</strong><br>
+          <span style="color:#94a3b8; font-size:0.71rem; font-style:italic; display:block; margin:2px 0 4px 0; line-height:1.35;">
+            <strong>Actual Description:</strong> Multi-Vector Overlapping Activity Profile matching complex scenario combinations or data blending variations.
+          </span>
+          <span style="color:#cbd5e1; display: block; margin-top: 3px;">
+            <span style="color:#ffffff; font-weight:bold; background:#9333ea; padding:1px 5px; border-radius:4px; font-size:0.68rem; margin-right: 4px; vertical-align: middle;">PRIMARY INDICATOR</span> <strong style="color:#ffffff;">Overlapping Behavioral Spikes</strong><br>
+            <span style="padding-left: 4px; display:inline-block; margin-top:2px; color:#fbbf24; font-size:0.74rem;">• Secondary Indicators: Multi-vector indicators</span>
+          </span>
+        </div>
+
+        <div style="margin-bottom:14px;">
+          <strong style="color:#6ee7b7; font-size: 0.92rem;">S6 — Benign User / Normal Anomaly</strong><br>
+          <span style="color:#94a3b8; font-size:0.71rem; font-style:italic; display:block; margin:2px 0 4px 0; line-height:1.35;">
+            <strong>Actual Description:</strong> Benign User – Normal Anomaly (False Alarm). High statistical deviation triggered by legitimate workload spikes or temporary task shifts without malicious intent or exfiltration activity.
+          </span>
+          <span style="color:#cbd5e1; display: block; margin-top: 3px;">
+            <span style="color:#ffffff; font-weight:bold; background:#9333ea; padding:1px 5px; border-radius:4px; font-size:0.68rem; margin-right: 4px; vertical-align: middle;">PRIMARY INDICATOR</span> <strong style="color:#ffffff;">Isolated Statistical Deviation</strong><br>
+            <span style="padding-left: 4px; display:inline-block; margin-top:2px; color:#fbbf24; font-size:0.74rem;">• Secondary Indicators: Safe task spikes, no exfil markers</span>
+          </span>
+        </div>
+        
+        <div style="margin-top:16px; padding-top:12px; border-top:1px dashed #475569;">
+            <span style="color:#fbbf24; font-weight:bold; font-size:0.82rem; display:block; margin-bottom:4px;">💡 Analyst Triage Tip:</span>
+            <span style="color:#e2e8f0; font-size:0.76rem; line-height:1.4; display:block;">Check top 10 features top-down for <strong>1 <span style="color:#a855f7;">primary</span> + 2 <span style="color:#fbbf24;">secondary</span> indicators</strong>. Validate with raw action logs or autoencoder panels if extra supporting evidence is needed before finalizing. (*After-hours* = evening, night time, and weekends).</span>
+        </div>
+      </div>
     </div>
   </div>
 </div>
@@ -1079,9 +1217,9 @@ const SECONDARY_INDICATOR_KEYS = [
 ];
 
 function getThreatIndicatorTag(featureName) {
-  if (isDesignAActive()) return ""; // Removed for Design A per request
+  if (isDesignAActive()) return ""; 
   if (PRIMARY_INDICATOR_KEYS.some(k => featureName.toLowerCase().includes(k.toLowerCase()))) {
-    return `<span class="indicator-badge-inline primary">🚨 PRIMARY THREAT INDICATOR</span>`;
+    return `<span class="indicator-badge-inline primary">🚨 PRIMARY INDICATOR</span>`;
   }
   if (SECONDARY_INDICATOR_KEYS.some(k => featureName.toLowerCase().includes(k.toLowerCase()))) {
     return `<span class="indicator-badge-inline secondary">📊 SECONDARY INDICATOR</span>`;
@@ -1091,10 +1229,10 @@ function getThreatIndicatorTag(featureName) {
 
 function getFeatureTextStyle(featureName) {
   if (PRIMARY_INDICATOR_KEYS.some(k => featureName.toLowerCase().includes(k.toLowerCase()))) {
-    return 'color: #7c3aed; font-weight: 700;'; // Purple for primary indicators
+    return 'color: #7c3aed; font-weight: 700;'; 
   }
   if (SECONDARY_INDICATOR_KEYS.some(k => featureName.toLowerCase().includes(k.toLowerCase()))) {
-    return 'color: #d97706; font-weight: 600;'; // Amber for secondary indicators
+    return 'color: #d97706; font-weight: 600;'; 
   }
   return '';
 }
@@ -1154,12 +1292,12 @@ function toggleTimer() {
 startTimer();
 
 const THREAT_SCENARIOS_CONTEXT = {
-  "S1": { description: "Removable Storage Exfiltration / IP Loss", flags: "Thumb drive mounts, overnight activity sequences, destination exfiltration targets." },
-  "S2": { description: "Active Competitor Solicitation / Corporate Fraud", flags: "Job application access tracks, candidate solicitation profiles, heavy flash asset scraping spikes." },
-  "S3": { description: "Host Malicious Misuse via Keylogging Agent", flags: "Keylogger terminal runs, mass communication distributions, cross-system login paths." },
-  "S4": { description: "Unauthorized Target Workspace Hijacking", flags: "Logins to unverified peer workstations, intensive wildcard share queries, routing to personal domains." },
-  "S5": { description: "Multi-Vector Overlapping Profile", flags: "Concurrent variations and baseline shifting across multiple indicators simultaneously." },
-  "S6": { description: "Benign User – Normal Anomaly (False Alarm)", flags: "Isolated statistical activity spikes without unauthorized logins or malicious payloads." },
+  "S1": { description: "User with no prior removable drive or after-hours activity starts logging in after hours, using a removable drive, and uploading data to wikileaks.org. Leaves the organization shortly after.", flags: "Wikileaks upload tracks, thumb drive mounts, overnight activity sequences (10:00 PM – 6:00 AM)." },
+  "S2": { description: "User searches job websites and solicits competitor employment. Before leaving, they heavily use a thumb drive to steal data, exceeding prior activity levels.", flags: "Job application access tracks, competitor solicitation emails, high-volume flash media usage spikes." },
+  "S3": { description: "Disgruntled administrator downloads a keylogger, transfers it via thumb drive to supervisor's machine, uses keylogs to send mass email causing panic, then leaves.", flags: "Keylogger agent downloads, supervisor machine unauthorized logins, mass panicked email distribution." },
+  "S4": { description: "User logs into another's machine, searches for files, and emails them to personal account, with increasing frequency over 3 months.", flags: "Peer machine logins, wildcard directory file sweeps, personal webmail forwarding build-up." },
+  "S5": { description: "Multi-Vector Overlapping Activity Profile matching complex scenario combinations or data blending variations.", flags: "Concurrent variations and baseline shifting across multiple indicators simultaneously." },
+  "S6": { description: "Benign User – Normal Anomaly (False Alarm). Legitimate workload spikes without malicious intent.", flags: "Isolated statistical activity spikes without unauthorized logins or malicious payloads." },
   "PASS": { description: "User Withheld Substantive Assessment Data", flags: "N/A - Participant opted out of diagnostic evaluation steps." }
 };
 
@@ -1572,7 +1710,7 @@ function renderFeatures(date) {
   });
 
   if (filterAnomaliesOnly) {
-    rows = rows.filter(r => r.zscore >= 1.91);
+    rows = rows.filter(r => r.zscore >= 2.0);
   }
   
   if(rows.length === 0) {
@@ -1580,27 +1718,41 @@ function renderFeatures(date) {
     return;
   }
 
+  // Deduplicated Feature Filtering: ensure threat features are excluded from all subsequent sub-groups
   const threatFeatures = rows.filter(r => PRIMARY_INDICATOR_KEYS.some(k => r.name.toLowerCase().includes(k.toLowerCase())) || SECONDARY_INDICATOR_KEYS.some(k => r.name.toLowerCase().includes(k.toLowerCase())));
-  const activityFeatures = rows.filter(r => !threatFeatures.includes(r) && r.name.startsWith('Activity Count:'));
-  const temporalFeatures = rows.filter(r => !threatFeatures.includes(r) && (r.name.includes('Activities') || r.name === 'Working Hours Activity Count' || r.name === 'Is Weekend'));
-  const transitionFeatures = rows.filter(r => !threatFeatures.includes(r) && r.name.startsWith('Transition:'));
-  const timingFeatures = rows.filter(r => !threatFeatures.includes(r) && r.name.includes('Time Between'));
-  const otherFeatures = rows.filter(r => !threatFeatures.includes(r) && !activityFeatures.includes(r) && !temporalFeatures.includes(r) && !transitionFeatures.includes(r) && !timingFeatures.includes(r));
+  const isThreatFeature = (r) => threatFeatures.some(t => t.name === r.name);
+
+  const activityFeatures = rows.filter(r => !isThreatFeature(r) && r.name.startsWith('Activity Count:'));
+  const temporalFeatures = rows.filter(r => !isThreatFeature(r) && !activityFeatures.includes(r) && (r.name.includes('Activities') || r.name === 'Working Hours Activity Count' || r.name === 'Is Weekend'));
+  const transitionFeatures = rows.filter(r => !isThreatFeature(r) && !activityFeatures.includes(r) && !temporalFeatures.includes(r) && r.name.startsWith('Transition:'));
+  const timingFeatures = rows.filter(r => !isThreatFeature(r) && !activityFeatures.includes(r) && !temporalFeatures.includes(r) && !transitionFeatures.includes(r) && r.name.includes('Time Between'));
+  const otherFeatures = rows.filter(r => !isThreatFeature(r) && !activityFeatures.includes(r) && !temporalFeatures.includes(r) && !transitionFeatures.includes(r) && !timingFeatures.includes(r));
 
   function compileRowsHtml(subSet) {
     return subSet.map(r => {
       let badgeClass = "sb-normal";
       let fillClass = "df-normal";
-      let textStatus = "Matches Normal Context";
+      let textStatus = "Normal Behaviour";
       let widthPct = Math.min((r.zscore / 6) * 100, 100);
 
       const threatTag = getThreatIndicatorTag(r.name);
       const textStyle = getFeatureTextStyle(r.name);
-      const isElevatedThreat = threatTag !== "" && r.zscore >= 1.91;
+      const isElevatedThreat = threatTag !== "" && r.zscore >= 2.0;
 
-      if (r.zscore >= 5.0) { badgeClass = "sb-critical"; fillClass = "df-critical"; textStatus = "Extreme Outlier Event"; }
-      else if (r.zscore >= 3.0) { badgeClass = "sb-high"; fillClass = "df-high"; textStatus = "Significant Variation Spike"; }
-      else if (r.zscore >= 1.91) { badgeClass = "sb-elevated"; fillClass = "df-elevated"; textStatus = "Mild Deviation"; }
+      // Aligned with the 3-Tier Statistical Interpretation Guide
+      if (r.zscore >= 3.0) { 
+        badgeClass = "sb-critical"; 
+        fillClass = "df-critical"; 
+        textStatus = "Extreme Outlier"; 
+      } else if (r.zscore >= 2.0) { 
+        badgeClass = "sb-elevated"; 
+        fillClass = "df-elevated"; 
+        textStatus = "Behavioral Drift"; 
+      } else {
+        badgeClass = "sb-normal"; 
+        fillClass = "df-normal"; 
+        textStatus = "Normal Behaviour";
+      }
 
       return `<tr class="${isElevatedThreat ? 'tr-threat-highlight' : ''}">
         <td>
@@ -1608,7 +1760,7 @@ function renderFeatures(date) {
             <strong style="${textStyle}">${r.name}</strong> ${threatTag}
           </div>
         </td>
-        <td style="font-weight:700; color:${r.zscore >= 1.91 ? '#dc2626' : '#111827'};">${r.displayObserved}</td>
+        <td style="font-weight:700; color:${r.zscore >= 2.0 ? '#dc2626' : '#111827'};">${r.displayObserved}</td>
         <td style="color:#4b5563;">${r.displayTypical}</td>
         
         <td class="math-metric-col">${r.value.toFixed(2)}</td>
@@ -1833,7 +1985,8 @@ function setVerdict(date, verdict) {
   if(lbl) {
     if(verdict === true) lbl.innerText = '⚠️ True Threat';
     else if(verdict === false) lbl.innerText = 'Cleared Alarm';
-    else lbl.innerText = '🚫 Opted Out';
+    else if(verdict === null) lbl.innerText = '🚫 Opted Out';
+    else lbl.innerText = '---';
   }
 
   const rowSel = document.getElementById(`day-scenario-${date}`);
@@ -2079,14 +2232,13 @@ function switchDashboardArchitecture(selectedMode) {
             if (stratA) stratA.style.display = 'block';
             if (stratB) stratB.style.display = 'none';
             if (trickText) {
-              trickText.innerHTML = "Check Autoencoder table for <span style='color:#a855f7;'>Primary</span> & <span style='color:#fbbf24;'>Secondary</span> badges. If <span style='color:#a855f7;'>Primary</span> is paired with 1-2 <span style='color:#fbbf24;'>secondary</span> features highlighted in orange/red, confirm threat (or toggle <strong>Filter Variations Only</strong>).";
+              trickText.innerHTML = "Check Autoencoder table for <span style='color:#a855f7;'>Primary</span> & <span style='color:#fbbf24;'>Secondary</span> starting indicators. Correlate with historical baselines & raw action logs as supporting evidence before confirming.";
             }
             btnA.classList.add('active');
             btnB.classList.remove('active');
             if (toggleBtn) toggleBtn.classList.add('active');
             if (chevron) chevron.style.transform = 'rotate(180deg)';
             
-            // Activate filter toggle in Design A and set default to off state
             if (anomalyToggle) {
               anomalyToggle.disabled = false;
               anomalyToggle.checked = false;
@@ -2101,14 +2253,13 @@ function switchDashboardArchitecture(selectedMode) {
             if (stratA) stratA.style.display = 'none';
             if (stratB) stratB.style.display = 'block';
             if (trickText) {
-              trickText.innerHTML = "Check top features in SHAP plots for <span style='color:#a855f7;'>Primary</span> & <span style='color:#fbbf24;'>Secondary</span> badges. If <span style='color:#a855f7;'>Primary</span> has 1-2 <span style='color:#fbbf24;'>Secondary</span> badges above it (contributing more), confirm threat.";
+              trickText.innerHTML = "Check top features in SHAP plots for <span style='color:#a855f7;'>Primary</span> & <span style='color:#fbbf24;'>Secondary</span> starting indicators. Correlate with supporting evidence across timelines before finalizing classification.";
             }
             btnB.classList.add('active');
             btnA.classList.remove('active');
             if (toggleBtn) toggleBtn.classList.remove('active');
             if (chevron) chevron.style.transform = 'rotate(0deg)';
 
-            // Re-enable filter toggle in Design B
             if (anomalyToggle) {
               anomalyToggle.disabled = false;
               anomalyToggle.checked = true;
@@ -2389,20 +2540,34 @@ function attachTooltipListeners() {
 
   const matrixTrigger = document.getElementById('matrix-trigger');
   const matrixPanel = document.getElementById('matrix-hover-panel');
+  let matrixHideTimer = null;
+
   if (matrixTrigger && matrixPanel) {
-    const showMatrix = () => { matrixPanel.style.display = 'block'; };
-    const hideMatrix = () => { matrixPanel.style.display = 'none'; };
-    matrixTrigger.addEventListener('mouseenter', showMatrix);
-    matrixTrigger.addEventListener('focus', showMatrix);
-    matrixTrigger.addEventListener('mousemove', (e) => {
+    const showMatrix = (e) => { 
+      if (matrixHideTimer) clearTimeout(matrixHideTimer);
       const spaceRight = window.innerWidth - e.clientX;
       let xPos = e.clientX + 20;
-      if (spaceRight < 820) xPos = e.clientX - 800;
-      matrixPanel.style.left = `${xPos}px`;
-      matrixPanel.style.top = `${e.clientY - 80}px`;
+      if (spaceRight < 880) xPos = e.clientX - 860;
+      matrixPanel.style.left = `${Math.max(10, xPos)}px`;
+      matrixPanel.style.top = `${Math.max(10, e.clientY - 80)}px`;
+      matrixPanel.style.display = 'block'; 
+    };
+
+    const hideMatrixWithDelay = () => { 
+      matrixHideTimer = setTimeout(() => {
+        matrixPanel.style.display = 'none'; 
+      }, 300);
+    };
+
+    matrixTrigger.addEventListener('mouseenter', showMatrix);
+    matrixTrigger.addEventListener('focus', showMatrix);
+    matrixTrigger.addEventListener('mouseleave', hideMatrixWithDelay);
+
+    // Keep open when mouse enters panel so user can scroll
+    matrixPanel.addEventListener('mouseenter', () => {
+      if (matrixHideTimer) clearTimeout(matrixHideTimer);
     });
-    matrixTrigger.addEventListener('mouseleave', hideMatrix);
-    matrixTrigger.addEventListener('blur', hideMatrix);
+    matrixPanel.addEventListener('mouseleave', hideMatrixWithDelay);
   }
 
   const statsTrigger = document.getElementById('stats-rule-trigger');
@@ -2410,13 +2575,13 @@ function attachTooltipListeners() {
     const showStats = () => {
       tooltipBox.innerHTML = `
         <div style="font-weight:700; color:#cbd5e1; margin-bottom:4px;">📊 Micro-Level Feature Standardization</div>
-        <div style="margin-bottom:6px; font-size:11px; color:#94a3b8; line-height:1.4;">
+        <div style="margin-bottom:8px; font-size:11px; color:#94a3b8; line-height:1.4;">
           <strong>Micro Method:</strong> Standardizes individual feature vectors via Z-score scaling: <strong>Z = |x - &mu;| / &sigma;</strong>.
         </div>
-        <ul style="margin:0; padding-left:12px; list-style-type:circle; font-size:11px;">
-          <li><strong>Normal Behaviour:</strong> &plusmn;1&sigma; to &plusmn;2&sigma; boundary (~95% normal history).</li>
-          <li><strong>Behavioral Drift:</strong> &plusmn;2&sigma; to &plusmn;3&sigma; tail window.</li>
-          <li><strong>Extreme Outlier:</strong> Beyond &plusmn;3&sigma; envelope.</li>
+        <ul style="margin:0; padding-left:14px; list-style-type:circle; font-size:11px; display:flex; flex-direction:column; gap:4px;">
+          <li><strong style="color:#4ade80;">Normal Behaviour:</strong> &plusmn;1&sigma; to &plusmn;2&sigma; boundary (~95% normal history).</li>
+          <li><strong style="color:#fbbf24;">Behavioral Drift:</strong> &plusmn;2&sigma; to &plusmn;3&sigma; tail window.</li>
+          <li><strong style="color:#f87171;">Extreme Outlier:</strong> Beyond &plusmn;3&sigma; envelope.</li>
         </ul>`;
       tooltipBox.style.display = 'block';
     };
